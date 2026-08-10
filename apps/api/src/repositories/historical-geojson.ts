@@ -42,7 +42,14 @@ function entitySlug(name: string) {
 }
 
 function colorFor(name: string) {
-  const digest = createHash("sha256").update(name).digest();
+  const normalized = name.trim().toLowerCase();
+  const colorIdentity = normalized === "taiwan"
+    || normalized === "taiwan (republic of china)"
+    || normalized === "china"
+    || normalized === "people's republic of china"
+    || normalized === "republic of china"
+    ? "China" : name;
+  const digest = createHash("sha256").update(colorIdentity).digest();
   const hue = digest.readUInt16BE(0) / 65_535;
   const saturation = 0.48 + digest[2]! / 255 * 0.18;
   const lightness = 0.48 + digest[3]! / 255 * 0.12;

@@ -25,6 +25,7 @@ import {
 } from "cesium";
 import { useEffect, useRef, useState } from "react";
 import { groupPeopleForGlobe } from "../person-clustering.js";
+import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
 
 interface GlobeProps {
   world: WorldResponse | null;
@@ -72,6 +73,7 @@ export function Globe({
   const previousWorldRef = useRef<WorldResponse | null>(null);
   const [hover, setHover] = useState<{ x: number; y: number; label: string } | null>(null);
   const [cameraHeight, setCameraHeight] = useState(16_800_000);
+  const [showTerritoryNames, setShowTerritoryNames] = useState(false);
   const selectionHandlers = useRef({ onSelectEntity, onSelectPerson, onExitFollow });
   selectionHandlers.current = { onSelectEntity, onSelectPerson, onExitFollow };
 
@@ -170,6 +172,15 @@ export function Globe({
     if (!viewer || !world) return;
     const previousWorld = previousWorldRef.current;
     viewer.entities.removeAll();
+    const labelCandidates = new Map<string, {
+      slug: string;
+      text: string;
+      longitude: number;
+      latitude: number;
+      availableWidth: number;
+    }>();
+    const measurementContext = showTerritoryNames ? document.createElement("canvas").getContext("2d") : null;
+    if (measurementContext) measurementContext.font = "600 12px system-ui";
 
     for (const territory of world.territories) {
       const alpha = territory.controlType === "actual" ? 0.72 : territory.controlType === "claim" ? 0.28 : 0.46;
@@ -191,6 +202,38 @@ export function Globe({
           },
           properties: new PropertyBag({ kind: "territory", slug: territory.entity.slug, label: territory.entity.name }),
         });
+        const labelText = territory.entity.nameEn;
+        if (measurementContext && labelText) {
+          const projectedRings = ringSet.map((ring) => ring.flatMap(([longitude = 0, latitude = 0]) => {
+            const projected = viewer.scene.cartesianToCanvasCoordinates(Cartesian3.fromDegrees(longitude, latitude));
+            return projected && Number.isFinite(projected.x) && Number.isFinite(projected.y)
+              ? [[projected.x, projected.y]] : [];
+          }));
+          const allRingsProjected = projectedRings.every((ring, index) => ring.length === ringSet[index]?.length);
+          const placement = allRingsProjected
+            ? findInteriorLabelPlacement(projectedRings, measurementContext.measureText(labelText).width, 12)
+            : null;
+          const surfacePosition = placement
+            ? viewer.camera.pickEllipsoid(new Cartesian2(placement.x, placement.y), viewer.scene.globe.ellipsoid)
+            : undefined;
+          if (placement && surfacePosition) {
+            const location = Cartographic.fromCartesian(surfacePosition);
+            const longitude = CesiumMath.toDegrees(location.longitude);
+            const latitude = CesiumMath.toDegrees(location.latitude);
+            if (isPointInsideTerritory({ x: longitude, y: latitude }, ringSet)) {
+              const existing = labelCandidates.get(territory.entity.slug);
+              if (!existing || placement.availableWidth > existing.availableWidth) {
+                labelCandidates.set(territory.entity.slug, {
+                  slug: territory.entity.slug,
+                  text: labelText,
+                  longitude,
+                  latitude,
+                  availableWidth: placement.availableWidth,
+                });
+              }
+            }
+          }
+        }
         if (territory.entity.slug === selectedEntitySlug) {
           viewer.entities.add({
             polyline: {
@@ -202,6 +245,23 @@ export function Globe({
           });
         }
       }
+    }
+
+    for (const candidate of labelCandidates.values()) {
+      viewer.entities.add({
+        position: Cartesian3.fromDegrees(candidate.longitude, candidate.latitude, 62_000),
+        label: {
+          text: candidate.text,
+          font: "600 12px system-ui",
+          fillColor: Color.WHITE.withAlpha(0.96),
+          outlineColor: Color.BLACK.withAlpha(0.92),
+          outlineWidth: 3,
+          style: LabelStyle.FILL_AND_OUTLINE,
+          horizontalOrigin: HorizontalOrigin.CENTER,
+          verticalOrigin: VerticalOrigin.CENTER,
+        },
+        properties: new PropertyBag({ kind: "territory", slug: candidate.slug, label: candidate.text }),
+      });
     }
 
     const groupedPeople = groupPeopleForGlobe(world.people, selectedPerson?.person.slug ?? null, cameraHeight);
@@ -306,7 +366,7 @@ export function Globe({
       }
     }
     previousWorldRef.current = world;
-  }, [animateTransitions, cameraHeight, followSelectedPerson, frameDurationMs, selectedEntitySlug, selectedPerson, world]);
+  }, [animateTransitions, cameraHeight, followSelectedPerson, frameDurationMs, selectedEntitySlug, selectedPerson, showTerritoryNames, world]);
 
   return (
     <>
@@ -317,6 +377,14 @@ export function Globe({
         onClick={() => viewerRef.current?.camera.flyTo({ destination: Cartesian3.fromDegrees(35, 24, 16_800_000), duration: 0.8 })}
       >
         全球视角
+      </button>
+      <button
+        type="button"
+        className="territory-name-toggle"
+        aria-pressed={showTerritoryNames}
+        onClick={() => setShowTerritoryNames((visible) => !visible)}
+      >
+        {showTerritoryNames ? "隐藏疆域名称" : "显示疆域名称"}
       </button>
       {hover && <div className="globe-tooltip" style={{ left: hover.x + 12, top: hover.y + 12 }}>{hover.label}</div>}
     </>

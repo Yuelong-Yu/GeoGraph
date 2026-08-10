@@ -1,6 +1,6 @@
 import unittest
 
-from scripts.data.import_historical_basemaps import select_snapshots
+from scripts.data.import_historical_basemaps import color_for, select_snapshots
 
 
 class SnapshotSelectionTests(unittest.TestCase):
@@ -15,6 +15,10 @@ class SnapshotSelectionTests(unittest.TestCase):
 
         self.assertEqual([item["effective_year"] for item in selected], [-1046, -1000, -700])
         self.assertEqual(selected[0]["year"], -1500)
+
+    def test_taiwan_uses_chinas_fixed_identity_colour(self) -> None:
+        self.assertEqual(color_for("Taiwan"), color_for("China"))
+        self.assertNotEqual(color_for("Taiwanese Tribes"), color_for("China"))
 
 
 if __name__ == "__main__":

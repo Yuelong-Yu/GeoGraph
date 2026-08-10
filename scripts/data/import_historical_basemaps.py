@@ -28,7 +28,12 @@ def stable_id(kind: str, key: str) -> uuid.UUID:
 
 
 def color_for(name: str) -> str:
-    digest = hashlib.sha256(name.encode("utf-8")).digest()
+    normalized = name.strip().lower()
+    color_identity = "China" if (
+        normalized in {"taiwan", "taiwan (republic of china)"}
+        or normalized in {"china", "people's republic of china", "republic of china"}
+    ) else name
+    digest = hashlib.sha256(color_identity.encode("utf-8")).digest()
     hue = int.from_bytes(digest[:2], "big") / 65535
     saturation = 0.48 + digest[2] / 255 * 0.18
     lightness = 0.48 + digest[3] / 255 * 0.12
@@ -132,7 +137,7 @@ def main() -> None:
                         """
                         INSERT INTO political_entities(id,slug,name_zh,name_en,aliases,summary,primary_color)
                         VALUES (%s,%s,%s,%s,'{}','',%s)
-                        ON CONFLICT (id) DO UPDATE SET name_en=excluded.name_en
+                        ON CONFLICT (id) DO UPDATE SET name_en=excluded.name_en, primary_color=excluded.primary_color
                         """,
                         (entity_id, slug, name, name, color_for(name)),
                     )
