@@ -137,6 +137,13 @@ export class PostgresWorldRepository implements WorldRepository {
     return result.rows.map(mapPerson);
   }
 
+  async listPersonFields() {
+    const result = await this.pool.query<{ primary_field: string }>(`
+      SELECT DISTINCT primary_field FROM people ORDER BY primary_field
+    `);
+    return result.rows.map((row) => row.primary_field);
+  }
+
   async getPerson(slug: string) {
     const personResult = await this.pool.query<PersonRow>(`
       SELECT id, slug, name_zh, name_en, aliases, birth_year, death_year, primary_field, secondary_fields, summary

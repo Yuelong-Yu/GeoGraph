@@ -10,6 +10,11 @@ test("opens a shared historical person view and advances without closing details
   await page.getByRole("button", { name: "中" }).click();
   await expect(page.getByRole("heading", { name: "拿破仑·波拿巴" })).toBeVisible();
   await expect(page.getByRole("button", { name: "En" })).toBeVisible();
+  const chineseFieldFilter = page.getByRole("button", { name: "按人物领域过滤" });
+  await chineseFieldFilter.click();
+  await expect(page.getByRole("heading", { name: "人物领域" })).toBeVisible();
+  await expect(page.getByRole("checkbox", { name: "科学家" })).toBeChecked();
+  await chineseFieldFilter.click();
   await page.getByRole("button", { name: "En" }).click();
   await expect(page.getByRole("heading", { name: "Napoleon Bonaparte" })).toBeVisible();
   await expect(page.getByRole("button", { name: "中" })).toBeVisible();
@@ -18,6 +23,19 @@ test("opens a shared historical person view and advances without closing details
   await expect(page.getByRole("button", { name: "Hide territory names" })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Hide territory names" }).click();
   await expect(page.getByRole("button", { name: "Show territory names" })).toHaveAttribute("aria-pressed", "false");
+
+  const fieldFilter = page.getByRole("button", { name: "Filter people by field" });
+  await fieldFilter.click();
+  await expect(page.getByRole("heading", { name: "People fields" })).toBeVisible();
+  await expect(page.getByRole("checkbox", { name: "Scientists" })).toBeChecked();
+  await expect(page.getByRole("checkbox", { name: "Political figures" })).toBeChecked();
+  await expect(page.getByRole("checkbox", { name: "Engineering & technology" })).toBeChecked();
+  await page.getByRole("button", { name: "Clear", exact: true }).click();
+  await expect(page.getByRole("checkbox", { name: "Scientists" })).not.toBeChecked();
+  await page.getByRole("button", { name: "Select all", exact: true }).click();
+  await expect(page.getByRole("checkbox", { name: "Scientists" })).toBeChecked();
+  await fieldFilter.click();
+  await expect(fieldFilter).toHaveAttribute("aria-expanded", "false");
 
   await page.getByRole("button", { name: "Follow person", exact: true }).click();
   await expect(page.getByRole("button", { name: "Stop following", exact: true })).toBeVisible();

@@ -39,6 +39,10 @@ export function createApp({ repository, logger = true }: AppOptions) {
     people: await repository.searchPeople(request.query.q ?? ""),
   }));
 
+  app.get("/api/people/fields", async () => ({
+    fields: await repository.listPersonFields(),
+  }));
+
   app.get<{ Querystring: { after?: string } }>("/api/timeline/next-event", async (request, reply) => {
     let after: number;
     try {

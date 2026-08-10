@@ -47,6 +47,13 @@ describe("world API", () => {
     expect(response.json()).toMatchObject({ people: [{ slug: "isaac-newton" }] });
   });
 
+  it("returns every distinct primary person field", async () => {
+    const app = createApp({ repository, logger: false });
+    const response = await app.inject({ method: "GET", url: "/api/people/fields" });
+    await app.close();
+    expect(response.json()).toEqual({ fields: ["科学"] });
+  });
+
   it("rejects an invalid point used to look up future controllers", async () => {
     const app = createApp({ repository, logger: false });
     const response = await app.inject({

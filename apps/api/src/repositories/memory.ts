@@ -34,6 +34,11 @@ export class MemoryWorldRepository implements WorldRepository {
     );
   }
 
+  async listPersonFields() {
+    return [...new Set(this.data.people.map((person) => person.primaryField))]
+      .sort((left, right) => left.localeCompare(right, "zh-CN"));
+  }
+
   async getPerson(slug: string) {
     const person = this.data.people.find((candidate) => candidate.slug === slug);
     if (!person) return null;

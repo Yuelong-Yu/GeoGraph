@@ -167,6 +167,10 @@ export class HistoricalGeoJsonRepository implements WorldRepository {
     return this.peopleRepository.searchPeople(query);
   }
 
+  listPersonFields() {
+    return this.peopleRepository.listPersonFields();
+  }
+
   getPerson(slug: string): Promise<PersonDetails | null> {
     return this.peopleRepository.getPerson(slug);
   }

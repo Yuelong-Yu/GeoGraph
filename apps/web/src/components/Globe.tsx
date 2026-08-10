@@ -26,6 +26,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { shouldAutoFollowCamera, type ManualCameraInputState } from "../camera-follow.js";
 import { groupPeopleForGlobe } from "../person-clustering.js";
+import { filterPeopleByPrimaryFields } from "../person-fields.js";
 import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
 import { useI18n } from "../i18n.js";
 
@@ -37,6 +38,7 @@ interface GlobeProps {
   frameDurationMs: number;
   followSelectedPerson: boolean;
   cameraTarget: { longitude: number; latitude: number; token: number } | null;
+  selectedPersonFields: ReadonlySet<string> | null;
   onSelectEntity: (slug: string, point?: { longitude: number; latitude: number }) => void;
   onSelectPerson: (slug: string) => void;
 }
@@ -67,7 +69,7 @@ function animatedPosition(
 
 export function Globe({
   world, selectedEntitySlug, selectedPerson, animateTransitions, frameDurationMs, onSelectEntity, onSelectPerson,
-  followSelectedPerson, cameraTarget,
+  followSelectedPerson, cameraTarget, selectedPersonFields,
 }: GlobeProps) {
   const { personName, t, territoryLabel } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -293,7 +295,14 @@ export function Globe({
       });
     }
 
-    const groupedPeople = groupPeopleForGlobe(world.people, selectedPerson?.person.slug ?? null, cameraHeight);
+    const visiblePeople = filterPeopleByPrimaryFields(world.people, selectedPersonFields);
+    const selectedPersonVisible = selectedPerson !== null
+      && (selectedPersonFields === null || selectedPersonFields.has(selectedPerson.person.primaryField));
+    const groupedPeople = groupPeopleForGlobe(
+      visiblePeople,
+      selectedPersonVisible ? selectedPerson.person.slug : null,
+      cameraHeight,
+    );
     for (const cluster of groupedPeople.clusters) {
       viewer.entities.add({
         position: Cartesian3.fromDegrees(cluster.longitude, cluster.latitude, 95_000),
@@ -371,7 +380,7 @@ export function Globe({
       });
     }
 
-    if (selectedPerson && world.year >= selectedPerson.person.birthYear
+    if (selectedPersonVisible && selectedPerson && world.year >= selectedPerson.person.birthYear
       && (selectedPerson.person.deathYear === null || world.year <= selectedPerson.person.deathYear)) {
       const pastEvents = selectedPerson.events.filter((event) => event.year <= world.year);
       if (pastEvents.length > 1) {
@@ -385,7 +394,7 @@ export function Globe({
         });
       }
     }
-    if (followSelectedPerson && selectedPerson) {
+    if (followSelectedPerson && selectedPersonVisible && selectedPerson) {
       if (suppressFollowOnceRef.current) {
         suppressFollowOnceRef.current = false;
       } else if (shouldAutoFollowCamera(manualCameraInputRef.current, performance.now())) {
@@ -399,7 +408,7 @@ export function Globe({
       }
     }
     previousWorldRef.current = world;
-  }, [animateTransitions, cameraHeight, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, showTerritoryNames, t, territoryLabel, world]);
+  }, [animateTransitions, cameraHeight, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, selectedPersonFields, showTerritoryNames, t, territoryLabel, world]);
 
   return (
     <>

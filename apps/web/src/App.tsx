@@ -1,10 +1,11 @@
 import type { EntityDetails, PersonDetails, WorldResponse } from "./api.js";
 import { MAX_YEAR, nextHistoricYear } from "@geograph/domain";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { fetchEntity, fetchNextEvent, fetchPerson, fetchWorld, prefetchWorld } from "./api.js";
+import { fetchEntity, fetchNextEvent, fetchPerson, fetchPersonFields, fetchWorld, prefetchWorld } from "./api.js";
 import { DetailsPanel } from "./components/DetailsPanel.js";
 import { Globe } from "./components/Globe.js";
 import { PersonSearch } from "./components/PersonSearch.js";
+import { PersonFieldFilter } from "./components/PersonFieldFilter.js";
 import { Timeline, type PlaybackMode } from "./components/Timeline.js";
 import { useI18n } from "./i18n.js";
 import { resolvePersonFollowStart } from "./person-follow.js";
@@ -34,6 +35,8 @@ export default function App() {
   const [copied, setCopied] = useState(false);
   const [followingPerson, setFollowingPerson] = useState(false);
   const [cameraTarget, setCameraTarget] = useState<{ longitude: number; latitude: number; token: number } | null>(null);
+  const [personFields, setPersonFields] = useState<string[]>([]);
+  const [selectedPersonFields, setSelectedPersonFields] = useState<Set<string> | null>(null);
   const initialParamsRef = useRef(new URLSearchParams(window.location.search));
   const initialSelectionHandledRef = useRef(false);
   const yearRef = useRef(year);
@@ -42,6 +45,14 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("geograph-speed", String(speed));
   }, [speed]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    void fetchPersonFields(controller.signal)
+      .then(({ fields }) => setPersonFields(fields))
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -147,8 +158,14 @@ export default function App() {
             frameDurationMs={mode === "events" ? 1_000 : 1_000 / speed}
             followSelectedPerson={followingPerson}
             cameraTarget={cameraTarget}
+            selectedPersonFields={selectedPersonFields}
             onSelectEntity={selectEntity}
             onSelectPerson={selectPerson}
+          />
+          <PersonFieldFilter
+            fields={personFields}
+            selectedFields={selectedPersonFields}
+            onSelectedFieldsChange={setSelectedPersonFields}
           />
           <div className="map-legend">
             <span><i className="actual" />{t("actualControl")}</span>

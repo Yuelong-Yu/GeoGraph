@@ -36,6 +36,7 @@ export interface PersonDetails {
 export interface WorldRepository {
   getWorldData(year: number): Promise<WorldData>;
   getNextEventYear(afterYear: number): Promise<number | null>;
+  listPersonFields(): Promise<string[]>;
   searchPeople(query: string): Promise<Person[]>;
   getPerson(slug: string): Promise<PersonDetails | null>;
   getEntity(slug: string, context?: EntityPointContext): Promise<EntityDetails | null>;

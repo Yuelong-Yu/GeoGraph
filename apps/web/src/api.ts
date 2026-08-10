@@ -56,6 +56,10 @@ export function searchPeople(query: string, signal?: AbortSignal) {
   return requestJson<{ people: Person[] }>(`/api/people?q=${encodeURIComponent(query)}`, signal);
 }
 
+export function fetchPersonFields(signal?: AbortSignal) {
+  return requestJson<{ fields: string[] }>("/api/people/fields", signal);
+}
+
 export function fetchPerson(slug: string, signal?: AbortSignal) {
   return requestJson<PersonDetails>(`/api/people/${encodeURIComponent(slug)}`, signal);
 }

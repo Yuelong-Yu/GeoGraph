@@ -28,6 +28,11 @@ const messages = {
     hideTerritoryNames: "Hide territory names",
     peopleCluster: "people",
     clusterHint: "people · click to expand",
+    filterPeopleByField: "Filter people by field",
+    personFieldFilter: "People fields",
+    selectAll: "Select all",
+    clear: "Clear",
+    noPersonFields: "No person fields are available.",
     detailsPanel: "Details panel",
     entityTab: "Polities",
     personTab: "People",
@@ -88,6 +93,11 @@ const messages = {
     hideTerritoryNames: "隐藏疆域名称",
     peopleCluster: "人",
     clusterHint: "位人物，点击展开",
+    filterPeopleByField: "按人物领域过滤",
+    personFieldFilter: "人物领域",
+    selectAll: "全选",
+    clear: "清空",
+    noPersonFields: "暂无人物领域。",
     detailsPanel: "详情面板",
     entityTab: "政权",
     personTab: "人物",
@@ -254,10 +264,23 @@ type I18nValue = {
   formatTick: (year: number) => string;
   personName: (person: Person) => string;
   personField: (person: Person) => string;
+  personFieldCategory: (field: string) => string;
   personSummary: (person: Person) => string;
   eventText: (person: Person, event: PersonEvent) => { title: string; description?: string };
   entityName: (entity: PoliticalEntity) => string;
   territoryLabel: (entity: PoliticalEntity) => string | null;
+};
+
+const personFieldCategories: Record<string, { en: string; zh: string }> = {
+  "政治": { en: "Political figures", zh: "政治家" },
+  "科学": { en: "Scientists", zh: "科学家" },
+  "工业与技术": { en: "Engineering & technology", zh: "工程与技术" },
+  "工程": { en: "Engineers", zh: "工程师" },
+  "艺术": { en: "Artists", zh: "艺术家" },
+  "文学": { en: "Writers", zh: "文学家" },
+  "哲学": { en: "Philosophers", zh: "哲学家" },
+  "宗教": { en: "Religious figures", zh: "宗教人物" },
+  "经济": { en: "Economists", zh: "经济学家" },
 };
 
 const I18nContext = createContext<I18nValue | null>(null);
@@ -277,6 +300,7 @@ function createI18nValue(language: Language, toggleLanguage: () => void): I18nVa
     personField: (person) => language === "en"
       ? englishPeople[person.slug]?.primaryField ?? person.primaryField
       : person.primaryField,
+    personFieldCategory: (field) => personFieldCategories[field]?.[language] ?? field,
     personSummary: (person) => language === "en"
       ? englishPeople[person.slug]?.summary ?? "Biographical information is being prepared."
       : person.summary ?? "该人物的生平资料正在整理。",
