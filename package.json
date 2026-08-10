@@ -1,0 +1,25 @@
+{
+  "name": "geograph",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @geograph/domain && npm run build -w @geograph/api && npm run build -w @geograph/web",
+    "db:migrate": "npm run db:migrate -w @geograph/api",
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev -w @geograph/api\" \"npm run dev -w @geograph/web\"",
+    "test": "npm run build -w @geograph/domain && npm run test -w @geograph/domain && npm run test -w @geograph/api && npm run test -w @geograph/web",
+    "typecheck": "npm run build -w @geograph/domain && npm run typecheck -w @geograph/domain && npm run typecheck -w @geograph/api && npm run typecheck -w @geograph/web"
+  },
+  "devDependencies": {
+    "concurrently": "10.0.4",
+    "typescript": "7.0.2",
+    "vitest": "4.1.10"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

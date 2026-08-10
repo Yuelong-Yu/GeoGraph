@@ -1,0 +1,209 @@
+{
+  "sources": [
+    {
+      "key": "newton-fitzwilliam",
+      "title": "Sir Isaac Newton",
+      "institution": "The Fitzwilliam Museum, University of Cambridge",
+      "url": "https://fitzmuseum.cam.ac.uk/explore-our-collection/highlights/context/stories-and-histories/sir-isaac-newton",
+      "license": "Website terms; factual citation only",
+      "notes": "Locations and career chronology. Calendar years are normalized to the Gregorian convention used by GeoGraph."
+    },
+    {
+      "key": "einstein-nobel",
+      "title": "Albert Einstein – Facts",
+      "institution": "Nobel Prize Outreach",
+      "url": "https://www.nobelprize.org/prizes/physics/1921/einstein/facts/",
+      "license": "Website terms; factual citation only",
+      "notes": "Life locations and Nobel Prize facts."
+    },
+    {
+      "key": "musk-biography",
+      "title": "Elon Musk: Biography",
+      "institution": "Biography.com",
+      "url": "https://www.biography.com/business-leaders/elon-musk",
+      "license": "Website terms; factual citation only",
+      "notes": "Public biographical chronology; living-person records require periodic review."
+    },
+    {
+      "key": "qin-smithsonian",
+      "title": "Timeline of Chinese History, Art, and Culture",
+      "institution": "Smithsonian National Museum of Asian Art",
+      "url": "https://asia-archive.si.edu/learn/for-educators/teaching-china-with-the-smithsonian/interactives/timelines/timeline-of-chinese-history-art-and-culture/",
+      "license": "Website terms; factual citation only",
+      "notes": "The first-version route contains only a conservative subset of well-established locations."
+    },
+    {
+      "key": "napoleon-foundation",
+      "title": "Vie et règne de Napoléon",
+      "institution": "Fondation Napoléon",
+      "url": "https://www.napoleon.org/histoire-des-2-empires/chronologies/vie-et-regne-de-napoleon/",
+      "license": "Website terms; factual citation only",
+      "notes": "Detailed chronology of Napoleon's life and movements."
+    },
+    {
+      "key": "copernicus-mactutor",
+      "title": "Nicolaus Copernicus (1473–1543)",
+      "institution": "MacTutor History of Mathematics, University of St Andrews",
+      "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Copernicus/",
+      "license": "Website terms; factual citation only",
+      "notes": "Education, appointments, publications, and principal locations."
+    }
+  ],
+  "people": [
+    {
+      "slug": "isaac-newton",
+      "nameZh": "艾萨克·牛顿",
+      "nameEn": "Isaac Newton",
+      "aliases": ["牛顿", "Newton"],
+      "birthYear": 1643,
+      "deathYear": 1727,
+      "primaryField": "科学",
+      "secondaryFields": ["数学", "物理学", "天文学"],
+      "summary": "英国数学家、物理学家和自然哲学家，其运动定律、万有引力理论和数学工作深刻影响了近代科学。",
+      "inclusionReason": "近代物理学与数学体系的奠基人物之一。",
+      "source": "newton-fitzwilliam",
+      "events": [
+        [1643, 1, "出生于伍尔索普", "出生", -0.630, 52.810],
+        [1654, 1, "进入格兰瑟姆国王学校", "求学", -0.642, 52.912],
+        [1661, 1, "进入剑桥大学三一学院", "求学", 0.119, 52.205],
+        [1665, 1, "瘟疫期间返回伍尔索普", "居住与研究", -0.630, 52.810],
+        [1667, 1, "返回剑桥", "任职与研究", 0.119, 52.205],
+        [1669, 1, "任卢卡斯数学教授", "任职", 0.119, 52.205],
+        [1689, 1, "代表剑桥进入议会", "公共事务", -0.128, 51.507],
+        [1696, 1, "出任皇家铸币局监督", "任职", -0.128, 51.507],
+        [1727, 1, "在伦敦去世", "去世", -0.191, 51.500]
+      ]
+    },
+    {
+      "slug": "albert-einstein",
+      "nameZh": "阿尔伯特·爱因斯坦",
+      "nameEn": "Albert Einstein",
+      "aliases": ["爱因斯坦", "Einstein"],
+      "birthYear": 1879,
+      "deathYear": 1955,
+      "primaryField": "科学",
+      "secondaryFields": ["物理学", "公共知识分子"],
+      "summary": "理论物理学家，相对论的主要创建者，并因光电效应定律获得诺贝尔物理学奖。",
+      "inclusionReason": "改变了现代物理学关于时间、空间、能量与引力的基本框架。",
+      "source": "einstein-nobel",
+      "events": [
+        [1879, 1, "出生于乌尔姆", "出生", 9.994, 48.401],
+        [1880, 1, "随家人迁居慕尼黑", "居住", 11.582, 48.135],
+        [1894, 1, "随家人迁往意大利", "迁居", 9.190, 45.464],
+        [1895, 1, "在阿劳继续求学", "求学", 8.044, 47.392],
+        [1896, 1, "进入苏黎世联邦理工学院", "求学", 8.541, 47.376],
+        [1902, 1, "进入伯尔尼专利局", "任职", 7.447, 46.948],
+        [1909, 1, "在苏黎世任教", "任职", 8.541, 47.376],
+        [1911, 1, "赴布拉格任教", "任职", 14.438, 50.075],
+        [1912, 1, "返回苏黎世", "任职", 8.541, 47.376],
+        [1914, 1, "迁居柏林", "任职", 13.405, 52.520],
+        [1933, 1, "移居普林斯顿", "迁居", -74.668, 40.357],
+        [1955, 1, "在普林斯顿去世", "去世", -74.668, 40.357]
+      ]
+    },
+    {
+      "slug": "elon-musk",
+      "nameZh": "埃隆·马斯克",
+      "nameEn": "Elon Musk",
+      "aliases": ["马斯克", "Musk"],
+      "birthYear": 1971,
+      "deathYear": null,
+      "primaryField": "工业与技术",
+      "secondaryFields": ["企业", "航天", "交通", "人工智能"],
+      "summary": "企业家，参与创建并领导多家横跨互联网、航天、电动汽车与人工智能领域的企业。",
+      "inclusionReason": "其企业活动对商业航天、电动交通及技术产业产生了全球影响。",
+      "source": "musk-biography",
+      "events": [
+        [1971, 1, "出生于比勒陀利亚", "出生", 28.229, -25.747],
+        [1989, 1, "移居加拿大", "迁居", -79.383, 43.653],
+        [1990, 1, "进入皇后大学", "求学", -76.495, 44.225],
+        [1992, 1, "转入宾夕法尼亚大学", "求学", -75.193, 39.952],
+        [1995, 1, "前往硅谷创业", "创业", -122.143, 37.442],
+        [1999, 1, "参与创办 X.com", "创业", -122.143, 37.442],
+        [2002, 1, "创办 SpaceX", "创业", -118.416, 33.916],
+        [2004, 1, "加入特斯拉董事会", "企业", -122.143, 37.442],
+        [2010, 1, "特斯拉在纳斯达克上市", "企业", -122.143, 37.442],
+        [2021, 1, "主要企业活动转向得克萨斯", "迁居与企业", -97.743, 30.267]
+      ]
+    },
+    {
+      "slug": "qin-shi-huang",
+      "nameZh": "秦始皇",
+      "nameEn": "Qin Shi Huang",
+      "aliases": ["嬴政", "始皇帝"],
+      "birthYear": -259,
+      "deathYear": -210,
+      "primaryField": "政治",
+      "secondaryFields": ["军事", "国家制度"],
+      "summary": "秦王嬴政完成战国主要诸侯国的统一，并建立秦朝皇帝制度。",
+      "inclusionReason": "中国早期帝国政治结构与统一制度的重要塑造者。",
+      "source": "qin-smithsonian",
+      "events": [
+        [-259, 1, "出生于邯郸", "出生", 114.490, 36.612],
+        [-246, 1, "在咸阳即秦王位", "即位", 108.710, 34.330],
+        [-230, 1, "统一战争进入决定阶段", "军事与政治", 108.710, 34.330],
+        [-221, 1, "完成统一并称始皇帝", "国家制度", 108.710, 34.330],
+        [-219, 1, "东巡至泰山地区", "巡行", 117.100, 36.250],
+        [-218, 1, "东巡途中遇博浪沙刺杀", "巡行", 113.790, 34.940],
+        [-215, 1, "东巡至碣石地区", "巡行", 119.600, 39.900],
+        [-210, 1, "巡行途中在沙丘去世", "去世", 115.140, 37.080]
+      ]
+    },
+    {
+      "slug": "napoleon-bonaparte",
+      "nameZh": "拿破仑·波拿巴",
+      "nameEn": "Napoleon Bonaparte",
+      "aliases": ["拿破仑", "Napoleon"],
+      "birthYear": 1769,
+      "deathYear": 1821,
+      "primaryField": "政治",
+      "secondaryFields": ["军事", "法律", "国家制度"],
+      "summary": "法国军事与政治领袖，其战争、行政改革和法典深刻影响了欧洲政治秩序。",
+      "inclusionReason": "重塑了革命后法国与十九世纪欧洲的政治、法律和战争体系。",
+      "source": "napoleon-foundation",
+      "events": [
+        [1769, 1, "出生于阿雅克肖", "出生", 8.738, 41.919],
+        [1779, 1, "进入布里埃纳军校", "求学", 4.526, 48.394],
+        [1784, 1, "进入巴黎军校", "求学", 2.352, 48.857],
+        [1785, 1, "赴瓦朗斯服役", "任职", 4.892, 44.933],
+        [1793, 1, "参加土伦围城战", "军事", 5.928, 43.125],
+        [1796, 1, "率军进入意大利北部", "军事", 9.190, 45.464],
+        [1798, 1, "远征埃及", "军事", 31.236, 30.044],
+        [1799, 1, "返回巴黎并发动雾月政变", "政治", 2.352, 48.857],
+        [1804, 1, "在巴黎加冕称帝", "政治", 2.352, 48.857],
+        [1805, 1, "奥斯特里茨战役", "军事", 16.877, 49.153],
+        [1812, 1, "远征莫斯科", "军事", 37.617, 55.756],
+        [1814, 1, "被流放至厄尔巴岛", "流亡", 10.312, 42.813],
+        [1815, 1, "滑铁卢战败", "军事", 4.412, 50.681],
+        [1815, 2, "被流放至圣赫勒拿岛", "流亡", -5.708, -15.965],
+        [1821, 1, "在圣赫勒拿岛去世", "去世", -5.708, -15.965]
+      ]
+    },
+    {
+      "slug": "nicolaus-copernicus",
+      "nameZh": "尼古拉·哥白尼",
+      "nameEn": "Nicolaus Copernicus",
+      "aliases": ["哥白尼", "Mikołaj Kopernik", "Copernicus"],
+      "birthYear": 1473,
+      "deathYear": 1543,
+      "primaryField": "科学",
+      "secondaryFields": ["天文学", "数学", "经济学"],
+      "summary": "文艺复兴时期天文学家，提出系统的日心宇宙模型，推动了近代天文学转型。",
+      "inclusionReason": "其日心模型成为科学革命的重要起点。",
+      "source": "copernicus-mactutor",
+      "events": [
+        [1473, 1, "出生于托伦", "出生", 18.604, 53.013],
+        [1491, 1, "进入克拉科夫大学", "求学", 19.945, 50.064],
+        [1496, 1, "赴博洛尼亚学习", "求学", 11.342, 44.494],
+        [1500, 1, "在罗马从事学术活动", "学术", 12.496, 41.903],
+        [1501, 1, "赴帕多瓦学习医学", "求学", 11.876, 45.406],
+        [1503, 1, "在费拉拉取得教会法学位", "求学", 11.620, 44.838],
+        [1504, 1, "在利兹巴克辅佐瓦尔米亚主教", "任职", 20.578, 54.126],
+        [1510, 1, "迁居弗龙堡", "任职与研究", 19.680, 54.357],
+        [1516, 1, "在奥尔什丁任职", "任职", 20.480, 53.778],
+        [1521, 1, "返回弗龙堡", "任职与研究", 19.680, 54.357],
+        [1543, 1, "《天体运行论》出版并在弗龙堡去世", "著作与去世", 19.680, 54.357]
+      ]
+    }
+  ]
+}

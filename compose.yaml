@@ -1,0 +1,67 @@
+services:
+  db:
+    image: postgis/postgis:16-3.5-alpine
+    environment:
+      POSTGRES_DB: geograph
+      POSTGRES_USER: geograph
+      POSTGRES_PASSWORD: geograph
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U geograph -d geograph"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - geograph-db:/var/lib/postgresql/data
+      - ./db/migrations/001_initial.sql:/docker-entrypoint-initdb.d/001_initial.sql:ro
+    ports:
+      - "5432:5432"
+
+  data:
+    build:
+      context: .
+      dockerfile: docker/data.Dockerfile
+    environment:
+      DATABASE_URL: postgres://geograph:geograph@db:5432/geograph
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    environment:
+      DATABASE_URL: postgres://geograph:geograph@db:5432/geograph
+      PORT: 4000
+    depends_on:
+      db:
+        condition: service_healthy
+      data:
+        condition: service_completed_successfully
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+  historical-data:
+    build:
+      context: .
+      dockerfile: docker/data.Dockerfile
+    profiles: ["historical"]
+    command: ["python", "scripts/data/import_historical_basemaps.py", "--download-cache", "/data-cache"]
+    environment:
+      DATABASE_URL: postgres://geograph:geograph@db:5432/geograph
+    volumes:
+      - historical-cache:/data-cache
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  geograph-db:
+  historical-cache:
