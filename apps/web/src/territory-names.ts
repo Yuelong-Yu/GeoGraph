@@ -119,6 +119,8 @@ const chineseOverrides: Record<string, string> = {
   "Polish–Lithuanian Commonwealth": "波兰立陶宛联邦",
   Prussia: "普鲁士",
   "Ptolemaic Kingdom": "托勒密王国",
+  "Prot-Altaic pastoralists": "原始阿尔泰语系牧民",
+  "Proto-Altaic pastoralists": "原始阿尔泰语系牧民",
   "Qing Empire": "清朝",
   "Roman Empire": "罗马帝国",
   Rome: "罗马帝国",
@@ -161,6 +163,7 @@ const chineseOverrides: Record<string, string> = {
   "Zhangzhung Kingdom": "象雄王国",
   "Zhou states": "周代诸侯国",
   "Đại Việt": "大越",
+  Göktürks: "突厥汗国",
 };
 
 const colonialOwners: Record<string, string> = {

@@ -33,6 +33,8 @@ function LanguageProbe() {
     { id: "china", slug: "china", name: "China", nameEn: "China", primaryColor: "#fff" },
     { id: "russia", slug: "russia", name: "Russia", nameEn: "Russia", primaryColor: "#fff" },
     { id: "saudi-arabia", slug: "saudi-arabia", name: "Saudi Arabia", nameEn: "Saudi Arabia", primaryColor: "#fff" },
+    { id: "proto-altaic", slug: "proto-altaic", name: "Prot-Altaic pastoralists", nameEn: "Prot-Altaic pastoralists", primaryColor: "#fff" },
+    { id: "untranslated", slug: "untranslated", name: "An untranslated polity", nameEn: "An untranslated polity", primaryColor: "#fff" },
   ];
   return (
     <button type="button" onClick={toggleLanguage}>
@@ -45,11 +47,11 @@ describe("i18n", () => {
   it("defaults to English and toggles all localized content to Chinese", async () => {
     render(<I18nProvider><LanguageProbe /></I18nProvider>);
 
-    const english = screen.getByRole("button", { name: "en|Napoleon Bonaparte|1804 CE|Crowned Emperor in Paris|China,Russia,Saudi Arabia" });
+    const english = screen.getByRole("button", { name: "en|Napoleon Bonaparte|1804 CE|Crowned Emperor in Paris|China,Russia,Saudi Arabia,Prot-Altaic pastoralists,An untranslated polity" });
     expect(english).toBeDefined();
     await userEvent.click(english);
 
-    expect(screen.getByRole("button", { name: "zh|拿破仑·波拿巴|公元 1804 年|在巴黎加冕称帝|中国,俄罗斯,沙特阿拉伯" })).toBeDefined();
+    expect(screen.getByRole("button", { name: "zh|拿破仑·波拿巴|公元 1804 年|在巴黎加冕称帝|中国,俄罗斯,沙特阿拉伯,原始阿尔泰语系牧民,中文译名待考" })).toBeDefined();
     expect(document.documentElement.lang).toBe("zh-CN");
   });
 });

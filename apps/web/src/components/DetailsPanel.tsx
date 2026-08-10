@@ -16,6 +16,7 @@ export function DetailsPanel({
   activeTab, entity, person, year, onTabChange, onJumpToEvent, followingPerson, onFollowingPersonChange,
 }: DetailsPanelProps) {
   const { entityName, eventText, formatYear, language, personField, personName, personSummary, t } = useI18n();
+  const displayedEntityName = entity ? entityName(entity.entity) : "";
   return (
     <aside className="details-panel" aria-label={t("detailsPanel")}>
       <div className="detail-tabs" role="tablist">
@@ -27,8 +28,8 @@ export function DetailsPanel({
         entity ? (
           <div className="detail-content">
             <span className="eyebrow">{t("politicalEntity")}</span>
-            <h2>{entityName(entity.entity)}</h2>
-            {language === "zh" && entity.entity.nameEn && entity.entity.nameEn !== entity.entity.name && <p className="latin-name">{entity.entity.nameEn}</p>}
+            <h2>{displayedEntityName}</h2>
+            {language === "zh" && entity.entity.nameEn && entity.entity.nameEn !== displayedEntityName && <p className="latin-name">{entity.entity.nameEn}</p>}
             <div className="identity-color"><i style={{ background: entity.entity.primaryColor }} />{t("identityColor")}</div>
             <p>{language === "en" ? t("historicalBoundarySummary") : entity.entity.summary || t("entitySummaryFallback")}</p>
             <section className="detail-note">

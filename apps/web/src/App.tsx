@@ -33,6 +33,8 @@ export default function App() {
   const [copied, setCopied] = useState(false);
   const [followingPerson, setFollowingPerson] = useState(false);
   const [cameraTarget, setCameraTarget] = useState<{ longitude: number; latitude: number; token: number } | null>(null);
+  const initialParamsRef = useRef(new URLSearchParams(window.location.search));
+  const initialSelectionHandledRef = useRef(false);
   const yearRef = useRef(year);
   yearRef.current = year;
 
@@ -74,12 +76,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    if (initialSelectionHandledRef.current) return;
+    const params = initialParamsRef.current;
     const personSlug = params.get("person");
     const entitySlug = params.get("entity");
+    if (entitySlug && loadedYear !== year) return;
+    initialSelectionHandledRef.current = true;
     if (personSlug) selectPerson(personSlug);
     else if (entitySlug) selectEntity(entitySlug);
-  }, [selectEntity, selectPerson]);
+  }, [loadedYear, selectEntity, selectPerson, year]);
 
   useEffect(() => {
     const params = new URLSearchParams();
