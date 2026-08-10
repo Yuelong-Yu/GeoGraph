@@ -19,8 +19,6 @@ import uuid
 from datetime import date
 from pathlib import Path
 
-import psycopg
-
 NAMESPACE = uuid.UUID("10cd0145-c174-4c70-957f-a2cf43abf83e")
 RAW_ROOT = "https://raw.githubusercontent.com/aourednik/historical-basemaps/master"
 
@@ -52,6 +50,18 @@ def following_snapshot_end(next_year: int | None) -> int | None:
     return next_year - 1
 
 
+def select_snapshots(index: dict, from_year: int, to_year: int) -> list[dict]:
+    available = sorted(
+        (item for item in index["years"] if item["year"] != 0),
+        key=lambda item: item["year"],
+    )
+    selected = [dict(item, effective_year=item["year"]) for item in available if from_year <= item["year"] <= to_year]
+    previous = [item for item in available if item["year"] < from_year]
+    if previous and (not selected or selected[0]["effective_year"] > from_year):
+        selected.insert(0, dict(previous[-1], effective_year=from_year))
+    return selected
+
+
 def load_json(path: Path | None, url: str, cache_path: Path | None) -> dict:
     if path is not None:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -66,6 +76,8 @@ def load_json(path: Path | None, url: str, cache_path: Path | None) -> dict:
 
 
 def main() -> None:
+    import psycopg
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--database-url", default=os.getenv("DATABASE_URL", "postgres://geograph:geograph@localhost:5432/geograph"))
     parser.add_argument("--source-dir", type=Path, help="Local checkout containing index.json and geojson/")
@@ -73,14 +85,15 @@ def main() -> None:
     parser.add_argument("--from-year", type=int, default=-1046)
     parser.add_argument("--to-year", type=int, default=2026)
     args = parser.parse_args()
+    if args.from_year == 0 or args.to_year == 0 or args.from_year > args.to_year:
+        parser.error("The import range must be ordered and cannot include year zero as an endpoint.")
     if args.source_dir is None and args.download_cache is None:
         parser.error("Pass --source-dir for an existing checkout or --download-cache to explicitly download the open dataset.")
 
     index_path = args.source_dir / "index.json" if args.source_dir else None
     index_cache = args.download_cache / "index.json" if args.download_cache else None
     index = load_json(index_path, f"{RAW_ROOT}/index.json", index_cache)
-    snapshots = [item for item in index["years"] if args.from_year <= item["year"] <= args.to_year and item["year"] != 0]
-    snapshots.sort(key=lambda item: item["year"])
+    snapshots = select_snapshots(index, args.from_year, args.to_year)
     source_id = stable_id("source", "aourednik-historical-basemaps")
 
     with psycopg.connect(args.database_url) as connection:
@@ -97,10 +110,11 @@ def main() -> None:
             )
 
             for snapshot_index, snapshot in enumerate(snapshots):
+                effective_year = snapshot["effective_year"]
                 local_path = args.source_dir / "geojson" / snapshot["filename"] if args.source_dir else None
                 cache_path = args.download_cache / "geojson" / snapshot["filename"] if args.download_cache else None
                 collection = load_json(local_path, f"{RAW_ROOT}/geojson/{snapshot['filename']}", cache_path)
-                next_year = snapshots[snapshot_index + 1]["year"] if snapshot_index + 1 < len(snapshots) else None
+                next_year = snapshots[snapshot_index + 1]["effective_year"] if snapshot_index + 1 < len(snapshots) else None
                 valid_to = following_snapshot_end(next_year)
 
                 for feature_index, feature in enumerate(collection.get("features", [])):
@@ -122,7 +136,7 @@ def main() -> None:
                         """,
                         (entity_id, slug, name, name, color_for(name)),
                     )
-                    version_id = stable_id("territory", f"{snapshot['year']}:{feature_index}:{name}")
+                    version_id = stable_id("territory", f"{effective_year}:{feature_index}:{name}")
                     cursor.execute(
                         """
                         INSERT INTO territory_versions(id,entity_id,valid_from_year,valid_to_year,control_type,confidence,
@@ -132,12 +146,16 @@ def main() -> None:
                         ON CONFLICT (id) DO UPDATE SET valid_to_year=excluded.valid_to_year, geometry=excluded.geometry,
                           confidence=excluded.confidence, border_precision=excluded.border_precision
                         """,
-                        (version_id, entity_id, snapshot["year"], valid_to, confidence, precision, json.dumps(geometry),
+                        (version_id, entity_id, effective_year, valid_to, confidence, precision, json.dumps(geometry),
                          source_id, f"{snapshot['filename']}#{feature_index}",
-                         f"PARTOF={properties.get('PARTOF') or ''}; SUBJECTO={properties.get('SUBJECTO') or ''}"),
+                         f"SNAPSHOT_YEAR={snapshot['year']}; PARTOF={properties.get('PARTOF') or ''}; "
+                         f"SUBJECTO={properties.get('SUBJECTO') or ''}"),
                     )
                 connection.commit()
-                print(f"Imported {snapshot['year']}: {len(collection.get('features', []))} features")
+                print(
+                    f"Imported {effective_year} from snapshot {snapshot['year']}: "
+                    f"{len(collection.get('features', []))} features"
+                )
 
 
 if __name__ == "__main__":
