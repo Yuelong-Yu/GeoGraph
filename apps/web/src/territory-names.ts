@@ -1,0 +1,222 @@
+import type { PoliticalEntity } from "@geograph/domain";
+
+const chineseOverrides: Record<string, string> = {
+  "Antigua and Barbuda": "安提瓜和巴布达",
+  "Bosnia and Herzegovina": "波斯尼亚和黑塞哥维那",
+  Burma: "缅甸",
+  Byelarus: "白俄罗斯",
+  Congo: "刚果（布）",
+  "Czech Republic": "捷克",
+  "Gambia, The": "冈比亚",
+  "Hong Kong": "中国香港",
+  "Ivory Coast": "科特迪瓦",
+  "Korea, Democratic People's Republic of": "朝鲜",
+  "Korea, Republic of": "韩国",
+  Macedonia: "北马其顿",
+  "Netherlands Antilles": "荷属安的列斯",
+  "Rapa Nui": "拉帕努伊",
+  "Saint Barthelemy": "圣巴泰勒米",
+  "Saint Kitts and Nevis": "圣基茨和尼维斯",
+  "Saint Lucia": "圣卢西亚",
+  "Saint Martin": "法属圣马丁",
+  "Saint Vincent and the Grenadines": "圣文森特和格林纳丁斯",
+  Swaziland: "斯威士兰",
+  "Tanzania, United Republic of": "坦桑尼亚",
+  Trinidad: "特立尼达",
+  Turkey: "土耳其",
+  "Turkish Cypriot-administered area": "北塞浦路斯土耳其共和国",
+  "Turks and Caicos Islands": "特克斯和凯科斯群岛",
+  "United States Virgin Islands": "美属维尔京群岛",
+  "Wallis and Futuna Islands": "瓦利斯和富图纳群岛",
+  Zaire: "扎伊尔",
+
+  Africa: "非洲",
+  Arabia: "阿拉伯",
+  "Abbasid Caliphate": "阿拔斯王朝",
+  "Achaemenid Empire": "阿契美尼德帝国",
+  "Almohad Caliphate": "穆瓦希德王朝",
+  "Angevin Empire": "安茹帝国",
+  "Assyria": "亚述",
+  "Austrian Empire": "奥地利帝国",
+  "Austria Hungary": "奥匈帝国",
+  Babylonia: "巴比伦尼亚",
+  Bactria: "巴克特里亚",
+  "Bagan": "蒲甘王朝",
+  "Batavian Republic": "巴达维亚共和国",
+  "British East India Company": "英国东印度公司",
+  "British Raj": "英属印度",
+  "Byzantine Empire": "拜占庭帝国",
+  Carthage: "迦太基",
+  "Carthaginian Empire": "迦太基帝国",
+  "Carolingian Empire": "加洛林帝国",
+  Castile: "卡斯蒂利亚王国",
+  Castilla: "卡斯蒂利亚王国",
+  "Chagatai Khanate": "察合台汗国",
+  "Chalukya Empire": "遮娄其帝国",
+  Champa: "占婆",
+  "Chinese warlords": "中国军阀",
+  "Chola state": "朱罗王朝",
+  Cholas: "朱罗王朝",
+  "Crimean Khanate": "克里米亚汗国",
+  Dacia: "达契亚",
+  "Duchy of Swabia": "施瓦本公国",
+  "Dutch East Indies": "荷属东印度",
+  "Dutch Formosa": "荷属台湾",
+  "Eastern Roman Empire": "东罗马帝国",
+  Elam: "埃兰",
+  "Emirate of Córdoba": "科尔多瓦酋长国",
+  "Empire of Japan": "大日本帝国",
+  "Fatimid Caliphate": "法蒂玛王朝",
+  "Frankish Kingdom": "法兰克王国",
+  Franks: "法兰克人",
+  "French Indo-China": "法属印度支那",
+  "French Indochina": "法属印度支那",
+  "Ghaznavid Emirate": "加兹尼王朝",
+  "Golden Horde": "金帐汗国",
+  "Goryeo": "高丽",
+  "Grand Duchy of Moscow": "莫斯科大公国",
+  "Greek city-states": "希腊城邦",
+  "Gupta Empire": "笈多帝国",
+  Han: "汉朝",
+  "Han Empire": "汉朝",
+  "Holy Roman Empire": "神圣罗马帝国",
+  "Hunnic Empire": "匈人帝国",
+  "Ilkhanate": "伊儿汗国",
+  "Imperial Japan": "大日本帝国",
+  "Inca Empire": "印加帝国",
+  "Jin Empire": "金朝",
+  "Japan (Warring States)": "日本战国诸侯",
+  "Kara Khitai Khaganate": "西辽",
+  "Kazan Khanate": "喀山汗国",
+  "Khanate of Sibir": "西伯利亚汗国",
+  "Khanate of the Golden Horde": "金帐汗国",
+  "Khmer Empire": "高棉帝国",
+  "Kingdom of France": "法兰西王国",
+  "Kingdom of the Two Sicilies": "两西西里王国",
+  "Koguryo": "高句丽",
+  Korea: "朝鲜半岛政权",
+  "Kushan Empire": "贵霜帝国",
+  "Kyivan Rus": "基辅罗斯",
+  Liao: "辽朝",
+  "Macedon and Hellenic League": "马其顿与希腊联盟",
+  Magadha: "摩揭陀",
+  "Mamluke Sultanate": "马穆鲁克苏丹国",
+  "Manchu Empire": "清朝",
+  "Maratha Confederacy": "马拉塔联盟",
+  "Mauryan Empire": "孔雀王朝",
+  "Ming Chinese Empire": "明朝",
+  "Mongol Empire": "蒙古帝国",
+  "Mughal Empire": "莫卧儿帝国",
+  "Nan Chao": "南诏",
+  "Nan-Zhao": "南诏",
+  "Nan-Yue": "南越",
+  "Northern Liang": "北凉",
+  "Ottoman Empire": "奥斯曼帝国",
+  "Papal States": "教皇国",
+  Parthia: "安息",
+  "Parthian Empire": "安息帝国",
+  Persia: "波斯",
+  "Polish–Lithuanian Commonwealth": "波兰立陶宛联邦",
+  Prussia: "普鲁士",
+  "Ptolemaic Kingdom": "托勒密王国",
+  "Qing Empire": "清朝",
+  "Roman Empire": "罗马帝国",
+  Rome: "罗马帝国",
+  "Russian Empire": "俄罗斯帝国",
+  "Safavid Empire": "萨法维王朝",
+  "Sasanian Empire": "萨珊帝国",
+  "Seleucid Kingdom": "塞琉古王国",
+  "Seljuk Caliphate": "塞尔柱帝国",
+  "Shogun Japan (Kamakura)": "日本镰仓幕府",
+  Silla: "新罗",
+  "Sixteen Kingdoms": "十六国",
+  "Song Empire": "宋朝",
+  "Sui Empire": "隋朝",
+  "Sultanate of Delhi": "德里苏丹国",
+  "Taiwanese Tribes": "台湾原住民族",
+  "Tang Empire": "唐朝",
+  Tibet: "西藏",
+  "Tibetan Empire": "吐蕃帝国",
+  "Toba Wei": "北魏",
+  "Tokugawa Shogunate": "德川幕府",
+  "Tokugawa shogunate": "德川幕府",
+  "Toltec Empire": "托尔特克帝国",
+  "Tsardom of Muscovy": "莫斯科沙皇国",
+  "Tufan Empire": "吐蕃帝国",
+  USSR: "苏联",
+  "Umayyad Caliphate": "倭马亚王朝",
+  "United Kingdom of Great Britain and Ireland": "大不列颠及爱尔兰联合王国",
+  "United States of America": "美国",
+  Urartu: "乌拉尔图",
+  "Vice Royalty of New Spain": "新西班牙总督辖区",
+  "Viceroyalty of the Río de la Plata": "拉普拉塔总督辖区",
+  "Visigothic Kingdom": "西哥特王国",
+  "Western Roman Empire": "西罗马帝国",
+  Xinjiang: "新疆",
+  Xiongnu: "匈奴",
+  Xixia: "西夏",
+  "Yamato": "大和政权",
+  Yuezhi: "月氏",
+  Yugoslavia: "南斯拉夫",
+  "Zhangzhung Kingdom": "象雄王国",
+  "Zhou states": "周代诸侯国",
+  "Đại Việt": "大越",
+};
+
+const colonialOwners: Record<string, string> = {
+  Austria: "奥属",
+  Belgium: "比属",
+  Danemark: "丹属",
+  Dutch: "荷属",
+  FR: "法属",
+  France: "法属",
+  GB: "英属",
+  Italy: "意属",
+  Netherlands: "荷属",
+  Portugal: "葡属",
+  Spain: "西属",
+  UK: "英属",
+  USA: "美占",
+  USSR: "苏占",
+};
+
+function buildRegionNames() {
+  if (typeof Intl.DisplayNames !== "function") return new Map<string, string>();
+  const english = new Intl.DisplayNames(["en"], { type: "region" });
+  const chinese = new Intl.DisplayNames(["zh-CN"], { type: "region" });
+  const names = new Map<string, string>();
+  for (let first = 65; first <= 90; first += 1) {
+    for (let second = 65; second <= 90; second += 1) {
+      const code = String.fromCharCode(first, second);
+      const englishName = english.of(code);
+      const chineseName = chinese.of(code);
+      if (englishName && chineseName && englishName !== code && chineseName !== code) names.set(englishName, chineseName);
+    }
+  }
+  return names;
+}
+
+const regionNames = buildRegionNames();
+const containsChinese = /[\u3400-\u9fff]/u;
+
+export function chineseTerritoryName(name: string) {
+  const trimmed = name.trim();
+  if (!trimmed || trimmed === "?") return null;
+  if (containsChinese.test(trimmed)) return trimmed;
+  const direct = chineseOverrides[trimmed] ?? regionNames.get(trimmed);
+  if (direct) return direct;
+
+  const colonial = /^(.*?) \((.*?)\)$/.exec(trimmed);
+  if (colonial) {
+    const base = chineseOverrides[colonial[1]!] ?? regionNames.get(colonial[1]!);
+    const owner = colonialOwners[colonial[2]!];
+    if (base && owner) return `${owner}${base}`;
+  }
+  return null;
+}
+
+export function localizedTerritoryName(entity: PoliticalEntity, language: "en" | "zh") {
+  const englishName = entity.nameEn ?? entity.name;
+  if (language === "en") return englishName;
+  return chineseTerritoryName(entity.name) ?? chineseTerritoryName(englishName);
+}

@@ -1,5 +1,6 @@
 import type { Person, PersonEvent, PoliticalEntity } from "@geograph/domain";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { localizedTerritoryName } from "./territory-names.js";
 
 export type Language = "en" | "zh";
 
@@ -254,6 +255,7 @@ type I18nValue = {
   personSummary: (person: Person) => string;
   eventText: (person: Person, event: PersonEvent) => { title: string; description?: string };
   entityName: (entity: PoliticalEntity) => string;
+  territoryLabel: (entity: PoliticalEntity) => string | null;
 };
 
 const I18nContext = createContext<I18nValue | null>(null);
@@ -280,7 +282,8 @@ function createI18nValue(language: Language, toggleLanguage: () => void): I18nVa
       const translated = language === "en" ? englishPeople[person.slug]?.events[`${event.year}:${event.order}`] : undefined;
       return translated ?? { title: event.title, ...(event.description ? { description: event.description } : {}) };
     },
-    entityName: (entity) => language === "en" ? entity.nameEn ?? entity.name : entity.name,
+    entityName: (entity) => localizedTerritoryName(entity, language) ?? entity.name,
+    territoryLabel: (entity) => localizedTerritoryName(entity, language),
   };
 }
 

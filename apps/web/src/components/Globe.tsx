@@ -69,7 +69,7 @@ export function Globe({
   world, selectedEntitySlug, selectedPerson, animateTransitions, frameDurationMs, onSelectEntity, onSelectPerson,
   followSelectedPerson, cameraTarget, onExitFollow,
 }: GlobeProps) {
-  const { entityName, personName, t } = useI18n();
+  const { personName, t, territoryLabel } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
   const previousWorldRef = useRef<WorldResponse | null>(null);
@@ -202,9 +202,9 @@ export function Globe({
             outline: true,
             outlineColor: Color.fromCssColorString(territory.color).brighten(0.35, new Color()).withAlpha(0.95),
           },
-          properties: new PropertyBag({ kind: "territory", slug: territory.entity.slug, label: entityName(territory.entity) }),
+          properties: new PropertyBag({ kind: "territory", slug: territory.entity.slug, label: territoryLabel(territory.entity) ?? "" }),
         });
-        const labelText = territory.entity.nameEn;
+        const labelText = territoryLabel(territory.entity);
         if (measurementContext && labelText) {
           const projectedRings = ringSet.map((ring) => ring.flatMap(([longitude = 0, latitude = 0]) => {
             const projected = viewer.scene.cartesianToCanvasCoordinates(Cartesian3.fromDegrees(longitude, latitude));
@@ -368,7 +368,7 @@ export function Globe({
       }
     }
     previousWorldRef.current = world;
-  }, [animateTransitions, cameraHeight, entityName, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, showTerritoryNames, t, world]);
+  }, [animateTransitions, cameraHeight, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, showTerritoryNames, t, territoryLabel, world]);
 
   return (
     <>
