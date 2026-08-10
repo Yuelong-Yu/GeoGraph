@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("opens a shared historical person view and advances without closing details", async ({ page }) => {
+  test.setTimeout(60_000);
   await page.goto("/?year=1804&person=napoleon-bonaparte");
   await expect(page.getByRole("heading", { name: "Napoleon Bonaparte" })).toBeVisible();
   await expect(page.getByLabel("Historical timeline").getByText("1804 CE", { exact: true })).toBeVisible();
@@ -22,6 +23,24 @@ test("opens a shared historical person view and advances without closing details
   await expect(page.getByRole("button", { name: "Stop following", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Pause", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Napoleon Bonaparte" })).toBeVisible();
+
+  const globe = page.getByLabel("Interactive historical globe");
+  const globeBounds = await globe.boundingBox();
+  expect(globeBounds).not.toBeNull();
+  const centerX = globeBounds!.x + globeBounds!.width / 2;
+  const centerY = globeBounds!.y + globeBounds!.height / 2;
+  await page.mouse.move(centerX, centerY);
+  await page.mouse.down();
+  await page.mouse.move(centerX + 120, centerY + 40, { steps: 5 });
+  await page.mouse.up();
+
+  await expect(page.getByRole("button", { name: "Stop following", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pause", exact: true })).toBeVisible();
+
+  await page.mouse.wheel(0, -400);
+
+  await expect(page.getByRole("button", { name: "Stop following", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pause", exact: true })).toBeVisible();
   await expect.poll(() => new URL(page.url()).searchParams.get("year")).not.toBe("1804");
 });
 

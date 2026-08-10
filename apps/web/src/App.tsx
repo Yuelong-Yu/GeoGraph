@@ -147,7 +147,6 @@ export default function App() {
             frameDurationMs={mode === "events" ? 1_000 : 1_000 / speed}
             followSelectedPerson={followingPerson}
             cameraTarget={cameraTarget}
-            onExitFollow={() => setFollowingPerson(false)}
             onSelectEntity={selectEntity}
             onSelectPerson={selectPerson}
           />

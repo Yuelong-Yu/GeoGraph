@@ -24,6 +24,7 @@ import {
   Viewer,
 } from "cesium";
 import { useEffect, useRef, useState } from "react";
+import { shouldAutoFollowCamera, type ManualCameraInputState } from "../camera-follow.js";
 import { groupPeopleForGlobe } from "../person-clustering.js";
 import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
 import { useI18n } from "../i18n.js";
@@ -36,7 +37,6 @@ interface GlobeProps {
   frameDurationMs: number;
   followSelectedPerson: boolean;
   cameraTarget: { longitude: number; latitude: number; token: number } | null;
-  onExitFollow: () => void;
   onSelectEntity: (slug: string, point?: { longitude: number; latitude: number }) => void;
   onSelectPerson: (slug: string) => void;
 }
@@ -67,18 +67,22 @@ function animatedPosition(
 
 export function Globe({
   world, selectedEntitySlug, selectedPerson, animateTransitions, frameDurationMs, onSelectEntity, onSelectPerson,
-  followSelectedPerson, cameraTarget, onExitFollow,
+  followSelectedPerson, cameraTarget,
 }: GlobeProps) {
   const { personName, t, territoryLabel } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
   const previousWorldRef = useRef<WorldResponse | null>(null);
   const suppressFollowOnceRef = useRef(false);
+  const manualCameraInputRef = useRef<ManualCameraInputState>({
+    active: false,
+    lastInputAt: Number.NEGATIVE_INFINITY,
+  });
   const [hover, setHover] = useState<{ x: number; y: number; label: string } | null>(null);
   const [cameraHeight, setCameraHeight] = useState(16_800_000);
   const [showTerritoryNames, setShowTerritoryNames] = useState(false);
-  const selectionHandlers = useRef({ onSelectEntity, onSelectPerson, onExitFollow });
-  selectionHandlers.current = { onSelectEntity, onSelectPerson, onExitFollow };
+  const selectionHandlers = useRef({ onSelectEntity, onSelectPerson });
+  selectionHandlers.current = { onSelectEntity, onSelectPerson };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -149,7 +153,28 @@ export function Globe({
       const label = properties?.label?.getValue() as string | undefined;
       setHover(label ? { x: movement.endPosition.x, y: movement.endPosition.y, label } : null);
     }, ScreenSpaceEventType.MOUSE_MOVE);
-    handler.setInputAction(() => selectionHandlers.current.onExitFollow(), ScreenSpaceEventType.LEFT_DOWN);
+    const beginManualCameraInput = () => {
+      viewer.camera.cancelFlight();
+      manualCameraInputRef.current = { active: true, lastInputAt: performance.now() };
+    };
+    const endManualCameraInput = () => {
+      manualCameraInputRef.current = { active: false, lastInputAt: performance.now() };
+    };
+    const noteManualCameraInput = () => {
+      viewer.camera.cancelFlight();
+      manualCameraInputRef.current = { active: false, lastInputAt: performance.now() };
+    };
+    for (const eventType of [
+      ScreenSpaceEventType.LEFT_DOWN,
+      ScreenSpaceEventType.RIGHT_DOWN,
+      ScreenSpaceEventType.MIDDLE_DOWN,
+    ]) handler.setInputAction(beginManualCameraInput, eventType);
+    for (const eventType of [
+      ScreenSpaceEventType.LEFT_UP,
+      ScreenSpaceEventType.RIGHT_UP,
+      ScreenSpaceEventType.MIDDLE_UP,
+    ]) handler.setInputAction(endManualCameraInput, eventType);
+    handler.setInputAction(noteManualCameraInput, ScreenSpaceEventType.WHEEL);
     const updateCameraHeight = () => setCameraHeight(Cartographic.fromCartesian(viewer.camera.position).height);
     viewer.camera.moveEnd.addEventListener(updateCameraHeight);
 
@@ -363,7 +388,7 @@ export function Globe({
     if (followSelectedPerson && selectedPerson) {
       if (suppressFollowOnceRef.current) {
         suppressFollowOnceRef.current = false;
-      } else {
+      } else if (shouldAutoFollowCamera(manualCameraInputRef.current, performance.now())) {
         const selectedState = world.people.find((item) => item.person.slug === selectedPerson.person.slug)?.state;
         if (selectedState) {
           viewer.camera.flyTo({
