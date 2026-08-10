@@ -7,6 +7,7 @@ import { Globe } from "./components/Globe.js";
 import { PersonSearch } from "./components/PersonSearch.js";
 import { Timeline, type PlaybackMode } from "./components/Timeline.js";
 import { useI18n } from "./i18n.js";
+import { resolvePersonFollowStart } from "./person-follow.js";
 
 function initialYear() {
   const value = Number(new URLSearchParams(window.location.search).get("year") ?? 2026);
@@ -95,6 +96,20 @@ export default function App() {
   }, [entity, person, year]);
 
   const selectedEntitySlug = entity?.entity.slug ?? null;
+  const changeFollowingPerson = useCallback((following: boolean) => {
+    setFollowingPerson(following);
+    if (!following || !person) return;
+    const start = resolvePersonFollowStart(person, yearRef.current);
+    const outsideLifetime = yearRef.current < person.person.birthYear
+      || (person.person.deathYear !== null && yearRef.current > person.person.deathYear);
+    const nextYear = start?.year ?? (outsideLifetime ? person.person.birthYear : yearRef.current);
+    if (nextYear !== yearRef.current) setYear(nextYear);
+    if (start) {
+      setCameraTarget({ longitude: start.longitude, latitude: start.latitude, token: performance.now() });
+    }
+    setPlaying(true);
+  }, [person]);
+
   const status = useMemo(() => {
     if (error) return t("disconnected");
     if (loadedYear !== year) return t("syncing");
@@ -154,7 +169,7 @@ export default function App() {
             setCameraTarget({ longitude, latitude, token: performance.now() });
           }}
           followingPerson={followingPerson}
-          onFollowingPersonChange={setFollowingPerson}
+          onFollowingPersonChange={changeFollowingPerson}
         />
       </div>
 

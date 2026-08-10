@@ -18,10 +18,23 @@ test("opens a shared historical person view and advances without closing details
   await page.getByRole("button", { name: "Hide territory names" }).click();
   await expect(page.getByRole("button", { name: "Show territory names" })).toHaveAttribute("aria-pressed", "false");
 
-  await page.getByRole("button", { name: "Play", exact: true }).click();
+  await page.getByRole("button", { name: "Follow person", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Stop following", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Pause", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Napoleon Bonaparte" })).toBeVisible();
   await expect.poll(() => new URL(page.url()).searchParams.get("year")).not.toBe("1804");
+});
+
+test("starts following outside a person's lifetime from their birth year", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("geograph-speed", "1"));
+  await page.goto("/?year=1900&person=napoleon-bonaparte");
+  await expect(page.getByText("The current year falls outside this person's lifetime")).toBeVisible();
+
+  await page.getByRole("button", { name: "Follow person", exact: true }).click();
+
+  await expect.poll(() => new URL(page.url()).searchParams.get("year"), { timeout: 800 }).toBe("1769");
+  await expect(page.getByRole("button", { name: "Stop following", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Pause", exact: true })).toBeVisible();
 });
 
 test("shows a translated historical polity name in Chinese mode", async ({ page }) => {

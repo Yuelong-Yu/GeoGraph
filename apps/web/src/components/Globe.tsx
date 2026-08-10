@@ -73,6 +73,7 @@ export function Globe({
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
   const previousWorldRef = useRef<WorldResponse | null>(null);
+  const suppressFollowOnceRef = useRef(false);
   const [hover, setHover] = useState<{ x: number; y: number; label: string } | null>(null);
   const [cameraHeight, setCameraHeight] = useState(16_800_000);
   const [showTerritoryNames, setShowTerritoryNames] = useState(false);
@@ -163,6 +164,7 @@ export function Globe({
   useEffect(() => {
     const viewer = viewerRef.current;
     if (!viewer || !cameraTarget) return;
+    suppressFollowOnceRef.current = true;
     viewer.camera.flyTo({
       destination: Cartesian3.fromDegrees(cameraTarget.longitude, cameraTarget.latitude, 4_600_000),
       duration: 0.8,
@@ -359,12 +361,16 @@ export function Globe({
       }
     }
     if (followSelectedPerson && selectedPerson) {
-      const selectedState = world.people.find((item) => item.person.slug === selectedPerson.person.slug)?.state;
-      if (selectedState) {
-        viewer.camera.flyTo({
-          destination: Cartesian3.fromDegrees(selectedState.longitude, selectedState.latitude, 4_600_000),
-          duration: Math.min(0.8, frameDurationMs / 1_000),
-        });
+      if (suppressFollowOnceRef.current) {
+        suppressFollowOnceRef.current = false;
+      } else {
+        const selectedState = world.people.find((item) => item.person.slug === selectedPerson.person.slug)?.state;
+        if (selectedState) {
+          viewer.camera.flyTo({
+            destination: Cartesian3.fromDegrees(selectedState.longitude, selectedState.latitude, 4_600_000),
+            duration: Math.min(0.8, frameDurationMs / 1_000),
+          });
+        }
       }
     }
     previousWorldRef.current = world;
