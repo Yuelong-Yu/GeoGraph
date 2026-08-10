@@ -46,11 +46,10 @@ make dev
 不连接数据库的只读界面演示模式：
 
 ```bash
-DEMO_MODE=1 HOST=127.0.0.1 node --import tsx apps/api/src/server.ts
-npm run dev -w @geograph/web -- --host 127.0.0.1
+npm run demo
 ```
 
-演示模式只加载人物，不加载疆域；正式运行始终使用 PostgreSQL/PostGIS。
+打开 <http://localhost:8080>。演示模式会按年份从免费的 `historical-basemaps` 上游下载所需快照，并缓存到忽略提交的 `data/historical-cache/`；无需 Docker，也能显示和点选历史疆域。正式部署仍使用 PostgreSQL/PostGIS。
 
 ## 验证
 

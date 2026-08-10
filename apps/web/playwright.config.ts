@@ -9,7 +9,7 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "DEMO_MODE=1 HOST=127.0.0.1 node --import tsx ../api/src/server.ts",
+      command: "DEMO_MODE=1 DEMO_HISTORY=0 HOST=127.0.0.1 node --import tsx ../api/src/server.ts",
       url: "http://127.0.0.1:4000/health",
       reuseExistingServer: !process.env.CI,
       cwd: ".",

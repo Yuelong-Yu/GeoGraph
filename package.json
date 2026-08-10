@@ -10,6 +10,7 @@
   "scripts": {
     "build": "npm run build -w @geograph/domain && npm run build -w @geograph/api && npm run build -w @geograph/web",
     "db:migrate": "npm run db:migrate -w @geograph/api",
+    "demo": "concurrently -k -s first -n api,web -c cyan,magenta \"DEMO_MODE=1 HOST=127.0.0.1 npm run dev -w @geograph/api\" \"npm run dev -w @geograph/web -- --host 127.0.0.1 --port 8080\"",
     "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev -w @geograph/api\" \"npm run dev -w @geograph/web\"",
     "test": "npm run build -w @geograph/domain && npm run test -w @geograph/domain && npm run test -w @geograph/api && npm run test -w @geograph/web",
     "typecheck": "npm run build -w @geograph/domain && npm run typecheck -w @geograph/domain && npm run typecheck -w @geograph/api && npm run typecheck -w @geograph/web"

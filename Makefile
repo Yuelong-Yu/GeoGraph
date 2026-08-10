@@ -1,4 +1,4 @@
-.PHONY: setup dev test build historical-data
+.PHONY: setup demo dev test build historical-data
 
 setup:
 	npm install
@@ -10,6 +10,9 @@ setup:
 
 dev:
 	npm run dev
+
+demo:
+	npm run demo
 
 test:
 	npm test

@@ -97,7 +97,7 @@ export function Globe({
     if (viewer.scene.moon) viewer.scene.moon.show = false;
     viewer.scene.backgroundColor = Color.fromCssColorString("#03080d");
     if (viewer.scene.skyAtmosphere) viewer.scene.skyAtmosphere.show = true;
-    viewer.scene.globe.enableLighting = true;
+    viewer.scene.globe.enableLighting = false;
     viewer.scene.screenSpaceCameraController.enableCollisionDetection = false;
     viewer.camera.setView({
       destination: Cartesian3.fromDegrees(35, 24, 16_800_000),
