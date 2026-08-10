@@ -74,6 +74,33 @@ test("starts following outside a person's lifetime from their birth year", async
   await expect(page.getByRole("button", { name: "Pause", exact: true })).toBeVisible();
 });
 
+test("searches, localizes, filters and follows a person from the expanded set", async ({ page }) => {
+  await page.goto("/?year=1859");
+
+  await page.getByLabel("Search people").fill("darwn");
+  await page.getByRole("button", { name: /Charles Darwin/ }).click();
+  await expect(page.getByRole("heading", { name: "Charles Darwin" })).toBeVisible();
+  await expect(page.getByText("On the Origin of Species was published", { exact: true })).toBeVisible();
+
+  const portrait = await page.request.get("/characters/charles-darwin.png");
+  expect(portrait.ok()).toBe(true);
+  expect(portrait.headers()["content-type"]).toBe("image/png");
+
+  const fieldFilter = page.getByRole("button", { name: "Filter people by field" });
+  await fieldFilter.click();
+  await expect(page.getByRole("checkbox", { name: "Thinkers & educators" })).toBeChecked();
+  await expect(page.getByRole("checkbox", { name: "Medical figures" })).toBeChecked();
+  await expect(page.getByRole("checkbox", { name: "Navigators & explorers" })).toBeChecked();
+  await expect(page.getByRole("checkbox", { name: "Economic & social thinkers" })).toBeChecked();
+  await fieldFilter.click();
+
+  await page.getByRole("button", { name: "中" }).click();
+  await expect(page.getByRole("heading", { name: "查尔斯·达尔文" })).toBeVisible();
+  await expect(page.getByText("《物种起源》出版", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "跟随人物", exact: true }).click();
+  await expect(page.getByRole("button", { name: "退出人物跟随", exact: true })).toBeVisible();
+});
+
 test("shows a translated historical polity name in Chinese mode", async ({ page }) => {
   const entity = {
     id: "prot-altaic-pastoralists-c576bbe6",

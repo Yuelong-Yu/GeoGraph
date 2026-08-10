@@ -13,8 +13,8 @@ GeoGraph 是一个可交互的三维历史地球。时间轴覆盖公元前 1046
 - 全人物中英文名称与别名模糊搜索。
 - 远景或密集人物自动聚合，点击人物簇拉近展开；已选人物始终独立显示。
 - 人物最后已知位置延续、透明度提示、已发生轨迹、帧内迁移动画与快速播放瞬移。
-- 牛顿、爱因斯坦、马斯克、秦始皇、拿破仑和哥白尼，共 65 条首批地点事件。
-- 六套项目内透明游戏微缩人物素材；在世人物采用非精确真人复刻的象征性角色。
+- 26 位跨政治、科学、思想教育、宗教、医学、艺术、技术、航海与社会思想领域的人物，共 242 条经审阅的地点事件。
+- 26 套项目内透明游戏微缩人物素材；在世人物采用非精确真人复刻的象征性角色，穆罕默德采用不展示面部的背影视角。
 - URL 保存当前年份和选中对象，可复制同一历史视图。
 
 ## 一键运行
@@ -25,7 +25,7 @@ GeoGraph 是一个可交互的三维历史地球。时间轴覆盖公元前 1046
 docker compose up --build
 ```
 
-打开 <http://localhost:8080>。此命令会启动 Web、API、PostgreSQL/PostGIS，并导入六位人物资料。
+打开 <http://localhost:8080>。此命令会启动 Web、API、PostgreSQL/PostGIS，并导入 26 位人物资料。
 
 历史疆域数据不直接打包进仓库。明确接受其 GPL-3.0 数据许可和精度说明后，可运行：
 
@@ -67,6 +67,7 @@ npm run test:e2e -w @geograph/web
 
 - 数据库迁移：[001_initial.sql](db/migrations/001_initial.sql)
 - 人物种子：[people.json](data/seed/people.json)
+- 新增 20 人的史料审校档案：[world-changing-20-people.md](docs/research/world-changing-20-people.md)
 - 人物导入：[seed_people.py](scripts/data/seed_people.py)
 - 历史疆域导入：[import_historical_basemaps.py](scripts/data/import_historical_basemaps.py)
 - 数据许可与覆盖说明：[data/README.md](data/README.md)

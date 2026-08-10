@@ -1,5 +1,6 @@
 import type { Person, PersonEvent, PoliticalEntity } from "@geograph/domain";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { newEnglishPeople, type PersonEnglishTranslation } from "./people-en.js";
 import { localizedTerritoryName } from "./territory-names.js";
 
 export type Language = "en" | "zh";
@@ -139,14 +140,7 @@ const messages = {
 
 export type MessageKey = keyof typeof messages.en;
 
-type PersonTranslation = {
-  primaryField: string;
-  secondaryFields: string[];
-  summary: string;
-  events: Record<string, { title: string; description: string }>;
-};
-
-const englishPeople: Record<string, PersonTranslation> = {
+const englishPeople: Record<string, PersonEnglishTranslation> = {
   "isaac-newton": {
     primaryField: "Science",
     secondaryFields: ["Mathematics", "Physics", "Astronomy"],
@@ -254,6 +248,7 @@ const englishPeople: Record<string, PersonTranslation> = {
       "1543:1": { title: "On the Revolutions was published; died in Frombork", description: "Publication and death" },
     },
   },
+  ...newEnglishPeople,
 };
 
 type I18nValue = {
@@ -274,6 +269,10 @@ type I18nValue = {
 const personFieldCategories: Record<string, { en: string; zh: string }> = {
   "政治": { en: "Political figures", zh: "政治家" },
   "科学": { en: "Scientists", zh: "科学家" },
+  "思想与教育": { en: "Thinkers & educators", zh: "思想家与教育家" },
+  "医学": { en: "Medical figures", zh: "医学家" },
+  "航海与探索": { en: "Navigators & explorers", zh: "航海家与探索者" },
+  "经济与社会思想": { en: "Economic & social thinkers", zh: "经济与社会思想家" },
   "工业与技术": { en: "Engineering & technology", zh: "工程与技术" },
   "工程": { en: "Engineers", zh: "工程师" },
   "艺术": { en: "Artists", zh: "艺术家" },

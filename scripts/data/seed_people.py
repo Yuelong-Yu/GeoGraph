@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Load the reviewed first-person slice into PostgreSQL/PostGIS."""
+"""Load the reviewed GeoGraph people dataset into PostgreSQL/PostGIS."""
 
 from __future__ import annotations
 
@@ -53,7 +53,8 @@ def main() -> None:
                     ON CONFLICT (id) DO UPDATE SET name_zh=excluded.name_zh, name_en=excluded.name_en, aliases=excluded.aliases,
                       birth_year=excluded.birth_year, death_year=excluded.death_year, primary_field=excluded.primary_field,
                       secondary_fields=excluded.secondary_fields, summary=excluded.summary,
-                      inclusion_reason=excluded.inclusion_reason, source_id=excluded.source_id
+                      inclusion_reason=excluded.inclusion_reason, character_asset=excluded.character_asset,
+                      source_id=excluded.source_id
                     """,
                     (person_id, person["slug"], person["nameZh"], person["nameEn"], person["aliases"], person["birthYear"],
                      person["deathYear"], person["primaryField"], person["secondaryFields"], person["summary"],
@@ -66,12 +67,12 @@ def main() -> None:
                         """
                         INSERT INTO person_events(id, person_id, event_year, event_order, kind, title, description,
                           longitude, latitude, source_id)
-                        VALUES (%s,%s,%s,%s,%s,%s,'',%s,%s,%s)
+                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                         ON CONFLICT (id) DO UPDATE SET event_year=excluded.event_year, event_order=excluded.event_order,
-                          kind=excluded.kind, title=excluded.title, longitude=excluded.longitude,
-                          latitude=excluded.latitude, source_id=excluded.source_id
+                          kind=excluded.kind, title=excluded.title, description=excluded.description,
+                          longitude=excluded.longitude, latitude=excluded.latitude, source_id=excluded.source_id
                         """,
-                        (event_id, person_id, year, order, kind, title, longitude, latitude, source_id),
+                        (event_id, person_id, year, order, kind, title, kind, longitude, latitude, source_id),
                     )
         connection.commit()
     print(f"Seeded {len(payload['people'])} people.")

@@ -27,6 +27,28 @@ const coronation: PersonEvent = {
   latitude: 48.857,
 };
 
+const darwin: Person = {
+  id: "charles-darwin",
+  slug: "charles-darwin",
+  name: "查尔斯·达尔文",
+  nameEn: "Charles Darwin",
+  birthYear: 1809,
+  deathYear: 1882,
+  primaryField: "科学",
+  secondaryFields: [],
+};
+
+const originPublication: PersonEvent = {
+  id: "charles-darwin:1859:1",
+  personId: darwin.id,
+  year: 1859,
+  order: 1,
+  title: "《物种起源》出版",
+  description: "出版地点锚点，不代表迁居",
+  longitude: -0.128,
+  latitude: 51.507,
+};
+
 function LanguageProbe() {
   const { entityName, eventText, formatYear, language, personName, toggleLanguage } = useI18n();
   const entities: PoliticalEntity[] = [
@@ -43,6 +65,11 @@ function LanguageProbe() {
   );
 }
 
+function AddedPersonProbe() {
+  const { eventText, personField, personName, personSummary } = useI18n();
+  return <p>{personName(darwin)}|{personField(darwin)}|{personSummary(darwin)}|{eventText(darwin, originPublication).title}</p>;
+}
+
 describe("i18n", () => {
   it("defaults to English and toggles all localized content to Chinese", async () => {
     render(<I18nProvider><LanguageProbe /></I18nProvider>);
@@ -53,5 +80,11 @@ describe("i18n", () => {
 
     expect(screen.getByRole("button", { name: "zh|拿破仑·波拿巴|公元 1804 年|在巴黎加冕称帝|中国,俄罗斯,沙特阿拉伯,原始阿尔泰语系牧民,中文译名待考" })).toBeDefined();
     expect(document.documentElement.lang).toBe("zh-CN");
+  });
+
+  it("ships English copy for people in the expanded historical set", () => {
+    render(<I18nProvider><AddedPersonProbe /></I18nProvider>);
+
+    expect(screen.getByText(/Charles Darwin\|Science\|A British naturalist/).textContent).toContain("On the Origin of Species was published");
   });
 });
