@@ -22,7 +22,7 @@ describe("timeline controls", () => {
       />,
     );
 
-    await userEvent.click(screen.getByRole("button", { name: "从头播放" }));
+    await userEvent.click(screen.getByRole("button", { name: "Replay from start" }));
     expect(onYearChange).toHaveBeenCalledWith(-1046);
     expect(onPlayingChange).toHaveBeenCalledWith(true);
   });

@@ -6,6 +6,7 @@ import { DetailsPanel } from "./components/DetailsPanel.js";
 import { Globe } from "./components/Globe.js";
 import { PersonSearch } from "./components/PersonSearch.js";
 import { Timeline, type PlaybackMode } from "./components/Timeline.js";
+import { useI18n } from "./i18n.js";
 
 function initialYear() {
   const value = Number(new URLSearchParams(window.location.search).get("year") ?? 2026);
@@ -18,6 +19,7 @@ function initialSpeed() {
 }
 
 export default function App() {
+  const { language, t, toggleLanguage } = useI18n();
   const [year, setYear] = useState(initialYear);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(initialSpeed);
@@ -46,7 +48,7 @@ export default function App() {
       .then((nextWorld) => { setWorld(nextWorld); setLoadedYear(year); })
       .catch((cause: unknown) => {
         if (controller.signal.aborted) return;
-        setError(cause instanceof Error ? cause.message : "世界数据加载失败");
+        setError(cause instanceof Error ? cause.message : "World data could not be loaded");
       });
     return () => controller.abort();
   }, [year]);
@@ -89,23 +91,28 @@ export default function App() {
 
   const selectedEntitySlug = entity?.entity.slug ?? null;
   const status = useMemo(() => {
-    if (error) return "连接中断";
-    if (loadedYear !== year) return "同步历史切片…";
-    return `资料覆盖：${world?.coverage ?? "基础"}`;
-  }, [error, loadedYear, world?.coverage, year]);
+    if (error) return t("disconnected");
+    if (loadedYear !== year) return t("syncing");
+    const coverageKey = world?.coverage === "较完整" ? "coverageComplete"
+      : world?.coverage === "部分" ? "coveragePartial" : "coverageBasic";
+    return `${t("coverage")}: ${t(coverageKey)}`;
+  }, [error, loadedYear, t, world?.coverage, year]);
 
   return (
     <main className="app-shell">
       <header className="topbar">
-        <div className="brand"><span className="brand-mark" /><div><strong>GeoGraph</strong><small>时间中的世界</small></div></div>
+        <div className="brand"><span className="brand-mark" /><div><strong>GeoGraph</strong><small>{t("brandTagline")}</small></div></div>
         <PersonSearch onSelect={selectPerson} />
         <div className="top-actions">
+          <button type="button" className="language-toggle" onClick={toggleLanguage}>
+            {language === "en" ? "中" : "En"}
+          </button>
           <button type="button" className="share-button" onClick={() => {
             void navigator.clipboard.writeText(window.location.href).then(() => {
               setCopied(true);
               window.setTimeout(() => setCopied(false), 1_500);
             });
-          }}>{copied ? "已复制" : "复制视图"}</button>
+          }}>{copied ? t("copied") : t("copyView")}</button>
           <div className={`sync-status ${error ? "error" : ""}`}><i />{status}</div>
         </div>
       </header>
@@ -125,11 +132,11 @@ export default function App() {
             onSelectPerson={selectPerson}
           />
           <div className="map-legend">
-            <span><i className="actual" />实际控制</span>
-            <span><i className="claim" />法理宣称</span>
-            <span><i className="uncertain" />不确定边疆</span>
+            <span><i className="actual" />{t("actualControl")}</span>
+            <span><i className="claim" />{t("legalClaim")}</span>
+            <span><i className="uncertain" />{t("uncertainFrontier")}</span>
           </div>
-          <div className="interaction-hint">左键拖动旋转 · 滚轮缩放 · 点击查看</div>
+          <div className="interaction-hint">{t("interactionHint")}</div>
         </section>
         <DetailsPanel
           activeTab={activeTab}

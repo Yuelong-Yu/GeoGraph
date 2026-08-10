@@ -1,5 +1,5 @@
 import type { EntityDetails, PersonDetails } from "../api.js";
-import { formatYear } from "./Timeline.js";
+import { useI18n } from "../i18n.js";
 
 interface DetailsPanelProps {
   activeTab: "entity" | "person";
@@ -15,75 +15,79 @@ interface DetailsPanelProps {
 export function DetailsPanel({
   activeTab, entity, person, year, onTabChange, onJumpToEvent, followingPerson, onFollowingPersonChange,
 }: DetailsPanelProps) {
+  const { entityName, eventText, formatYear, language, personField, personName, personSummary, t } = useI18n();
   return (
-    <aside className="details-panel" aria-label="详情面板">
+    <aside className="details-panel" aria-label={t("detailsPanel")}>
       <div className="detail-tabs" role="tablist">
-        <button type="button" role="tab" aria-selected={activeTab === "entity"} onClick={() => onTabChange("entity")}>政权</button>
-        <button type="button" role="tab" aria-selected={activeTab === "person"} onClick={() => onTabChange("person")}>人物</button>
+        <button type="button" role="tab" aria-selected={activeTab === "entity"} onClick={() => onTabChange("entity")}>{t("entityTab")}</button>
+        <button type="button" role="tab" aria-selected={activeTab === "person"} onClick={() => onTabChange("person")}>{t("personTab")}</button>
       </div>
 
       {activeTab === "entity" ? (
         entity ? (
           <div className="detail-content">
-            <span className="eyebrow">政治实体</span>
-            <h2>{entity.entity.name}</h2>
-            {entity.entity.nameEn && <p className="latin-name">{entity.entity.nameEn}</p>}
-            <div className="identity-color"><i style={{ background: entity.entity.primaryColor }} />身份主色 · 播放中保持一致</div>
-            <p>{entity.entity.summary || "该政治实体的资料正在整理。"}</p>
+            <span className="eyebrow">{t("politicalEntity")}</span>
+            <h2>{entityName(entity.entity)}</h2>
+            {language === "zh" && entity.entity.nameEn && entity.entity.nameEn !== entity.entity.name && <p className="latin-name">{entity.entity.nameEn}</p>}
+            <div className="identity-color"><i style={{ background: entity.entity.primaryColor }} />{t("identityColor")}</div>
+            <p>{language === "en" ? t("historicalBoundarySummary") : entity.entity.summary || t("entitySummaryFallback")}</p>
             <section className="detail-note">
-              <h3>相关后继政权</h3>
-              {entity.successors.length > 0 ? <ul>{entity.successors.map((successor) => <li key={successor.id}>{successor.name}</li>)}</ul> : <p>当前数据尚未录入明确的政治继承关系。</p>}
-              <h3>此地点的后续控制者</h3>
+              <h3>{t("successors")}</h3>
+              {entity.successors.length > 0 ? <ul>{entity.successors.map((successor) => <li key={successor.id}>{entityName(successor)}</li>)}</ul> : <p>{t("noSuccessors")}</p>}
+              <h3>{t("futureControllers")}</h3>
               {entity.futureControllers.length > 0 ? (
                 <ol className="future-controller-list">
                   {entity.futureControllers.map((controller) => (
                     <li key={`${controller.entity.id}-${controller.fromYear}`}>
                       <i style={{ background: controller.entity.primaryColor }} />
-                      <span><strong>{controller.entity.name}</strong><small>{formatYear(controller.fromYear)}起</small></span>
+                      <span><strong>{entityName(controller.entity)}</strong><small>{language === "zh" ? `${formatYear(controller.fromYear)}${t("from")}` : `${t("from")} ${formatYear(controller.fromYear)}`}</small></span>
                     </li>
                   ))}
                 </ol>
-              ) : <p>当前资料中没有记录该点击位置之后的其他控制实体。</p>}
+              ) : <p>{t("noFutureControllers")}</p>}
             </section>
             <section className="detail-note">
-              <h3>资料与来源</h3>
+              <h3>{t("sources")}</h3>
               {entity.sources.map((source) => <p key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a><br />{source.institution} · {source.license}</p>)}
             </section>
           </div>
-        ) : <EmptyState text="点击地球上的疆域，查看当前年份的政权资料。" />
+        ) : <EmptyState text={t("entityEmpty")} />
       ) : person ? (
         <div className="detail-content person-detail">
-          <span className="eyebrow">{person.person.primaryField}</span>
-          <h2>{person.person.name}</h2>
-          <p className="latin-name">{person.person.nameEn}</p>
-          <p>{formatYear(person.person.birthYear)}—{person.person.deathYear ? formatYear(person.person.deathYear) : "至今"}</p>
+          <span className="eyebrow">{personField(person.person)}</span>
+          <h2>{personName(person.person)}</h2>
+          {language === "zh" && person.person.nameEn && <p className="latin-name">{person.person.nameEn}</p>}
+          <p>{formatYear(person.person.birthYear)}—{person.person.deathYear ? formatYear(person.person.deathYear) : t("present")}</p>
           <button type="button" className="follow-button" onClick={() => onFollowingPersonChange(!followingPerson)}>
-            {followingPerson ? "退出人物跟随" : "跟随人物"}
+            {followingPerson ? t("stopFollowing") : t("followPerson")}
           </button>
           {(year < person.person.birthYear || (person.person.deathYear !== null && year > person.person.deathYear)) && (
-            <div className="out-of-life">当前年份不在该人物生存期内</div>
+            <div className="out-of-life">{t("outsideLifetime")}</div>
           )}
-          <p>{person.person.summary}</p>
-          <h3>关键事件</h3>
+          <p>{personSummary(person.person)}</p>
+          <h3>{t("keyEvents")}</h3>
           <ol className="event-list">
-            {person.events.map((event) => (
-              <li key={event.id}>
-                <button type="button" onClick={() => onJumpToEvent(event.year, event.longitude, event.latitude)}>
-                  <time>{formatYear(event.year)}</time>
-                  <strong>{event.title}</strong>
-                  {event.description && <span>{event.description}</span>}
-                </button>
-              </li>
-            ))}
+            {person.events.map((event) => {
+              const text = eventText(person.person, event);
+              return (
+                <li key={event.id}>
+                  <button type="button" onClick={() => onJumpToEvent(event.year, event.longitude, event.latitude)}>
+                    <time>{formatYear(event.year)}</time>
+                    <strong>{text.title}</strong>
+                    {text.description && <span>{text.description}</span>}
+                  </button>
+                </li>
+              );
+            })}
           </ol>
           <section className="detail-note">
-            <h3>资料与来源</h3>
+            <h3>{t("sources")}</h3>
             {person.sources.length > 0
               ? person.sources.map((source) => <p key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a><br />{source.institution} · {source.license}</p>)
-              : <p>演示模式仅加载人物事件；数据库模式会显示完整来源。</p>}
+              : <p>{t("demoSources")}</p>}
           </section>
         </div>
-      ) : <EmptyState text="点击人物或使用搜索，查看生平与活动轨迹。" />}
+      ) : <EmptyState text={t("personEmpty")} />}
     </aside>
   );
 }

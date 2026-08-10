@@ -26,6 +26,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { groupPeopleForGlobe } from "../person-clustering.js";
 import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
+import { useI18n } from "../i18n.js";
 
 interface GlobeProps {
   world: WorldResponse | null;
@@ -68,6 +69,7 @@ export function Globe({
   world, selectedEntitySlug, selectedPerson, animateTransitions, frameDurationMs, onSelectEntity, onSelectPerson,
   followSelectedPerson, cameraTarget, onExitFollow,
 }: GlobeProps) {
+  const { entityName, personName, t } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
   const previousWorldRef = useRef<WorldResponse | null>(null);
@@ -200,7 +202,7 @@ export function Globe({
             outline: true,
             outlineColor: Color.fromCssColorString(territory.color).brighten(0.35, new Color()).withAlpha(0.95),
           },
-          properties: new PropertyBag({ kind: "territory", slug: territory.entity.slug, label: territory.entity.name }),
+          properties: new PropertyBag({ kind: "territory", slug: territory.entity.slug, label: entityName(territory.entity) }),
         });
         const labelText = territory.entity.nameEn;
         if (measurementContext && labelText) {
@@ -276,7 +278,7 @@ export function Globe({
           scaleByDistance: new NearFarScalar(1_000_000, 1.15, 22_000_000, 0.8),
         },
         label: {
-          text: `${cluster.items.length} 人`,
+          text: `${cluster.items.length} ${t("peopleCluster")}`,
           font: "700 13px system-ui",
           fillColor: Color.WHITE,
           outlineColor: Color.BLACK.withAlpha(0.85),
@@ -288,7 +290,7 @@ export function Globe({
           kind: "cluster",
           longitude: cluster.longitude,
           latitude: cluster.latitude,
-          label: `${cluster.items.length} 位人物，点击展开`,
+          label: `${cluster.items.length} ${t("clusterHint")}`,
         }),
       });
     }
@@ -328,7 +330,7 @@ export function Globe({
           scaleByDistance: new NearFarScalar(1_000_000, 1.2, 22_000_000, 0.65),
         },
         label: {
-          text: person.name,
+          text: personName(person),
           font: selected ? "700 16px system-ui" : "600 14px system-ui",
           fillColor: Color.WHITE.withAlpha(state.opacity),
           outlineColor: Color.BLACK.withAlpha(0.8),
@@ -338,7 +340,7 @@ export function Globe({
           verticalOrigin: VerticalOrigin.BOTTOM,
           scaleByDistance: new NearFarScalar(1_000_000, 1.1, 20_000_000, 0.55),
         },
-        properties: new PropertyBag({ kind: "person", slug: person.slug, label: person.name }),
+        properties: new PropertyBag({ kind: "person", slug: person.slug, label: personName(person) }),
       });
     }
 
@@ -366,17 +368,17 @@ export function Globe({
       }
     }
     previousWorldRef.current = world;
-  }, [animateTransitions, cameraHeight, followSelectedPerson, frameDurationMs, selectedEntitySlug, selectedPerson, showTerritoryNames, world]);
+  }, [animateTransitions, cameraHeight, entityName, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, showTerritoryNames, t, world]);
 
   return (
     <>
-      <div ref={containerRef} className="globe-canvas" aria-label="交互式历史地球" />
+      <div ref={containerRef} className="globe-canvas" aria-label={t("interactiveGlobe")} />
       <button
         type="button"
         className="reset-view"
         onClick={() => viewerRef.current?.camera.flyTo({ destination: Cartesian3.fromDegrees(35, 24, 16_800_000), duration: 0.8 })}
       >
-        全球视角
+        {t("globalView")}
       </button>
       <button
         type="button"
@@ -384,7 +386,7 @@ export function Globe({
         aria-pressed={showTerritoryNames}
         onClick={() => setShowTerritoryNames((visible) => !visible)}
       >
-        {showTerritoryNames ? "隐藏疆域名称" : "显示疆域名称"}
+        {showTerritoryNames ? t("hideTerritoryNames") : t("showTerritoryNames")}
       </button>
       {hover && <div className="globe-tooltip" style={{ left: hover.x + 12, top: hover.y + 12 }}>{hover.label}</div>}
     </>
