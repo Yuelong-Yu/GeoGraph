@@ -1,0 +1,431 @@
+{
+  "sources": [
+    {
+      "key": "mendel-museum-life",
+      "title": "Gregor Johann Mendel",
+      "institution": "Mendel Museum, Masaryk University",
+      "url": "https://mendelmuseum.muni.cz/en/about-the-museum/gregor-johann-mendel",
+      "license": "Website terms; factual citation only",
+      "notes": "Institutional chronology for Mendel's education, experiments, publication, abbacy, and death."
+    },
+    {
+      "key": "uk-national-archives-nightingale",
+      "title": "Florence Nightingale",
+      "institution": "The National Archives, United Kingdom",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/florence-nightingale/",
+      "license": "Website and individual record terms; factual citation only",
+      "notes": "Archival entry point for Nightingale's birth, Crimean service, and later public work."
+    },
+    {
+      "key": "nobel-fleming-biographical",
+      "title": "Sir Alexander Fleming – Biographical",
+      "institution": "Nobel Prize Outreach",
+      "url": "https://www.nobelprize.org/prizes/medicine/1945/fleming/biographical/",
+      "license": "Website terms; factual citation only",
+      "notes": "Award-era biography covering education, wartime service, lysozyme, penicillin, and the Nobel Prize."
+    },
+    {
+      "key": "mit-shannon-obituary",
+      "title": "Professor Emeritus Claude Shannon, founder of digital communications, dies at 84",
+      "institution": "Massachusetts Institute of Technology",
+      "url": "https://news.mit.edu/2001/shannon",
+      "license": "Website terms; factual citation only",
+      "notes": "Institutional chronology for Shannon's education, Bell Labs work, information theory, MIT career, and death."
+    },
+    {
+      "key": "hunan-cai-lun",
+      "title": "Cai Lun",
+      "institution": "Hunan Provincial Department of Culture and Tourism",
+      "url": "https://whhlyt.hunan.gov.cn/whhlyt/english/Culture/CulturalFigures/202207/t20220729_27570604.html",
+      "license": "Website terms; factual citation only",
+      "notes": "Traditional chronology; birth is variously dated to 61 or 63, and most details derive from later histories."
+    },
+    {
+      "key": "science-museum-ada",
+      "title": "Ada Lovelace's remarkable story",
+      "institution": "Science Museum Group",
+      "url": "https://www.sciencemuseum.org.uk/about-us/press-office/ada-lovelaces-remarkable-story-be-celebrated-science-museum",
+      "license": "Website terms; factual citation only",
+      "notes": "Institutional account of Lovelace's life, correspondence, and Analytical Engine notes."
+    },
+    {
+      "key": "nps-edison-1847-1882",
+      "title": "Thomas Edison Biography: 1847–1882: Birth to Pearl Street",
+      "institution": "U.S. National Park Service",
+      "url": "https://home.nps.gov/people/thomas-edison-biography-1847-1882-birth-to-pearl-street.htm",
+      "license": "U.S. federal government text generally public domain; third-party assets excluded",
+      "notes": "Birth, telegraph work, Newark and Menlo Park laboratories, phonograph, lighting system, and Pearl Street."
+    },
+    {
+      "key": "w3c-berners-lee-bio",
+      "title": "Tim Berners-Lee",
+      "institution": "World Wide Web Consortium",
+      "url": "https://www.w3.org/People/Berners-Lee/",
+      "license": "W3C website terms; factual citation only",
+      "notes": "Public institutional biography; living-person data must be periodically reviewed and excludes private locations."
+    },
+    {
+      "key": "unesco-zheng-he-studies",
+      "title": "Recent Studies in China on Admiral Zheng He",
+      "institution": "UNESCO Silk Roads Programme",
+      "url": "https://en.unesco.org/silkroad/sites/default/files/knowledge-bank-article/recent_studies_in_china_on_admiral_zheng_he.pdf",
+      "license": "Source and UNESCO terms; factual citation only",
+      "notes": "Voyage chronology and historiography; Zheng He's birth details and place of death remain disputed."
+    },
+    {
+      "key": "folger-shakespeare-life",
+      "title": "Shakespeare's life",
+      "institution": "Folger Shakespeare Library",
+      "url": "https://www.folger.edu/explore/shakespeares-life/",
+      "license": "Website terms; factual citation only",
+      "notes": "Evidence-based biography distinguishing surviving records from inference and tradition."
+    },
+    {
+      "key": "king-institute-major-events",
+      "title": "Major King Events Chronology: 1929–1968",
+      "institution": "Martin Luther King, Jr. Research and Education Institute, Stanford University",
+      "url": "https://kinginstitute.stanford.edu/king-resources/major-king-events-chronology-1929-1968",
+      "license": "Website terms; factual citation only",
+      "notes": "Research chronology for King's education, organizing, major campaigns, Nobel Prize, and death."
+    },
+    {
+      "key": "mandela-foundation-timeline",
+      "title": "Biography & timeline",
+      "institution": "Nelson Mandela Foundation",
+      "url": "https://www.nelsonmandela.org/biography-timeline",
+      "license": "Website terms; factual citation only",
+      "notes": "Archive and Research team chronology; updated as documentary evidence is reassessed."
+    },
+    {
+      "key": "fws-rachel-carson",
+      "title": "Rachel Carson (1907–1964), Author of the Modern Environmental Movement",
+      "institution": "U.S. Fish and Wildlife Service",
+      "url": "https://www.fws.gov/staff-profile/rachel-carson-1907-1964-author-modern-environmental-movement",
+      "license": "U.S. federal government text generally public domain; third-party assets excluded",
+      "notes": "Institutional biography covering education, federal service, books, testimony, and environmental legacy."
+    }
+  ],
+  "people": [
+    {
+      "slug": "gregor-mendel",
+      "nameZh": "格里高尔·孟德尔",
+      "nameEn": "Gregor Mendel",
+      "aliases": ["格雷戈尔·约翰·孟德尔", "约翰·孟德尔", "Gregor Johann Mendel", "Johann Mendel"],
+      "birthYear": 1822,
+      "deathYear": 1884,
+      "primaryField": "科学",
+      "secondaryFields": ["遗传学", "植物学", "气象学", "教育"],
+      "summary": "奥地利帝国时期的奥古斯丁会修士与实验研究者，通过豌豆杂交实验建立遗传性状分离与组合的定量规律。",
+      "inclusionReason": "其工作成为现代遗传学的基础，并改变了生物学、农业与医学理解遗传的方式。",
+      "source": "mendel-museum-life",
+      "events": [
+        [1822, 1, "出生于欣契采", "7月20日生于当时奥地利西里西亚的欣契采", 17.715, 49.612],
+        [1840, 1, "进入哲学学院", "在奥洛穆茨哲学学院学习", 17.251, 49.594],
+        [1843, 1, "加入奥古斯丁会", "进入老布尔诺修道院并取修会名Gregor", 16.594, 49.191],
+        [1851, 1, "赴维也纳大学深造", "1851至1853年学习物理、数学与自然科学", 16.373, 48.208],
+        [1854, 1, "开始植物杂交研究阶段", "在布尔诺教学并于1854至1864年系统研究植物杂交", 16.594, 49.191],
+        [1865, 1, "报告豌豆实验结果", "向布尔诺自然科学学会作两次报告", 16.607, 49.195],
+        [1866, 1, "发表《植物杂交试验》", "研究结果在学会会刊发表，当时反响有限", 16.607, 49.195],
+        [1868, 1, "当选修道院院长", "出任老布尔诺奥古斯丁会修道院院长", 16.594, 49.191],
+        [1884, 1, "在布尔诺去世", "1月6日去世", 16.594, 49.191]
+      ]
+    },
+    {
+      "slug": "florence-nightingale",
+      "nameZh": "弗洛伦斯·南丁格尔",
+      "nameEn": "Florence Nightingale",
+      "aliases": ["南丁格尔", "The Lady with the Lamp"],
+      "birthYear": 1820,
+      "deathYear": 1910,
+      "primaryField": "医学",
+      "secondaryFields": ["护理", "公共卫生", "统计学", "医院管理", "社会改革"],
+      "summary": "英国护理改革者、统计实践者与公共卫生倡导者，以克里米亚战争期间的医院工作及其后的制度改革推动专业护理形成。",
+      "inclusionReason": "她把护理训练、卫生改革与数据论证结合起来，长期改变了军民医院和公共卫生治理。",
+      "source": "uk-national-archives-nightingale",
+      "events": [
+        [1820, 1, "出生于佛罗伦萨", "5月12日在父母旅居意大利期间出生，并以城市命名", 11.255, 43.769],
+        [1837, 1, "立志从事护理", "在Embley时期形成宗教使命感；具体体验来自其后来的自述", -1.499, 50.989],
+        [1850, 1, "考察凯撒斯韦特女执事院", "首次系统接触该院的护理训练", 6.778, 51.3],
+        [1851, 1, "接受护理训练", "返回凯撒斯韦特完成数月训练", 6.778, 51.3],
+        [1853, 1, "管理伦敦护理机构", "出任Harley Street患病女士照护机构的主管", -0.147, 51.515],
+        [1854, 1, "率护理队抵达斯库台", "与38名志愿护士抵达英军医院，参与救护与卫生改进", 29.016, 41.026],
+        [1855, 1, "考察克里米亚医院", "赴前线医院考察并患重病；落点为巴拉克拉瓦地区近似点", 33.6, 44.5],
+        [1860, 1, "南丁格尔护士学校开学", "依托圣托马斯医院建立制度化护士训练", -0.116, 51.499],
+        [1910, 1, "在伦敦去世", "8月13日去世；坐标为城市中心而非私人住宅", -0.143, 51.515]
+      ]
+    },
+    {
+      "slug": "alexander-fleming",
+      "nameZh": "亚历山大·弗莱明",
+      "nameEn": "Alexander Fleming",
+      "aliases": ["亚历山大·弗莱明爵士", "Sir Alexander Fleming"],
+      "birthYear": 1881,
+      "deathYear": 1955,
+      "primaryField": "医学",
+      "secondaryFields": ["细菌学", "药理学", "抗生素", "免疫学"],
+      "summary": "苏格兰医师与细菌学家，在伦敦圣玛丽医院观察到青霉菌的抑菌作用并命名青霉素。青霉素的临床开发与工业生产是多人、多机构合作的成果。",
+      "inclusionReason": "其发现经弗洛里、钱恩等人进一步开发后开启抗生素时代，重塑感染病治疗。",
+      "source": "nobel-fleming-biographical",
+      "events": [
+        [1881, 1, "出生于洛克菲尔德附近", "8月6日生于苏格兰艾尔郡达弗尔附近；坐标为地区近似点", -4.283, 55.61],
+        [1895, 1, "迁居伦敦", "少年时期赴伦敦投靠兄长并继续教育", -0.141, 51.515],
+        [1901, 1, "进入圣玛丽医学院", "开始医学训练", -0.175, 51.517],
+        [1906, 1, "加入接种研究部门", "在Almroth Wright团队从事细菌学研究", -0.175, 51.517],
+        [1915, 1, "在一战军医院工作", "于法国军医院研究伤口感染；驻点随战时调动，落点取布洛涅地区", 1.614, 50.726],
+        [1921, 1, "发现并命名溶菌酶", "识别出组织和分泌物中的天然溶菌物质", -0.175, 51.517],
+        [1928, 1, "发现青霉素的抑菌作用", "观察到培养皿中青霉菌周围细菌不能生长", -0.175, 51.517],
+        [1945, 1, "获诺贝尔生理学或医学奖", "与Howard Florey、Ernst Chain共同获奖", 18.068, 59.329],
+        [1955, 1, "在伦敦去世", "3月11日去世", -0.141, 51.515]
+      ]
+    },
+    {
+      "slug": "claude-shannon",
+      "nameZh": "克劳德·香农",
+      "nameEn": "Claude Shannon",
+      "aliases": ["克劳德·埃尔伍德·香农", "Claude Elwood Shannon"],
+      "birthYear": 1916,
+      "deathYear": 2001,
+      "primaryField": "科学",
+      "secondaryFields": ["信息论", "数学", "电子工程", "密码学", "计算机科学"],
+      "summary": "美国数学家与工程师，以开关电路理论和信息论为数字计算、通信、压缩与编码提供统一数学框架。",
+      "inclusionReason": "他使信息成为可度量、可编码和可可靠传输的对象，是数字时代的关键理论奠基者。",
+      "source": "mit-shannon-obituary",
+      "events": [
+        [1916, 1, "出生于佩托斯基", "4月30日出生，后在密歇根州盖洛德成长", -84.955, 45.374],
+        [1932, 1, "进入密歇根大学", "学习数学与电气工程；年份按四年制学习起点", -83.738, 42.278],
+        [1936, 1, "赴MIT研究", "操作Vannevar Bush的微分分析机并研究继电器电路", -71.094, 42.36],
+        [1938, 1, "完成开关电路硕士论文", "以布尔代数建立数字开关理论基础", -71.094, 42.36],
+        [1940, 1, "赴高等研究院", "取得MIT两个学位后在普林斯顿任研究员", -74.667, 40.346],
+        [1941, 1, "加入贝尔实验室", "开展通信、密码与战时控制系统研究", -74.411, 40.684],
+        [1948, 1, "发表信息论奠基论文", "在贝尔系统技术期刊发表《通信的数学理论》", -74.411, 40.684],
+        [1956, 1, "返回MIT任教", "先任访问教授，后成为Donner Professor，并于1978年荣休", -71.094, 42.36],
+        [2001, 1, "在梅德福去世", "2月24日去世", -71.106, 42.418]
+      ]
+    },
+    {
+      "slug": "cai-lun",
+      "nameZh": "蔡伦",
+      "nameEn": "Cai Lun",
+      "aliases": ["蔡敬仲", "蔡侯", "Ts'ai Lun", "Cai Jingzhong", "Marquis Cai"],
+      "birthYear": 61,
+      "deathYear": 121,
+      "primaryField": "工业与技术",
+      "secondaryFields": ["造纸", "材料技术", "宫廷行政"],
+      "summary": "东汉宫廷官员，传统史料称其在既有纸张技术基础上改进原料与工艺，并于105年向朝廷奏报。出生常作61或63年，生平主要依赖较晚史书。",
+      "inclusionReason": "改进后的纸张生产传统显著降低书写与知识传播成本；纸并非由单一人物在单一时刻凭空发明。",
+      "source": "hunan-cai-lun",
+      "events": [
+        [61, 1, "传统出生于桂阳郡", "常见纪年为61或63年；落点取今耒阳市中心，古代辖境更大", 112.859, 26.423],
+        [75, 1, "约进入洛阳宫廷", "《后汉书》称永平末入宫；75年仅为显示锚点", 112.454, 34.619],
+        [89, 1, "任尚方令", "约在和帝即位后掌管宫廷器物制造；年份按常见编年", 112.454, 34.619],
+        [97, 1, "参与宫廷典籍校理", "传统编年称参与东观经籍校订；职责细节来自较晚史书", 112.454, 34.619],
+        [105, 1, "奏报改进造纸法", "史书称以树皮、麻头、破布和旧渔网等制纸并上奏", 112.454, 34.619],
+        [114, 1, "受封龙亭侯", "封地通常关联今陕西汉中龙亭一带；精确古界不明", 106.861, 33.153],
+        [121, 1, "在宫廷清算中去世", "奉命入狱前服毒的叙事来自后出的《后汉书》", 112.454, 34.619]
+      ]
+    },
+    {
+      "slug": "ada-lovelace",
+      "nameZh": "阿达·洛芙莱斯",
+      "nameEn": "Ada Lovelace",
+      "aliases": ["奥古斯塔·阿达·金", "洛芙莱斯伯爵夫人", "Augusta Ada King", "Augusta Ada Byron"],
+      "birthYear": 1815,
+      "deathYear": 1852,
+      "primaryField": "工业与技术",
+      "secondaryFields": ["数学", "计算思想", "写作"],
+      "summary": "英国数学写作者，在翻译分析机论文时撰写篇幅更长的注释，阐述通用符号处理潜力并给出伯努利数计算方案。",
+      "inclusionReason": "她清晰认识到通用计算机器可以处理数字之外的符号；第一位程序员的称号存在定义争论。",
+      "source": "science-museum-ada",
+      "events": [
+        [1815, 1, "出生于伦敦", "12月10日出生，名Augusta Ada Byron", -0.142, 51.507],
+        [1828, 1, "设计飞行学方案", "少年时期研究鸟翼并设想飞行装置；未制成可用飞行器", -0.459, 51.299],
+        [1833, 1, "结识查尔斯·巴贝奇", "在伦敦社交聚会见到差分机演示，随后长期通信", -0.127, 51.507],
+        [1835, 1, "与William King成婚", "婚礼地点关联奥卡姆；1838年成为洛芙莱斯伯爵夫人", -0.459, 51.299],
+        [1840, 1, "随德·摩根学习高等数学", "通过通信接受Augustus De Morgan指导；落点取伦敦学术网络中心", -0.127, 51.507],
+        [1842, 1, "翻译分析机论文", "开始翻译Luigi Menabrea对分析机的法文讲稿", -0.127, 51.507],
+        [1843, 1, "发表分析机注释", "译文连同A至G注释出版，包含伯努利数计算表", -0.127, 51.507],
+        [1852, 1, "在伦敦去世", "11月27日去世", -0.142, 51.507]
+      ]
+    },
+    {
+      "slug": "thomas-edison",
+      "nameZh": "托马斯·爱迪生",
+      "nameEn": "Thomas Edison",
+      "aliases": ["托马斯·阿尔瓦·爱迪生", "门洛帕克的奇才", "Thomas Alva Edison", "Wizard of Menlo Park"],
+      "birthYear": 1847,
+      "deathYear": 1931,
+      "primaryField": "工业与技术",
+      "secondaryFields": ["电气工程", "录音", "电影", "工业研发", "企业"],
+      "summary": "美国发明家与企业家，通过门洛帕克和西奥兰治实验室组织团队研发，在录音、电灯系统、供电与早期电影领域推动技术商业化。",
+      "inclusionReason": "他把发明、实验室协作、专利和大规模基础设施结合为工业研发体系；许多成果是团队与既有技术共同演化。",
+      "source": "nps-edison-1847-1882",
+      "events": [
+        [1847, 1, "出生于俄亥俄州米兰", "2月11日出生", -82.601, 41.297],
+        [1854, 1, "随家迁居休伦港", "在密歇根州度过少年时期", -82.425, 42.97],
+        [1859, 1, "在铁路上售报", "约12岁起在Grand Trunk Railway工作并自行实验", -82.425, 42.97],
+        [1862, 1, "成为电报员", "开始学习并从事电报操作，随后在美国多地流动任职", -82.425, 42.97],
+        [1870, 1, "建立纽瓦克实验室", "改进股票报价机所得收益帮助其组织研发工场", -74.172, 40.735],
+        [1876, 1, "建立门洛帕克实验室", "形成以团队、机械工场和连续试验为特点的研发机构", -74.336, 40.521],
+        [1877, 1, "展示留声机", "开发出能够录制并回放声音的装置", -74.336, 40.521],
+        [1879, 1, "改进实用白炽灯系统", "团队获得更耐用的灯丝方案；并非历史上第一只电灯", -74.336, 40.521],
+        [1882, 1, "珍珠街电站投入运行", "完整直流照明与供电系统开始服务曼哈顿部分地区", -74.006, 40.713],
+        [1887, 1, "启用西奥兰治实验室", "把研发、制造试验与资料收藏扩展到更大规模", -74.239, 40.798],
+        [1931, 1, "在西奥兰治去世", "10月18日去世", -74.239, 40.798]
+      ]
+    },
+    {
+      "slug": "tim-berners-lee",
+      "nameZh": "蒂姆·伯纳斯-李",
+      "nameEn": "Tim Berners-Lee",
+      "aliases": ["蒂莫西·约翰·伯纳斯-李", "TimBL", "Sir Timothy John Berners-Lee"],
+      "birthYear": 1955,
+      "deathYear": null,
+      "primaryField": "工业与技术",
+      "secondaryFields": ["计算机科学", "互联网标准", "开放技术", "数据治理"],
+      "summary": "英国计算机科学家，在CERN提出并实现万维网的核心组件，随后创建W3C推动URI、HTTP、HTML与开放标准协同发展。仍在世，只记录公开城市和机构节点。",
+      "inclusionReason": "万维网把互联网变为全球可链接、可发布的信息空间，而开放发布与标准治理帮助其迅速普及。",
+      "source": "w3c-berners-lee-bio",
+      "events": [
+        [1955, 1, "出生于伦敦", "6月8日出生；只使用城市中心，不记录私人地点", -0.127, 51.507],
+        [1976, 1, "从牛津大学毕业", "在Queen's College学习物理并取得学位", -1.255, 51.754],
+        [1980, 1, "首次在CERN工作", "以独立承包者身份开发ENQUIRE，用超文本关系组织信息", 6.055, 46.233],
+        [1984, 1, "返回CERN", "以研究人员身份处理分布式科研信息问题", 6.055, 46.233],
+        [1989, 1, "提出万维网方案", "提交基于互联网的超文本信息管理建议", 6.055, 46.233],
+        [1990, 1, "实现首个网页客户端与服务器", "完成HTML、HTTP、URL的关键实现及首个网站", 6.055, 46.233],
+        [1993, 1, "CERN公开发布Web软件", "4月30日将关键软件置于公共领域；这是机构决定", 6.055, 46.233],
+        [1994, 1, "在MIT创建W3C", "组织跨机构的开放Web标准协作", -71.094, 42.36],
+        [2016, 1, "加入牛津大学计算机科学系", "以公开大学职务继续研究去中心化Web与社会技术问题", -1.255, 51.754]
+      ]
+    },
+    {
+      "slug": "zheng-he",
+      "nameZh": "郑和",
+      "nameEn": "Zheng He",
+      "aliases": ["马和", "三保太监", "三宝太监", "Ma He", "Cheng Ho", "Sanbao"],
+      "birthYear": 1371,
+      "deathYear": 1433,
+      "primaryField": "航海与探索",
+      "secondaryFields": ["外交", "军事", "海洋贸易", "帝国行政"],
+      "summary": "明代宦官、将领与舰队统帅，在1405至1433年的七次远航中把明廷外交与军事力量延伸至东南亚、南亚、波斯湾及东非。出生细节和死亡地点有争议。",
+      "inclusionReason": "这些航行是十五世纪规模最大的国家海上行动之一，强化了印度洋外交与朝贡网络；不是对既有港口和航线的发现。",
+      "source": "unesco-zheng-he-studies",
+      "events": [
+        [1371, 1, "传统出生于昆阳", "1371为常用纪年，早年细节主要来自后世材料", 102.594, 24.669],
+        [1382, 1, "明军进入云南后被俘", "约在少年时期被带入明廷体系；具体地点与日期不完全明确", 102.712, 25.04],
+        [1390, 1, "进入燕王府服务", "约在北平追随燕王朱棣；年份为保守显示锚点", 116.407, 39.904],
+        [1405, 1, "率首次远航出发", "舰队从南京至太仓航运体系启航；集结和出海涉及多个地点", 118.755, 32.111],
+        [1407, 1, "在旧港击败陈祖义集团", "返航阶段以武力干预当地海上权力；并非纯粹和平访问", 104.775, -2.99],
+        [1411, 1, "介入锡兰冲突", "舰队与当地统治者发生战争；古战场精确点不明", 79.909, 6.894],
+        [1415, 1, "第四次航行抵达霍尔木兹", "舰队路线明确延伸到波斯湾重要港口", 56.459, 27.062],
+        [1419, 1, "第五次航行联系东非港口", "舰队使团到达马林迪等地；郑和本人是否在每支分舰队上不可确认", 40.119, -3.219],
+        [1431, 1, "奉命率第七次远航", "在长期停航后再次统率远航，实际离港延续到1432年", 118.796, 32.06],
+        [1433, 1, "约在末次航行中去世", "常见说法为在古里或返航海上去世，也有回国后去世说；坐标仅作争议地点锚点", 75.78, 11.258]
+      ]
+    },
+    {
+      "slug": "william-shakespeare",
+      "nameZh": "威廉·莎士比亚",
+      "nameEn": "William Shakespeare",
+      "aliases": ["莎士比亚", "Shakespeare", "William Shakspere"],
+      "birthYear": 1564,
+      "deathYear": 1616,
+      "primaryField": "艺术",
+      "secondaryFields": ["戏剧", "诗歌", "表演", "剧团经营"],
+      "summary": "英格兰剧作家、诗人、演员与剧团股东，其作品在语言、人物塑造和戏剧结构方面形成跨世纪、跨语言的影响。4月23日生日为传统推定。",
+      "inclusionReason": "其戏剧与诗歌成为全球文学、舞台和教育传统的核心文本；许多作品写作年份只能估计。",
+      "source": "folger-shakespeare-life",
+      "events": [
+        [1564, 1, "出生并在斯特拉特福受洗", "4月26日受洗有记录；4月23日出生是传统推定", -1.707, 52.192],
+        [1582, 1, "与安妮·海瑟薇成婚", "婚姻许可和保证书留存，但仪式的确切教堂仍有争议", -1.707, 52.192],
+        [1585, 1, "双胞胎受洗", "Hamnet与Judith的受洗记录是失落年代前的重要档案节点", -1.707, 52.192],
+        [1592, 1, "成为伦敦剧坛已知人物", "现存文字首次明确提到他是演员和剧作家", -0.105, 51.511],
+        [1593, 1, "出版《维纳斯与阿多尼斯》", "其第一部有确证的印刷作品在伦敦发行", -0.105, 51.511],
+        [1594, 1, "加入宫内大臣剧团", "成为演员、作者和股东；1603年改称国王剧团", -0.105, 51.511],
+        [1599, 1, "环球剧场建成", "剧团利用旧剧场木料修建新剧场，莎士比亚是股东之一", -0.097, 51.508],
+        [1603, 1, "剧团成为国王剧团", "詹姆斯一世即位后获得王室庇护", -0.105, 51.511],
+        [1613, 1, "环球剧场焚毁", "演出《亨利八世》时失火；晚期活动已逐渐回到斯特拉特福", -0.097, 51.508],
+        [1616, 1, "立遗嘱并去世", "3月签署遗嘱，4月23日去世并葬于当地圣三一教堂", -1.707, 52.192]
+      ]
+    },
+    {
+      "slug": "martin-luther-king-jr",
+      "nameZh": "马丁·路德·金",
+      "nameEn": "Martin Luther King Jr.",
+      "aliases": ["小马丁·路德·金", "MLK", "Martin Luther King, Jr.", "Michael King Jr."],
+      "birthYear": 1929,
+      "deathYear": 1968,
+      "primaryField": "政治",
+      "secondaryFields": ["民权", "宗教", "非暴力运动", "社会正义"],
+      "summary": "美国浸信会牧师与民权运动领袖，以群众组织、诉讼、抵制和非暴力直接行动推动废除种族隔离及投票权改革。",
+      "inclusionReason": "他帮助把美国黑人自由斗争转化为全国性政治议程，并为全球非暴力运动提供重要范式；成果属于广泛运动。",
+      "source": "king-institute-major-events",
+      "events": [
+        [1929, 1, "出生于亚特兰大", "1月15日出生，早期记录名Michael King Jr.，后随父亲改名", -84.372, 33.756],
+        [1948, 1, "进入克罗泽神学院", "接受神学训练并于1951年毕业", -75.356, 39.85],
+        [1951, 1, "赴波士顿大学攻读博士", "研究系统神学，并在波士顿结识Coretta Scott", -71.108, 42.35],
+        [1954, 1, "出任Dexter Avenue Baptist Church牧师", "迁至蒙哥马利建立教会与社区工作基础", -86.308, 32.377],
+        [1955, 1, "参与领导蒙哥马利公交抵制", "在Rosa Parks被捕后成为集体行动的重要发言人与组织者", -86.308, 32.377],
+        [1957, 1, "参与创建南方基督教领袖会议", "以教会网络协调南方非暴力民权行动", -84.388, 33.749],
+        [1959, 1, "访问印度研究甘地非暴力实践", "代表团访问多城；落点取新德里公共节点", 77.209, 28.614],
+        [1963, 1, "参与伯明翰运动", "示威、逮捕和公开信推动全国关注种族隔离", -86.802, 33.52],
+        [1963, 2, "在华盛顿大游行演讲", "在林肯纪念堂前发表演讲；游行由多组织共同领导", -77.036, 38.889],
+        [1964, 1, "领取诺贝尔和平奖", "在奥斯陆代表民权运动接受奖项", 10.733, 59.913],
+        [1965, 1, "推动塞尔玛投票权运动", "参与最终抵达蒙哥马利的游行；坐标取塞尔玛起点", -87.017, 32.407],
+        [1968, 1, "在孟菲斯遇刺", "支援环卫工人罢工期间于4月4日遇刺", -90.049, 35.135]
+      ]
+    },
+    {
+      "slug": "nelson-mandela",
+      "nameZh": "纳尔逊·曼德拉",
+      "nameEn": "Nelson Mandela",
+      "aliases": ["纳尔逊·罗利赫拉赫拉·曼德拉", "马迪巴", "Nelson Rolihlahla Mandela", "Madiba", "Dalibunga"],
+      "birthYear": 1918,
+      "deathYear": 2013,
+      "primaryField": "政治",
+      "secondaryFields": ["反种族隔离", "法律", "国家治理", "和解", "人权"],
+      "summary": "南非反种族隔离运动领袖、政治犯和首位经全国普选产生的黑人总统，参与从白人少数统治向多种族民主制度的谈判转型。",
+      "inclusionReason": "其长期抗争、监禁期间的象征作用和出狱后的谈判领导深刻影响南非与全球人权政治；同时应呈现运动的集体性。",
+      "source": "mandela-foundation-timeline",
+      "events": [
+        [1918, 1, "出生于姆韦佐", "7月18日生于特兰斯凯的Mvezo", 28.518, -31.955],
+        [1939, 1, "进入福特黑尔大学学院", "开始高等教育，1940年因学生抗议相关事件离校", 26.856, -32.787],
+        [1941, 1, "抵达约翰内斯堡", "逃离包办婚姻后进入城市工作、法律与政治网络", 28.047, -26.204],
+        [1944, 1, "共同创建非国大青年联盟", "与Walter Sisulu、Oliver Tambo等推动更积极的群众政治", 28.047, -26.204],
+        [1952, 1, "领导反抗运动并开设律师事务所", "参与不服从运动，与Tambo建立律师事务所", 28.047, -26.204],
+        [1955, 1, "见证《自由宪章》通过", "在人民大会期间因禁令限制而从外围关注会议", 27.887, -26.275],
+        [1962, 1, "在豪伊克附近被捕", "结束秘密活动和非洲之行后被警方截获；落点取公开纪念地附近", 30.23, -29.488],
+        [1964, 1, "被判终身监禁并囚于罗本岛", "里沃尼亚审判后开始长期监禁；后来还被转移到其他监狱", 18.369, -33.806],
+        [1990, 1, "获释", "2月11日从Victor Verster Prison走出，随即进入公开谈判政治", 19.025, -33.734],
+        [1993, 1, "共同领取诺贝尔和平奖", "与F. W. de Klerk因终结种族隔离和奠定民主转型基础共同获奖", 10.733, 59.913],
+        [1994, 1, "宣誓就任南非总统", "在首次全国不分种族选举后组成新政府", 28.188, -25.746],
+        [2013, 1, "在约翰内斯堡去世", "12月5日去世；地图只使用城市中心", 28.047, -26.204]
+      ]
+    },
+    {
+      "slug": "rachel-carson",
+      "nameZh": "蕾切尔·卡森",
+      "nameEn": "Rachel Carson",
+      "aliases": ["蕾切尔·路易丝·卡森", "Rachel Louise Carson"],
+      "birthYear": 1907,
+      "deathYear": 1964,
+      "primaryField": "科学",
+      "secondaryFields": ["海洋生物学", "环境保护", "科学写作", "公共政策"],
+      "summary": "美国海洋生物学家与科学作家，以海洋著作和《寂静的春天》将生态学证据带入大众讨论与农药政策审查。",
+      "inclusionReason": "她帮助催生现代环境运动并改变政府评估化学品风险的方式；后续制度变化是科学家、公众组织和政府的共同成果。",
+      "source": "fws-rachel-carson",
+      "events": [
+        [1907, 1, "出生于斯普林代尔", "5月27日生于宾夕法尼亚州阿勒格尼河畔地区", -79.783, 40.54],
+        [1925, 1, "进入Pennsylvania College for Women", "最初主修英文，后改学生物学", -79.942, 40.443],
+        [1929, 1, "在海洋生物实验室实习", "首次集中开展海洋研究，并决定继续生物学训练", -70.669, 41.526],
+        [1929, 2, "进入约翰斯·霍普金斯大学", "在经济困难中攻读动物学研究生课程", -76.621, 39.329],
+        [1935, 1, "为美国渔业局撰写广播节目", "以兼职身份创作海洋生命系列节目", -77.036, 38.907],
+        [1936, 1, "成为初级水生生物学家", "成为渔业局少数女性专业人员之一，并开展切萨皮克湾调查", -77.036, 38.907],
+        [1941, 1, "出版《海风下》", "以文学叙事向公众呈现海洋生态；落点取其联邦工作城市", -77.036, 38.907],
+        [1951, 1, "出版《我们周围的海洋》", "作品使其能够离开政府全职写作；落点取公开居住城市中心", -77.026, 38.99],
+        [1962, 1, "出版《寂静的春天》", "由Houghton Mifflin在波士顿出版，引发对农药风险的全国讨论", -71.058, 42.36],
+        [1963, 1, "就农药问题向国会作证", "支持联邦审查并主张审慎、受科学约束的化学品使用", -77.036, 38.889],
+        [1964, 1, "去世", "4月14日因癌症去世；不标私人住宅位置", -77.026, 38.99]
+      ]
+    }
+  ]
+}

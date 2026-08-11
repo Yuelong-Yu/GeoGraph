@@ -75,14 +75,14 @@ test("starts following outside a person's lifetime from their birth year", async
 });
 
 test("searches, localizes, filters and follows a person from the expanded set", async ({ page }) => {
-  await page.goto("/?year=1859");
+  await page.goto("/?year=1948");
 
-  await page.getByLabel("Search people").fill("darwn");
-  await page.getByRole("button", { name: /Charles Darwin/ }).click();
-  await expect(page.getByRole("heading", { name: "Charles Darwin" })).toBeVisible();
-  await expect(page.getByText("On the Origin of Species was published", { exact: true })).toBeVisible();
+  await page.getByLabel("Search people").fill("shanon");
+  await page.getByRole("button", { name: /Claude Shannon/ }).click();
+  await expect(page.getByRole("heading", { name: "Claude Shannon" })).toBeVisible();
+  await expect(page.getByText("Published the foundational information-theory paper", { exact: true })).toBeVisible();
 
-  const portrait = await page.request.get("/characters/charles-darwin.png");
+  const portrait = await page.request.get("/characters/claude-shannon.png");
   expect(portrait.ok()).toBe(true);
   expect(portrait.headers()["content-type"]).toBe("image/png");
 
@@ -95,8 +95,8 @@ test("searches, localizes, filters and follows a person from the expanded set", 
   await fieldFilter.click();
 
   await page.getByRole("button", { name: "中" }).click();
-  await expect(page.getByRole("heading", { name: "查尔斯·达尔文" })).toBeVisible();
-  await expect(page.getByText("《物种起源》出版", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "克劳德·香农" })).toBeVisible();
+  await expect(page.getByText("发表信息论奠基论文", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "跟随人物", exact: true }).click();
   await expect(page.getByRole("button", { name: "退出人物跟随", exact: true })).toBeVisible();
 });

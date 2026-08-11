@@ -2,7 +2,7 @@
 
 GeoGraph separates reviewed application data from third-party geometry.
 
-- `seed/people.json` is the reviewed first-person slice. Each person points to a named source, and each event inherits that source until event-level citations are added.
+- `seed/people-manifest.json` is the reviewed import entry point. It composes the base `people.json` slice with reviewed expansion files; each person points to a named source, and each event inherits that source until event-level citations are added.
 - Historical boundary files are intentionally not vendored. Run `scripts/data/import_historical_basemaps.py` with either an existing checkout or an explicit download cache.
 - To prefill and validate the complete local download cache before running the demo, use `python3 scripts/data/cache_historical_basemaps.py`. It tries the upstream GitHub raw URL first and its jsDelivr mirror second, and atomically installs only valid GeoJSON feature collections.
 - When the requested start year is between snapshots, the importer clips and carries forward the nearest earlier snapshot, preserving its original `SNAPSHOT_YEAR` in the record notes.

@@ -1,3 +1,7 @@
+import { peopleEnglish40Part1 } from "./people-en-40-part1.js";
+import { peopleEnglish40Part2 } from "./people-en-40-part2.js";
+import { peopleEnglish40Part3 } from "./people-en-40-part3.js";
+
 export type PersonEnglishTranslation = {
   primaryField: string;
   secondaryFields: string[];
@@ -323,4 +327,7 @@ export const newEnglishPeople: Record<string, PersonEnglishTranslation> = {
       "1954:1": { title: "Died in Wilmslow", description: "Officially ruled suicide; circumstances remain discussed" },
     },
   },
+  ...peopleEnglish40Part1,
+  ...peopleEnglish40Part2,
+  ...peopleEnglish40Part3,
 };

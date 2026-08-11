@@ -1,0 +1,118 @@
+{
+  "sources": [
+    {"key":"cyrus-iranica","title":"CYRUS iii. Cyrus II The Great","institution":"Encyclopaedia Iranica","url":"https://www.iranicaonline.org/articles/cyrus-iiI/","license":"Website terms; factual citation only","notes":"Birth and final battlefield are uncertain; locations are approximate."},
+    {"key":"ashoka-met","title":"Mauryan Empire (ca. 323–185 B.C.)","institution":"The Metropolitan Museum of Art","url":"https://www.metmuseum.org/essays/mauryan-empire-ca-323-185-b-c","license":"Website terms; factual citation only","notes":"Birth, accession chronology, and some traditional itinerary anchors remain uncertain."},
+    {"key":"caesar-british-museum","title":"Julius Caesar","institution":"The British Museum","url":"https://www.britishmuseum.org/collection/term/BIOG58909","license":"Website terms; factual citation only","notes":"Ancient battle and river points are regional approximations."},
+    {"key":"augustus-british-museum","title":"Augustus (Octavian)","institution":"The British Museum","url":"https://www.britishmuseum.org/collection/term/BIOG57074","license":"Website terms; factual citation only","notes":"Principal political and military locations."},
+    {"key":"constantine-met","title":"Marble portrait head of the Emperor Constantine I","institution":"The Metropolitan Museum of Art","url":"https://www.metmuseum.org/art/collection/search/252884","license":"Website terms; factual citation only","notes":"The project adopts the conventional 272 birth year; the exact year is uncertain."},
+    {"key":"suleiman-british-museum","title":"Suleyman I (the Magnificent)","institution":"The British Museum","url":"https://www.britishmuseum.org/collection/term/BIOG14584","license":"Website terms; factual citation only","notes":"Birth is variously dated 1494 or 1494/95; battle locations are approximate."},
+    {"key":"washington-mount-vernon","title":"General Washington in the Revolution","institution":"George Washington Presidential Library at Mount Vernon","url":"https://www.mountvernon.org/george-washington/the-revolutionary-war/timeline","license":"Website terms; factual citation only","notes":"The account preserves Washington's slaveholding legacy alongside public chronology."},
+    {"key":"bolivar-loc","title":"Simón Bolívar (el libertador): patriot, warrior, statesman","institution":"Library of Congress","url":"https://www.loc.gov/item/21006434/","license":"Public-domain digitized book; metadata under Library of Congress terms","notes":"The Monte Sacro oath is a later traditional account."},
+    {"key":"lincoln-nps","title":"Lincoln Chronology","institution":"U.S. National Park Service","url":"https://www.nps.gov/liho/learn/historyculture/lincolnchronology.htm","license":"U.S. government website; third-party assets excluded","notes":"Birth, migration, speeches, presidency, and assassination chronology."},
+    {"key":"fdr-library","title":"FDR Biography","institution":"Franklin D. Roosevelt Presidential Library & Museum","url":"https://www.fdrlibrary.org/fdr-biography","license":"NARA website terms; factual citation only","notes":"The account also preserves the administration's incarceration of Japanese Americans."},
+    {"key":"lenin-loc","title":"A Chronology of V. I. Lenin's Life","institution":"Library of Congress","url":"https://www.loc.gov/item/2020717963/","license":"Library of Congress item terms; factual citation only","notes":"European publishing locations and revolutionary routes are representative anchors."},
+    {"key":"hitler-ushmm","title":"Adolf Hitler: Key Dates","institution":"United States Holocaust Memorial Museum","url":"https://encyclopedia.ushmm.org/content/en/article/adolf-hitler-key-dates","license":"Website terms; factual citation only","notes":"Presented only in the context of dictatorship, aggressive war, genocide, and victims."},
+    {"key":"mao-columbia","title":"Mao Zedong: Biographical and Political Profile","institution":"Asia for Educators, Columbia University","url":"https://afe.easia.columbia.edu/special/china_1900_mao_early.htm","license":"Website terms; factual citation only","notes":"Includes the catastrophic human consequences of the Great Leap Forward and Cultural Revolution."},
+    {"key":"plato-stanford","title":"Plato","institution":"Stanford Encyclopedia of Philosophy","url":"https://plato.stanford.edu/entries/plato/","license":"Website terms; factual citation only","notes":"Birth and death years are conventional anchors; several journeys rely on later evidence."}
+  ],
+  "people": [
+    {
+      "slug":"cyrus-the-great","nameZh":"居鲁士大帝","nameEn":"Cyrus the Great","aliases":["居鲁士二世","Cyrus II","Kūruš II","Cyrus the Elder"],"birthYear":-600,"deathYear":-530,"primaryField":"政治","secondaryFields":["帝国治理","军事","法律","宗教政策"],
+      "summary":"阿契美尼德帝国创建者，通过征服与地方制度整合建立横跨西亚的大帝国。出生年、出生地及最后战场均不能精确确定。","inclusionReason":"建立古代最具影响力的跨民族帝国之一，其治理方式成为后世重要参照。","source":"cyrus-iranica",
+      "events":[
+        [-600,1,"约出生于安善地区","出生年与地点不确定；地图取塔勒马利扬作区域锚点",52.405,30.012],[-559,1,"继承安善王位","约于此年继位；落点取王朝中心帕萨尔加德",53.167,30.200],[-550,1,"击败米底王国","控制埃克巴坦那；具体战斗地点不可确定",48.515,34.799],[-547,1,"征服吕底亚","约前547年夺取萨迪斯；部分编年采用前546年",28.040,38.488],[-539,1,"进入巴比伦","征服巴比伦并以巴比伦王身份发布统治宣言",44.421,32.536],[-530,1,"东北战役中去世","古代记载相互冲突；落点仅为阿姆河下游极粗略区域点",60.500,41.000]
+      ]
+    },
+    {
+      "slug":"ashoka","nameZh":"阿育王","nameEn":"Ashoka","aliases":["阿输迦","Aśoka","Ashoka the Great","Devanampiya Piyadasi"],"birthYear":-304,"deathYear":-232,"primaryField":"政治","secondaryFields":["佛教","帝国治理","法律","铭文学"],
+      "summary":"孔雀王朝统治者，在羯陵伽战争后以石刻诏令推广法、公共治理与宗教宽容。出生和即位编年及部分行程来自后世重建。","inclusionReason":"统一南亚大部并以公共铭文传播政治伦理，显著推动佛教跨区域发展。","source":"ashoka-met",
+      "events":[
+        [-304,1,"传统出生于孔雀王朝核心区","出生年月地点不可靠；以华氏城作传统区域锚点",85.138,25.594],[-286,1,"传统任职于乌贾因","后出佛教传记记录；年份只作约略锚点",75.785,23.177],[-268,1,"约开始统治","通行现代编年；部分传统将继位放得更早",85.138,25.594],[-261,1,"羯陵伽战争","战后诏令记录对杀戮与流放的悔意；落点取道利山",85.839,20.192],[-258,1,"推行石刻诏令","约自统治中期在帝国多地刊刻法诏；起始年份不确定",70.529,21.522],[-250,1,"支持桑奇佛教建筑","早期大塔传统归于其统治期；施工年份与亲临情况不明",77.739,23.479],[-249,1,"朝礼蓝毗尼","柱铭记录即位第二十年的朝礼及减免负担",83.276,27.469],[-249,2,"关联鹿野苑柱刻","柱刻关联稳固，但具体到访日程不能确认",83.021,25.381],[-232,1,"传统卒于华氏城","通常约前232年去世；地点主要来自后出传统",85.138,25.594]
+      ]
+    },
+    {
+      "slug":"julius-caesar","nameZh":"尤利乌斯·恺撒","nameEn":"Julius Caesar","aliases":["盖乌斯·尤利乌斯·恺撒","Gaius Julius Caesar","Caius Julius Caesar"],"birthYear":-100,"deathYear":-44,"primaryField":"政治","secondaryFields":["军事","法律","文学","国家制度"],
+      "summary":"罗马将领、政治家与作家，其高卢征服、内战胜利、独裁统治和遇刺加速共和国向帝制转变。","inclusionReason":"其战争、改革、历法与个人统治重塑地中海政治秩序。","source":"caesar-british-museum",
+      "events":[
+        [-100,1,"生于罗马","具体宅邸无法定位",12.496,41.902],[-81,1,"在小亚细亚服役","约此时参与米蒂利尼围城；年份有小幅差异",26.555,39.107],[-69,1,"任西班牙行省财务官","落点取远西班牙主要行政中心科尔多瓦",-4.780,37.888],[-58,1,"开始高卢战争","击败赫尔维蒂人；落点取比布拉克特战场候选区",4.039,46.923],[-52,1,"阿莱西亚围城","击败维钦托利；战场范围很大",4.500,47.539],[-49,1,"渡过卢比孔河","罗马内战全面爆发；古河道精确位置有争议",12.399,44.160],[-48,1,"法萨卢斯获胜","击败庞培主力；战场点为候选区近似值",22.573,39.293],[-48,2,"抵达亚历山大里亚","追踪庞培并卷入托勒密王朝冲突",29.918,31.200],[-46,1,"塔普苏斯战役","击败共和派残余主力；古城与战场为近似点",10.560,35.490],[-44,1,"在元老院会议地遇刺","3月15日在庞培剧场建筑群遇刺",12.475,41.895]
+      ]
+    },
+    {
+      "slug":"augustus","nameZh":"奥古斯都","nameEn":"Augustus","aliases":["屋大维","Octavian","Gaius Octavius","Augustus Caesar"],"birthYear":-63,"deathYear":14,"primaryField":"政治","secondaryFields":["帝国治理","军事","法律","城市建设"],
+      "summary":"罗马第一位皇帝，在内战后以共和国名义重组权力并建立延续数百年的元首制。","inclusionReason":"完成罗马从共和国到帝国的制度转型，重塑军队、行省与税制。","source":"augustus-british-museum",
+      "events":[
+        [-63,1,"生于罗马","生于帕拉蒂尼山附近；具体房屋认定不绝对确定",12.486,41.889],[-44,1,"在阿波罗尼亚获知继承","获知被恺撒收为继承人并返回意大利",19.472,40.724],[-42,1,"腓立比战役","与安东尼联合击败布鲁图斯、卡西乌斯阵营",24.320,41.013],[-31,1,"亚克兴海战","击败安东尼与克利奥帕特拉舰队；落点为近似战区",20.770,38.940],[-30,1,"控制亚历山大里亚","埃及成为罗马控制下的重要领地",29.918,31.200],[-27,1,"获授奥古斯都称号","通常作为元首制正式开始的标志",12.486,41.893],[14,1,"卒于诺拉","去世后提比略继位",14.526,40.926]
+      ]
+    },
+    {
+      "slug":"constantine-i","nameZh":"君士坦丁大帝","nameEn":"Constantine I","aliases":["君士坦丁一世","Constantine the Great","Flavius Valerius Constantinus"],"birthYear":272,"deathYear":337,"primaryField":"政治","secondaryFields":["宗教政策","军事","法律","城市建设"],
+      "summary":"罗马皇帝，在内战后统一帝国，给予基督教合法地位并建立君士坦丁堡。出生年份不能精确确定，项目采用常见的272年。","inclusionReason":"其宗教政策和新都建设改变基督教、罗马帝国与拜占庭世界。","source":"constantine-met",
+      "events":[
+        [272,1,"约生于纳伊苏斯","通常取272年；古代资料不能确定准确年份",21.896,43.321],[306,1,"在约克被拥立","父亲去世后由军队拥立为皇帝",-1.082,53.958],[312,1,"米尔维安桥战役","击败马克森提乌斯；后世十字异象细节存在史源问题",12.467,41.936],[313,1,"米兰宗教协议","与李锡尼达成宗教宽容协议，后称米兰敕令",9.190,45.464],[324,1,"克里索波利斯获胜","击败李锡尼并成为帝国唯一统治者",29.015,41.025],[325,1,"召集尼西亚会议","召集主教会议处理教义与教会统一",29.720,40.429],[330,1,"君士坦丁堡正式启用","扩建拜占庭并建立新帝国首都",28.978,41.008],[337,1,"卒于尼科米底亚附近","临终前受洗；精确地点无法落实",29.920,40.765]
+      ]
+    },
+    {
+      "slug":"suleiman-the-magnificent","nameZh":"苏莱曼一世","nameEn":"Suleiman the Magnificent","aliases":["苏莱曼大帝","立法者苏莱曼","Süleyman I","Suleiman the Lawgiver"],"birthYear":1494,"deathYear":1566,"primaryField":"政治","secondaryFields":["法律","军事","帝国治理","艺术赞助"],
+      "summary":"奥斯曼帝国苏丹，扩张巴尔干、地中海和西亚领土，整合法律并赞助艺术。出生常记1494或1494/95年。","inclusionReason":"其统治代表奥斯曼帝国政治和文化影响的高峰。","source":"suleiman-british-museum",
+      "events":[
+        [1494,1,"约生于特拉布宗","通常记为1494年或1494/95年",39.717,41.001],[1520,1,"在伊斯坦布尔继位","继承苏丹位",28.978,41.008],[1521,1,"攻取贝尔格莱德","攻克多瑙河战略要塞",20.449,44.787],[1522,1,"征服罗得岛","围城后迫使医院骑士团撤离",28.227,36.435],[1526,1,"莫哈奇战役","击败匈牙利王军；落点为近似战区",18.680,45.990],[1529,1,"第一次围攻维也纳","围攻失败后撤退",16.373,48.208],[1534,1,"进入巴格达","在对萨法维战争中占领巴格达",44.366,33.315],[1555,1,"阿马西亚和约","暂时确定奥斯曼与萨法维边界和势力范围",35.834,40.650],[1566,1,"围攻锡盖特堡期间去世","最后一次匈牙利战役中去世；死讯一度保密",17.805,46.048]
+      ]
+    },
+    {
+      "slug":"george-washington","nameZh":"乔治·华盛顿","nameEn":"George Washington","aliases":["华盛顿","General Washington","President Washington"],"birthYear":1732,"deathYear":1799,"primaryField":"政治","secondaryFields":["军事","国家建构","农业","测量"],
+      "summary":"大陆军总司令、美国制宪会议主席和首任总统，确立多项共和制度先例；同时也是拥有并役使奴隶的种植园主。","inclusionReason":"其领导促成美国独立和联邦国家形成，制度先例影响全球共和国实践。","source":"washington-mount-vernon",
+      "events":[
+        [1732,1,"生于波普斯溪","生于弗吉尼亚殖民地种植园",-76.930,38.193],[1753,1,"前往勒伯夫堡执行使命","代表弗吉尼亚总督传递要求；地图取长途路线终点",-79.983,41.626],[1754,1,"必要堡战败","在法印冲突早期投降",-79.589,39.814],[1775,1,"出任大陆军总司令","在费城获大陆会议任命",-75.150,39.949],[1776,1,"特伦顿战役","渡过特拉华河后取胜",-74.769,40.217],[1777,1,"福吉谷冬营","大陆军度过严冬并训练重组",-75.440,40.101],[1781,1,"约克镇胜利","美法联军迫使康沃利斯投降",-76.509,37.239],[1787,1,"主持制宪会议","在费城主持制定联邦宪法",-75.150,39.949],[1789,1,"就任首任总统","在纽约联邦厅宣誓就职",-74.010,40.707],[1797,1,"返回弗农山庄","两任总统后主动离任",-77.086,38.708],[1799,1,"卒于弗农山庄","庄园运作依赖被奴役者劳动",-77.086,38.708]
+      ]
+    },
+    {
+      "slug":"simon-bolivar","nameZh":"西蒙·玻利瓦尔","nameEn":"Simón Bolívar","aliases":["玻利瓦尔","El Libertador","The Liberator"],"birthYear":1783,"deathYear":1830,"primaryField":"政治","secondaryFields":["军事","国家建构","反殖民运动","政治思想"],
+      "summary":"委内瑞拉独立领袖和军事统帅，推动南美多地脱离西班牙统治并参与建立大哥伦比亚。","inclusionReason":"其跨安第斯军事与政治计划重绘南美地图。","source":"bolivar-loc",
+      "events":[
+        [1783,1,"生于加拉加斯","生于富裕克里奥尔家庭",-66.903,10.480],[1805,1,"在罗马立誓","蒙特萨克罗誓言措辞来自后出回忆，属传统叙事",12.520,41.940],[1811,1,"参与委内瑞拉独立","支持第一共和国",-66.903,10.480],[1812,1,"发表卡塔赫纳宣言","分析第一共和国失败并主张继续战争",-75.479,10.391],[1815,1,"写作牙买加来信","流亡金斯敦期间阐述独立与政治前景",-76.793,17.971],[1816,1,"从海地组织远征","在佩蒂翁支持下从莱凯筹备返回委内瑞拉",-73.750,18.200],[1819,1,"安戈斯图拉会议","提出国家组织方案",-63.551,8.130],[1819,2,"博亚卡战役","取得决定性胜利",-73.431,5.453],[1821,1,"卡拉沃沃战役","胜利巩固委内瑞拉大部独立",-68.165,10.011],[1824,1,"在利马领导秘鲁战争","组织战役；阿亚库乔现场指挥者为苏克雷",-77.043,-12.046],[1830,1,"卒于圣玛尔塔附近","离开政治权力后去世",-74.167,11.240]
+      ]
+    },
+    {
+      "slug":"abraham-lincoln","nameZh":"亚伯拉罕·林肯","nameEn":"Abraham Lincoln","aliases":["林肯","Honest Abe","The Great Emancipator"],"birthYear":1809,"deathYear":1865,"primaryField":"政治","secondaryFields":["法律","国家建构","战争领导","废奴"],
+      "summary":"美国第十六任总统，在内战中维护联邦，推动解放宣言和废除奴隶制的宪法进程，并在胜利前夕遇刺。","inclusionReason":"其领导重塑美国联邦、自由与公民身份的法律含义。","source":"lincoln-nps",
+      "events":[
+        [1809,1,"生于肯塔基州沉泉农场","生于今霍金维尔附近",-85.738,37.531],[1816,1,"全家迁往印第安纳","童年迁居今金特里维尔附近",-86.996,38.114],[1831,1,"定居新塞勒姆","开始独立生活与公共生涯",-89.841,40.013],[1837,1,"迁居斯普林菲尔德","取得律师资格后执业",-89.650,39.801],[1858,1,"发表分裂之家演说","同年参与林肯—道格拉斯辩论",-89.648,39.801],[1861,1,"就任总统","在华盛顿就任，数周后内战爆发",-77.036,38.897],[1862,1,"发布初步解放宣言","宣布次年起解放叛乱州被奴役者",-77.036,38.897],[1863,1,"葛底斯堡演说","重新阐释联邦、平等与民主战争目标",-77.231,39.820],[1865,1,"在福特剧院遇刺","中枪后次日在彼得森公寓去世",-77.025,38.897]
+      ]
+    },
+    {
+      "slug":"franklin-d-roosevelt","nameZh":"富兰克林·德拉诺·罗斯福","nameEn":"Franklin D. Roosevelt","aliases":["富兰克林·罗斯福","FDR","Franklin Delano Roosevelt"],"birthYear":1882,"deathYear":1945,"primaryField":"政治","secondaryFields":["经济政策","战争领导","外交","社会保障"],
+      "summary":"美国第三十二任总统，以新政扩大联邦政府能力并领导美国经历二战大部分时期；其政府也强制迁移和拘禁日裔美国人。","inclusionReason":"重塑福利国家、宏观经济治理、美国全球角色与战后国际组织。","source":"fdr-library",
+      "events":[
+        [1882,1,"生于海德公园","生于斯普林伍德庄园",-73.935,41.768],[1900,1,"进入哈佛大学","在剑桥学习历史",-71.117,42.374],[1910,1,"当选纽约州参议员","落点取奥尔巴尼州议会",-73.757,42.652],[1913,1,"出任海军部助理部长","在威尔逊政府任职至1920年",-77.036,38.897],[1921,1,"在坎波贝洛患病","导致永久下肢瘫痪；当时诊断为脊髓灰质炎，现代研究另有讨论",-66.948,44.886],[1928,1,"当选纽约州州长","州救济政策成为新政经验基础之一",-73.757,42.652],[1933,1,"就任总统并启动新政","首个百日推动金融、救济与公共工程措施",-77.036,38.897],[1941,1,"珍珠港后领导美国参战","在国会请求宣战",-77.009,38.889],[1943,1,"德黑兰会议","与丘吉尔、斯大林协调战争与战后安排",51.424,35.721],[1945,1,"雅尔塔会议","讨论欧洲战后安排及联合国",34.163,44.467],[1945,2,"卒于沃姆斯普林斯","4月12日因脑出血去世",-84.681,32.890]
+      ]
+    },
+    {
+      "slug":"vladimir-lenin","nameZh":"弗拉基米尔·列宁","nameEn":"Vladimir Lenin","aliases":["列宁","Vladimir Ilyich Ulyanov","Vladimir Il'ich Lenin","N. Lenin"],"birthYear":1870,"deathYear":1924,"primaryField":"政治","secondaryFields":["革命理论","国家建构","经济政策","新闻出版"],
+      "summary":"布尔什维克领袖和苏维埃政府首任领导人，在1917年革命中夺权并建立一党国家；其统治伴随内战、政治镇压与制度化暴力。","inclusionReason":"其政党理论、革命政权和苏维埃国家改变二十世纪全球政治。","source":"lenin-loc",
+      "events":[
+        [1870,1,"生于辛比尔斯克","今乌里扬诺夫斯克",48.403,54.318],[1887,1,"在喀山求学并被捕","因学生抗议被捕、开除并受监视",49.123,55.788],[1893,1,"迁居圣彼得堡","参与马克思主义小组并组织工人",30.316,59.938],[1897,1,"流放舒申斯科耶","在西伯利亚流放三年",91.935,53.326],[1900,1,"在欧洲组织火星报","慕尼黑代表早期编辑中心",11.582,48.135],[1903,1,"俄国社会民主工党第二次代表大会","会议由布鲁塞尔移至伦敦并形成两派",-0.128,51.507],[1917,1,"从苏黎世返回俄国","二月革命后结束流亡；此点为出发地",8.541,47.376],[1917,2,"抵达彼得格勒","抵达芬兰车站并提出激进纲领",30.356,59.955],[1917,3,"布尔什维克夺取政权","推翻临时政府并领导新政府",30.314,59.940],[1918,1,"政府迁至莫斯科","迁都并以条约退出世界大战",37.617,55.752],[1924,1,"卒于戈尔基","多次中风后去世",37.776,55.508]
+      ]
+    },
+    {
+      "slug":"adolf-hitler","nameZh":"阿道夫·希特勒","nameEn":"Adolf Hitler","aliases":["希特勒","Adolf Hitler"],"birthYear":1889,"deathYear":1945,"primaryField":"政治","secondaryFields":["极权主义","战争","种族主义","宣传"],
+      "summary":"纳粹党领袖和德国独裁者，其种族主义、反犹主义与扩张政策导致欧洲战争和系统性大屠杀，杀害六百万犹太人及数百万其他受害者。","inclusionReason":"其灾难性影响重塑国际法、人权制度、欧洲边界与全球记忆政治。","source":"hitler-ushmm",
+      "events":[
+        [1889,1,"生于因河畔布劳瑙","生于奥匈帝国边境城镇",13.043,48.258],[1908,1,"移居维也纳","后来声称反犹主义在此完全成形，但证据不支持其自述",16.373,48.208],[1913,1,"移居慕尼黑","5月离开维也纳",11.582,48.135],[1914,1,"参加第一次世界大战","落点取其部队第一次伊普尔战区，并非精确个人位置",2.886,50.851],[1919,1,"加入德国工人党","组织后来改名为纳粹党",11.582,48.135],[1923,1,"发动啤酒馆政变","未遂政变造成死伤",11.577,48.130],[1924,1,"在兰茨贝格服刑","因叛国罪获宽大判决并撰写政治宣言",10.877,48.052],[1933,1,"被任命为德国总理","纳粹随后摧毁民主制度并建立独裁",13.376,52.518],[1939,1,"发动欧洲战争","从柏林指挥入侵波兰；不表示亲临前线",13.376,52.518],[1941,1,"从狼穴指挥东线战争","侵苏战争与纳粹灭绝政策同步升级",21.493,54.080],[1945,1,"在柏林地堡自杀","德国战败与苏军攻入柏林之际自杀",13.381,52.512]
+      ]
+    },
+    {
+      "slug":"mao-zedong","nameZh":"毛泽东","nameEn":"Mao Zedong","aliases":["毛润之","Mao Tse-tung","Chairman Mao"],"birthYear":1893,"deathYear":1976,"primaryField":"政治","secondaryFields":["革命理论","军事","国家建构","文学"],
+      "summary":"中国共产党主要创建者和中华人民共和国核心缔造者；其统治发动的大跃进和文化大革命造成大规模饥荒、迫害与社会破坏。","inclusionReason":"其革命、国家建立、社会改造与外交转向改变中国和冷战格局，巨大人命代价同样是其影响核心。","source":"mao-columbia",
+      "events":[
+        [1893,1,"生于韶山","生于湖南湘潭韶山冲",112.526,27.915],[1911,1,"在长沙参加革命军","辛亥革命期间短期服役",112.939,28.228],[1918,1,"在北京大学图书馆工作","接触新文化与马克思主义圈子",116.305,39.992],[1921,1,"参加中共第一次全国代表大会","在上海参会；末段转移嘉兴，地图取开会起点",121.474,31.230],[1927,1,"进入井冈山根据地","发展以农村根据地为中心的革命战略",114.159,26.570],[1935,1,"遵义会议后领导地位上升","长征途中强化其军事政治领导地位",106.927,27.725],[1936,1,"到达延安地区","延安成为革命时期核心政治中心",109.489,36.585],[1949,1,"宣布中华人民共和国成立","10月1日在北京宣布新国家成立",116.397,39.908],[1958,1,"发动大跃进","政策、强制征购和信息失真造成灾难性饥荒与数千万人死亡",116.397,39.908],[1966,1,"发动文化大革命","造成长期迫害、暴力、教育中断与制度破坏",116.397,39.908],[1972,1,"会见尼克松","中美接近改变冷战战略格局",116.397,39.908],[1976,1,"卒于北京","9月9日去世",116.397,39.908]
+      ]
+    },
+    {
+      "slug":"plato","nameZh":"柏拉图","nameEn":"Plato","aliases":["阿里斯托克勒斯","Platon","Aristocles"],"birthYear":-428,"deathYear":-347,"primaryField":"思想与教育","secondaryFields":["哲学","政治思想","伦理","认识论","教育"],
+      "summary":"古希腊哲学家，以对话体探讨知识、伦理、政治和形而上学，并形成雅典学园传统。生卒年与部分行程采用有争议的约定锚点。","inclusionReason":"其著作与学园深刻塑造西方、伊斯兰和基督教哲学传统。","source":"plato-stanford",
+      "events":[
+        [-428,1,"约生于雅典","通常采用前428/427年；另有其他纪年及埃伊纳岛传统",23.727,37.984],[-407,1,"约成为苏格拉底追随者","无法确认加入讨论圈的起始单年",23.727,37.984],[-399,1,"苏格拉底被处死","决定性影响柏拉图的哲学与政治思考",23.727,37.984],[-399,2,"传统称前往麦加拉","来自后出的第欧根尼记载，属传统行程",23.343,37.995],[-388,1,"第一次前往叙拉古","约前388/387年访问并结识狄翁",15.293,37.075],[-387,1,"形成雅典学园","学园为渐进形成，并非某日正式注册成立",23.709,38.001],[-367,1,"第二次叙拉古之行","试图影响狄奥尼修斯二世统治，最终失败",15.293,37.075],[-361,1,"第三次叙拉古之行","陷入政治困境后在友人协助下离开",15.293,37.075],[-347,1,"约卒于雅典","约前348/347年；传统墓址未获确认",23.709,38.001]
+      ]
+    }
+  ]
+}

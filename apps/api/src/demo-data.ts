@@ -17,9 +17,15 @@ type SeedPerson = {
 };
 
 export async function loadDemoData(): Promise<WorldData> {
-  const path = fileURLToPath(new URL("../../../data/seed/people.json", import.meta.url));
-  const payload = JSON.parse(await readFile(path, "utf8")) as { people: SeedPerson[] };
-  const people: Person[] = payload.people.map((person) => ({
+  const seedRoot = new URL("../../../data/seed/", import.meta.url);
+  const manifestPath = fileURLToPath(new URL("people-manifest.json", seedRoot));
+  const { files: seedFiles } = JSON.parse(await readFile(manifestPath, "utf8")) as { files: string[] };
+  const payloads = await Promise.all(seedFiles.map(async (file) => {
+    const path = fileURLToPath(new URL(file, seedRoot));
+    return JSON.parse(await readFile(path, "utf8")) as { people: SeedPerson[] };
+  }));
+  const seedPeople = payloads.flatMap((payload) => payload.people);
+  const people: Person[] = seedPeople.map((person) => ({
     id: person.slug,
     slug: person.slug,
     name: person.nameZh,
@@ -31,7 +37,7 @@ export async function loadDemoData(): Promise<WorldData> {
     secondaryFields: person.secondaryFields,
     summary: person.summary,
   }));
-  const personEvents: PersonEvent[] = payload.people.flatMap((person) => person.events.map((event) => ({
+  const personEvents: PersonEvent[] = seedPeople.flatMap((person) => person.events.map((event) => ({
     id: `${person.slug}:${event[0]}:${event[1]}`,
     personId: person.slug,
     year: event[0],

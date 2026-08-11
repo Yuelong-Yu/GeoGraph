@@ -1,0 +1,214 @@
+{
+  "sources": [
+    {"key":"ibn-khaldun-ucpress","title":"Ibn Khaldun: An Intellectual Biography","institution":"University of California Press","url":"https://content.ucpress.edu/chapters/13021.ch01.pdf","license":"Website and publication terms; factual citation only","notes":"Court career, travel and intellectual development; medieval locations are modern approximations."},
+    {"key":"machiavelli-stanford","title":"Niccolò Machiavelli","institution":"Stanford Encyclopedia of Philosophy","url":"https://plato.stanford.edu/entries/machiavelli/","license":"Website terms; factual citation only","notes":"Public service, diplomatic travel, exile and writing chronology."},
+    {"key":"locke-stanford","title":"John Locke","institution":"Stanford Encyclopedia of Philosophy","url":"https://plato.stanford.edu/entries/locke/","license":"Website terms; factual citation only","notes":"Education, medical work, political service, French travel and Dutch exile."},
+    {"key":"rousseau-stanford","title":"Jean-Jacques Rousseau","institution":"Stanford Encyclopedia of Philosophy","url":"https://plato.stanford.edu/entries/rousseau/","license":"Website terms; factual citation only","notes":"Travel, publications, exile and intellectual work."},
+    {"key":"wollstonecraft-stanford","title":"Mary Wollstonecraft","institution":"Stanford Encyclopedia of Philosophy","url":"https://plato.stanford.edu/entries/wollstonecraft/","license":"Website terms; factual citation only","notes":"Education work, publications, revolutionary Paris and Scandinavian journey."},
+    {"key":"keynes-kings","title":"John Maynard Keynes","institution":"King's College, Cambridge","url":"https://www.kings.cam.ac.uk/biographies","license":"Website terms; factual citation only","notes":"Education, public service, Paris Peace Conference and Bretton Woods."},
+    {"key":"archimedes-mactutor","title":"Archimedes of Syracuse","institution":"MacTutor History of Mathematics, University of St Andrews","url":"https://mathshistory.st-andrews.ac.uk/Biographies/Archimedes/","license":"Website terms; factual citation only","notes":"Ancient chronology is approximate; the lost early biography and late anecdotes require caution."},
+    {"key":"al-khwarizmi-mactutor","title":"Al-Khwarizmi","institution":"MacTutor History of Mathematics, University of St Andrews","url":"https://mathshistory.st-andrews.ac.uk/Biographies/Al-Khwarizmi/","license":"Website terms; factual citation only","notes":"Birthplace and exact dates are unknown; Baghdad is the only secure activity centre."},
+    {"key":"ibn-al-haytham-mactutor","title":"Ibn al-Haytham","institution":"MacTutor History of Mathematics, University of St Andrews","url":"https://mathshistory.st-andrews.ac.uk/Biographies/Al-Haytham/","license":"Website terms; factual citation only","notes":"Biographical traditions conflict; Nile route and most exact years are approximate."},
+    {"key":"kepler-mactutor","title":"Johannes Kepler","institution":"MacTutor History of Mathematics, University of St Andrews","url":"https://mathshistory.st-andrews.ac.uk/Biographies/Kepler/","license":"Website terms; factual citation only","notes":"Education, appointments, publications and principal locations."},
+    {"key":"faraday-royal-institution","title":"Michael Faraday (1791–1867)","institution":"Royal Institution","url":"https://www.rigb.org/explore-science/explore/person/michael-faraday-1791-1867","license":"Website terms; factual citation only","notes":"Royal Institution appointments, continental tour and research chronology."},
+    {"key":"maxwell-mactutor","title":"James Clerk Maxwell","institution":"MacTutor History of Mathematics, University of St Andrews","url":"https://mathshistory.st-andrews.ac.uk/Biographies/Maxwell/","license":"Website terms; factual citation only","notes":"Education, academic appointments and principal research locations."},
+    {"key":"pasteur-institute","title":"La vie et l’œuvre de Louis Pasteur","institution":"Institut Pasteur","url":"https://www.pasteur.fr/fr/institut-pasteur/notre-histoire/vie-oeuvre-louis-pasteur","license":"Website terms; factual citation only","notes":"Official chronology of education, appointments, experiments and institutional work."}
+  ],
+  "people": [
+    {
+      "slug":"ibn-khaldun","nameZh":"伊本·赫勒敦","nameEn":"Ibn Khaldun","aliases":["伊本·哈勒敦","Ibn Khaldūn","Abd al-Rahman ibn Khaldun"],"birthYear":1332,"deathYear":1406,"primaryField":"经济与社会思想","secondaryFields":["历史学","政治思想","社会理论","法学"],
+      "summary":"马格里布历史学家、法学家与政治实践者，以《历史绪论》系统分析国家、群体团结、经济与王朝兴衰。中世纪地点均为现代近似落点。","inclusionReason":"把社会结构和国家兴衰作为可比较的历史过程研究，是史学、社会理论与政治经济思想的重要先驱。","source":"ibn-khaldun-ucpress",
+      "events":[
+        [1332,1,"出生于突尼斯","出生于哈夫斯王朝统治下的突尼斯城。",10.1815,36.8065],
+        [1354,1,"进入非斯宫廷","约此年赴非斯，在马林王朝宫廷任职；随后卷入政治斗争并曾入狱。",-5.0003,34.0181],
+        [1363,1,"抵达格拉纳达","进入纳斯里王朝宫廷。",-3.5986,37.1773],
+        [1364,1,"出使塞维利亚","代表格拉纳达统治者与卡斯蒂利亚国王佩德罗一世交涉。",-5.9845,37.3891],
+        [1365,1,"任职贝贾亚","在贝贾亚担任高级宫廷职务；具体头衔译法不一。",5.0567,36.7515],
+        [1375,1,"隐居并撰写《历史绪论》","约1375至1378年居于伊本·萨拉马堡一带；遗址落点近似。",1.039,35.065],
+        [1378,1,"返回突尼斯","返回故乡继续整理和修订历史著作。",10.1815,36.8065],
+        [1382,1,"迁居开罗","抵达马穆鲁克统治下的开罗，随后从事教学并多次出任马立克派法官。",31.2357,30.0444],
+        [1387,1,"赴麦加朝觐","在埃及时期完成朝觐。",39.8262,21.4225],
+        [1401,1,"在大马士革会见帖木儿","围城期间与帖木儿会面；事件见其自传记录。",36.2765,33.5138],
+        [1406,1,"卒于开罗","在开罗去世。",31.2357,30.0444]
+      ]
+    },
+    {
+      "slug":"niccolo-machiavelli","nameZh":"尼科洛·马基雅维利","nameEn":"Niccolò Machiavelli","aliases":["马基雅维利","Machiavelli"],"birthYear":1469,"deathYear":1527,"primaryField":"经济与社会思想","secondaryFields":["政治思想","外交","历史学","文学"],
+      "summary":"佛罗伦萨外交官、历史学家和政治思想家，以共和国经验和权力现实分析国家治理。","inclusionReason":"其政治分析改变了后世讨论国家、权力、战争与共和制度的语言。","source":"machiavelli-stanford",
+      "events":[
+        [1469,1,"出生于佛罗伦萨","出生于佛罗伦萨。",11.2558,43.7696],
+        [1498,1,"出任共和国书记官","获任佛罗伦萨共和国第二书记官，开始密集外交工作。",11.2558,43.7696],
+        [1500,1,"出使法国宫廷","赴法国与路易十二宫廷交涉；里昂为巡回宫廷近似落点。",4.8357,45.764],
+        [1502,1,"观察切萨雷·博尔贾","在罗马涅出使期间近距离观察博尔贾的统治与军事行动。",12.2429,44.1391],
+        [1512,1,"共和国覆亡后失职","美第奇家族复辟后被解除职务。",11.2558,43.7696],
+        [1513,1,"在圣卡夏诺写作《君主论》","获释后退居圣卡夏诺附近庄园并写作《君主论》。",11.1847,43.6596],
+        [1520,1,"受托撰写佛罗伦萨史","受枢机主教朱利奥·德·美第奇委托。",11.2558,43.7696],
+        [1525,1,"在罗马呈交史稿","向已成为教宗克勉七世的委托者呈交著作。",12.4964,41.9028],
+        [1527,1,"卒于佛罗伦萨","在佛罗伦萨去世。",11.2558,43.7696]
+      ]
+    },
+    {
+      "slug":"john-locke","nameZh":"约翰·洛克","nameEn":"John Locke","aliases":["洛克","Locke"],"birthYear":1632,"deathYear":1704,"primaryField":"思想与教育","secondaryFields":["政治思想","认识论","医学","宗教宽容"],
+      "summary":"英国哲学家、医学研究者与政治思想家，以经验主义、自然权利、宗教宽容和有限政府理论著称。","inclusionReason":"其权利、同意与政府合法性理论深刻影响现代自由主义和宪政。","source":"locke-stanford",
+      "events":[
+        [1632,1,"出生于灵顿","出生于英格兰萨默塞特郡灵顿。",-2.7641,51.3614],
+        [1647,1,"进入威斯敏斯特学校","赴伦敦接受教育。",-0.1276,51.5074],
+        [1652,1,"进入牛津大学","进入牛津大学基督堂学院，后来参与医学与实验研究。",-1.2544,51.752],
+        [1667,1,"进入沙夫茨伯里圈子","迁居伦敦并担任阿什利勋爵的医生、顾问和行政助手。",-0.1276,51.5074],
+        [1675,1,"旅居蒙彼利埃","赴法国并在蒙彼利埃约居住十五个月，研究医学和法国宗教状况。",3.8767,43.611],
+        [1683,1,"流亡荷兰","因英国政治风险赴荷兰流亡；阿姆斯特丹为近似锚点，实际居所曾变动。",4.9041,52.3676],
+        [1689,1,"返回伦敦并出版主要著作","光荣革命后返英，《论宽容》及《人类理解论》等相继出版。",-0.1276,51.5074],
+        [1691,1,"迁居奥茨庄园","晚年居于埃塞克斯郡奥茨庄园；坐标为High Laver地区近似点。",0.208,51.753],
+        [1704,1,"卒于奥茨","在奥茨庄园去世。",0.208,51.753]
+      ]
+    },
+    {
+      "slug":"jean-jacques-rousseau","nameZh":"让-雅克·卢梭","nameEn":"Jean-Jacques Rousseau","aliases":["卢梭","Jean Jacques Rousseau"],"birthYear":1712,"deathYear":1778,"primaryField":"思想与教育","secondaryFields":["政治思想","教育","文学","音乐"],
+      "summary":"日内瓦出生的哲学家和作家，以人民主权、一般意志、教育与文明批判深刻影响现代政治。","inclusionReason":"其著作影响法国革命、民主思想、民族主义、教育理论和浪漫主义。","source":"rousseau-stanford",
+      "events":[
+        [1712,1,"出生于日内瓦","出生于独立的加尔文宗日内瓦城邦。",6.1432,46.2044],
+        [1728,1,"赴都灵并改宗","离开日内瓦后赴都灵，并在此改宗天主教。",7.6869,45.0703],
+        [1731,1,"回到尚贝里","回到华伦夫人身边，随后在此生活多年。",5.9197,45.5646],
+        [1740,1,"在里昂任家庭教师","赴里昂任家庭教师，并接触启蒙思想圈。",4.8357,45.764],
+        [1742,1,"向巴黎科学院提交乐谱方案","向科学院提出数字记谱体系，未获采用。",2.3522,48.8566],
+        [1743,1,"任职威尼斯使馆","短期担任法国驻威尼斯大使秘书。",12.3155,45.4408],
+        [1762,1,"《社会契约论》和《爱弥儿》出版","两部著作出版后在巴黎与日内瓦遭禁，他被迫逃离。",2.3522,48.8566],
+        [1762,2,"避居莫捷","在普鲁士治下的纳沙泰尔地区避居；当年迁移顺序为近似锚点。",6.611,46.911],
+        [1766,1,"赴英格兰避难","应大卫·休谟邀请赴英，并居于斯塔福德郡伍顿一带。",-1.847,53.027],
+        [1767,1,"返回法国","返回法国，后来主要从事自传性写作；落点取巴黎。",2.3522,48.8566],
+        [1778,1,"卒于埃默农维尔","在埃默农维尔去世。",2.6985,49.1267]
+      ]
+    },
+    {
+      "slug":"mary-wollstonecraft","nameZh":"玛丽·沃斯通克拉夫特","nameEn":"Mary Wollstonecraft","aliases":["沃斯通克拉夫特","Mary Wollstonecraft Godwin"],"birthYear":1759,"deathYear":1797,"primaryField":"思想与教育","secondaryFields":["女性权利","政治思想","教育","文学"],
+      "summary":"英国作家和政治哲学家，以《女权辩护》主张女性的理性能力、教育权与公民地位。","inclusionReason":"她为现代女性权利与平等教育思想建立了持续影响的论证框架。","source":"wollstonecraft-stanford",
+      "events":[
+        [1759,1,"出生于伦敦斯皮特尔菲尔兹","出生于伦敦普里姆罗斯街。",-0.075,51.52],
+        [1784,1,"在纽因顿格林创办学校","与友人和姐妹创办女子学校，并接触非国教激进思想圈。",-0.086,51.552],
+        [1785,1,"赴里斯本照料友人","赴葡萄牙照料临产且重病的友人范妮·布拉德。",-9.1393,38.7223],
+        [1787,1,"在伦敦开始职业写作","为出版商约瑟夫·约翰逊写作、翻译与评论。",-0.1276,51.5074],
+        [1792,1,"出版《女权辩护》","在伦敦出版其最具影响力的著作。",-0.1276,51.5074],
+        [1792,2,"迁居革命时期的巴黎","年底抵达巴黎，亲历法国革命的激进阶段。",2.3522,48.8566],
+        [1795,1,"前往斯堪的纳维亚","为商业事务与写作前往瑞典、挪威和丹麦；哥德堡为代表落点。",11.9746,57.7089],
+        [1796,1,"返回伦敦","结束旅行并恢复伦敦的写作与思想交往。",-0.1276,51.5074],
+        [1797,1,"卒于伦敦","生下玛丽·雪莱后因产褥感染去世。",-0.1276,51.5074]
+      ]
+    },
+    {
+      "slug":"john-maynard-keynes","nameZh":"约翰·梅纳德·凯恩斯","nameEn":"John Maynard Keynes","aliases":["凯恩斯","J. M. Keynes","Baron Keynes"],"birthYear":1883,"deathYear":1946,"primaryField":"经济与社会思想","secondaryFields":["宏观经济学","公共政策","国际金融","政府治理"],
+      "summary":"英国经济学家与公共官员，以总需求理论重塑现代宏观经济学，并参与构建布雷顿森林国际经济体系。","inclusionReason":"其思想改变各国应对萧条、就业和财政政策的方式，其外交工作影响战后国际金融制度。","source":"keynes-kings",
+      "events":[
+        [1883,1,"出生于剑桥","出生于剑桥哈维路。",0.1218,52.2053],
+        [1897,1,"进入伊顿公学","在伊顿接受中学教育。",-0.609,51.492],
+        [1902,1,"进入剑桥国王学院","以奖学金生身份进入国王学院。",0.116,52.2043],
+        [1906,1,"进入印度事务部","在伦敦任职英国印度事务部。",-0.1276,51.5074],
+        [1915,1,"进入英国财政部","第一次世界大战期间进入财政部处理国际金融。",-0.1276,51.5074],
+        [1919,1,"退出巴黎和会","因反对赔款安排退出英国代表团，随后写成《和平的经济后果》。",2.3522,48.8566],
+        [1936,1,"出版《就业、利息和货币通论》","在英国出版奠定凯恩斯主义宏观经济学的著作；落点取剑桥。",0.1218,52.2053],
+        [1941,1,"赴华盛顿谈判战时财政","参与英美租借与战后金融安排谈判。",-77.0369,38.9072],
+        [1944,1,"参加布雷顿森林会议","作为英国代表团核心人物参与国际货币基金组织与世界银行体系设计。",-71.682,44.2581],
+        [1946,1,"卒于蒂尔顿","在英格兰苏塞克斯郡蒂尔顿庄园去世；坐标取Firle附近。",0.087,50.846]
+      ]
+    },
+    {
+      "slug":"archimedes","nameZh":"阿基米德","nameEn":"Archimedes","aliases":["锡拉库萨的阿基米德","Archimedes of Syracuse"],"birthYear":-287,"deathYear":-212,"primaryField":"科学","secondaryFields":["数学","力学","工程","天文学"],
+      "summary":"古希腊数学家与工程师，在几何、静力学、流体力学和机械设计方面留下奠基性成果。生卒年和大部分生平节点仅为约年。","inclusionReason":"其严格数学方法和物理原理成为古典科学的重要高峰，并持续影响近代数学与工程。","source":"archimedes-mactutor",
+      "events":[
+        [-287,1,"约出生于锡拉库萨","传统约年；确切出生年份不详。",15.293,37.0755],
+        [-270,1,"可能在亚历山大里亚学习","后世传记据其与当地数学家的联系推定曾学习于此，不能确证。",29.9187,31.2001],
+        [-260,1,"返回锡拉库萨从事研究","约年锚点；其大部分已知工作与锡拉库萨相连。",15.293,37.0755],
+        [-250,1,"形成杠杆与浮体研究","仅作为成熟期研究的约年，不把后世“尤里卡”故事当作精确史实。",15.293,37.0755],
+        [-240,1,"向亚历山大里亚同行寄送定理","著作序言显示与当地数学家通信；年份仅为顺序锚点。",29.9187,31.2001],
+        [-214,1,"参与锡拉库萨防御","罗马围城期间，其机械装置参与城防；具体装置叙述含后世夸张。",15.293,37.0755],
+        [-212,1,"罗马攻陷锡拉库萨时去世","罗马军队攻陷城市时被杀；死亡情节有多个古代版本。",15.293,37.0755]
+      ]
+    },
+    {
+      "slug":"al-khwarizmi","nameZh":"花拉子米","nameEn":"al-Khwarizmi","aliases":["穆罕默德·伊本·穆萨·花拉子米","Muḥammad ibn Mūsā al-Khwārizmī","Algoritmi"],"birthYear":780,"deathYear":850,"primaryField":"科学","secondaryFields":["数学","天文学","地理学","计算方法"],
+      "summary":"阿拔斯时代数学家、天文学家与地理学家，其代数学著作及印度—阿拉伯数字传播使“代数”和“算法”进入全球知识语言。生地和精确生卒年不详。","inclusionReason":"其系统计算方法是现代数学教育、科学计算和数字技术的深层基础。","source":"al-khwarizmi-mactutor",
+      "events":[
+        [780,1,"约出生，地点不明","以巴格达作保守显示锚点；花剌子模出生说不能确证。",44.3661,33.3152],
+        [813,1,"约进入巴格达学术环境","马蒙取得哈里发位后赞助学术；花拉子米具体入职年份不详。",44.3661,33.3152],
+        [820,1,"约撰写代数学著作","约在820年前后撰成关于还原与对消计算的著作；精确年份不详。",44.3661,33.3152],
+        [825,1,"整理天文表","约年锚点；在巴格达从事天文学和数学工作。",44.3661,33.3152],
+        [833,1,"完成地理著作","约在马蒙晚期编制地名坐标并修订托勒密地理资料；年份近似。",44.3661,33.3152],
+        [850,1,"约卒，地点不明","沿用巴格达为最后已知活动地，不声称卒于此地。",44.3661,33.3152]
+      ]
+    },
+    {
+      "slug":"ibn-al-haytham","nameZh":"伊本·海赛姆","nameEn":"Ibn al-Haytham","aliases":["伊本·海什木","Abū Alī al-Hasan ibn al-Haytham","Alhazen"],"birthYear":965,"deathYear":1040,"primaryField":"科学","secondaryFields":["光学","数学","天文学","实验方法"],
+      "summary":"阿拉伯语学术传统中的数学家与光学家，以视觉、反射、折射和实验论证研究重塑光学。传记传统彼此矛盾，生卒年为约年。","inclusionReason":"其《光学书》把数学分析、物理模型与有控制的观察结合起来，深刻影响伊斯兰世界和欧洲科学。","source":"ibn-al-haytham-mactutor",
+      "events":[
+        [965,1,"约出生于巴士拉","通常认为出生于巴士拉，但来源使用“可能”。",47.7804,30.5085],
+        [990,1,"在巴士拉任职后转向科学","约年锚点；传记称曾任地方行政职务，随后专注数学与自然研究。",47.7804,30.5085],
+        [1000,1,"约赴埃及","因提出调节尼罗河的设想而受法蒂玛哈里发召请；具体年份不详。",31.2357,30.0444],
+        [1001,1,"考察尼罗河上游","传统称考察后认为工程不可行；阿斯旺为近似落点，路线和年份均不确定。",32.8998,24.0889],
+        [1011,1,"在开罗研究光学","约年锚点；在受限制生活期间及其前后撰写光学研究。",31.2357,30.0444],
+        [1027,1,"撰写知识自述","现存自述写于此年，主要说明学术发展而非详细生平。",31.2357,30.0444],
+        [1040,1,"约卒于开罗","常见纪年为约1040，也有1039说。",31.2357,30.0444]
+      ]
+    },
+    {
+      "slug":"johannes-kepler","nameZh":"约翰内斯·开普勒","nameEn":"Johannes Kepler","aliases":["开普勒","Kepler"],"birthYear":1571,"deathYear":1630,"primaryField":"科学","secondaryFields":["天文学","数学","光学","物理学"],
+      "summary":"德国天文学家和数学家，通过行星运动定律确立椭圆轨道和定量天体物理关系。","inclusionReason":"他把哥白尼日心体系转化为高精度数学定律，为牛顿力学提供关键基础。","source":"kepler-mactutor",
+      "events":[
+        [1571,1,"出生于魏尔德施塔特","出生于施瓦本的魏尔德施塔特。",8.8712,48.7504],
+        [1589,1,"进入图宾根大学","学习神学、数学与哥白尼天文学。",9.0576,48.5216],
+        [1594,1,"赴格拉茨任教","在格拉茨任数学教师与历书编制者。",15.4395,47.0707],
+        [1600,1,"赴布拉格与第谷合作","因宗教压力离开格拉茨，加入第谷·布拉赫的观测研究。",14.4378,50.0755],
+        [1609,1,"在布拉格出版《新天文学》","提出前两条行星运动定律。",14.4378,50.0755],
+        [1612,1,"迁居林茨","离开布拉格后在林茨担任地区数学家。",14.2858,48.3069],
+        [1619,1,"出版《世界的和谐》","在林茨时期发表第三条行星运动定律。",14.2858,48.3069],
+        [1627,1,"在乌尔姆刊印《鲁道夫星表》","以第谷观测和自身理论完成高精度星表。",9.9937,48.4011],
+        [1630,1,"卒于雷根斯堡","旅途中在雷根斯堡去世。",12.0956,49.0134]
+      ]
+    },
+    {
+      "slug":"michael-faraday","nameZh":"迈克尔·法拉第","nameEn":"Michael Faraday","aliases":["法拉第","Faraday"],"birthYear":1791,"deathYear":1867,"primaryField":"科学","secondaryFields":["物理学","化学","电气工程","科学传播"],
+      "summary":"英国实验科学家，以电磁旋转、电磁感应、电化学及场概念奠定现代电气技术的重要实验基础。","inclusionReason":"电动机、发电机与电磁场理论的实践和概念基础都直接受益于其研究。","source":"faraday-royal-institution",
+      "events":[
+        [1791,1,"出生于纽因顿巴茨","出生地约在今天伦敦象堡一带。",-0.1016,51.4943],
+        [1805,1,"开始装订学徒生涯","在伦敦成为装订工学徒，并通过所读书籍自学科学。",-0.1276,51.5074],
+        [1813,1,"受聘皇家研究院","汉弗里·戴维聘其为实验室助手。",-0.143,51.5094],
+        [1814,1,"随戴维访问欧洲","随戴维进行欧洲科学旅行；巴黎为跨多国行程的代表节点。",2.3522,48.8566],
+        [1821,1,"实现电磁旋转","在皇家研究院完成早期电动机原理装置。",-0.143,51.5094],
+        [1825,1,"分离苯并任实验室主任","在皇家研究院分离苯，并于同年出任实验室主任。",-0.143,51.5094],
+        [1831,1,"发现电磁感应","用环形线圈等实验展示变化磁场能够产生电流。",-0.143,51.5094],
+        [1845,1,"发现磁光效应","证明磁场可影响偏振光，并进一步发展场概念。",-0.143,51.5094],
+        [1867,1,"卒于汉普顿宫附近","在汉普顿宫恩赐住宅去世。",-0.3377,51.4036]
+      ]
+    },
+    {
+      "slug":"james-clerk-maxwell","nameZh":"詹姆斯·克拉克·麦克斯韦","nameEn":"James Clerk Maxwell","aliases":["麦克斯韦","James Clerk-Maxwell"],"birthYear":1831,"deathYear":1879,"primaryField":"科学","secondaryFields":["物理学","数学","光学","热力学"],
+      "summary":"苏格兰数学物理学家，以方程体系统一电、磁与光，并在气体动理论、色彩和统计物理方面作出基础贡献。","inclusionReason":"麦克斯韦理论是现代电磁技术、相对论和场论的直接基础之一。","source":"maxwell-mactutor",
+      "events":[
+        [1831,1,"出生于爱丁堡","出生于爱丁堡印度街14号。",-3.1883,55.9533],
+        [1834,1,"童年迁居格伦莱尔","幼年随家庭迁往苏格兰乡间格伦莱尔庄园；年份近似。",-4.064,54.999],
+        [1847,1,"进入爱丁堡大学","学习自然哲学、数学、化学等。",-3.1883,55.9533],
+        [1850,1,"赴剑桥学习","先入彼得学院，后转入三一学院。",0.1218,52.2053],
+        [1856,1,"任教阿伯丁","出任马歇尔学院自然哲学教授，并研究土星环稳定性。",-2.0943,57.1497],
+        [1860,1,"任教伦敦国王学院","在伦敦发展电磁场理论，并论证光为电磁现象。",-0.116,51.5115],
+        [1865,1,"回到格伦莱尔完成理论著作","离开伦敦后整理电磁理论，后来形成《电磁通论》。",-4.064,54.999],
+        [1871,1,"任首任卡文迪许教授","返回剑桥，筹建并领导卡文迪许实验室。",0.1218,52.2053],
+        [1879,1,"卒于剑桥","在剑桥去世。",0.1218,52.2053]
+      ]
+    },
+    {
+      "slug":"louis-pasteur","nameZh":"路易·巴斯德","nameEn":"Louis Pasteur","aliases":["巴斯德","Pasteur"],"birthYear":1822,"deathYear":1895,"primaryField":"医学","secondaryFields":["微生物学","化学","疫苗","公共卫生"],
+      "summary":"法国化学家与微生物学先驱，以发酵、病菌理论、巴氏消毒法和疫苗研究改变医学、食品安全与公共卫生。","inclusionReason":"其研究把微生物与疾病、发酵和腐败联系起来，并推动实验医学与疫苗制度的发展。","source":"pasteur-institute",
+      "events":[
+        [1822,1,"出生于多勒","出生于法国汝拉省多勒。",5.4897,47.092],
+        [1827,1,"随家迁居阿尔布瓦","童年迁居阿尔布瓦；年份依巴斯德研究所时间线。",5.7745,46.903],
+        [1843,1,"进入巴黎高等师范学校","在巴黎接受化学与物理训练。",2.344,48.8419],
+        [1848,1,"赴斯特拉斯堡任教","获任斯特拉斯堡科学院教师。",7.7521,48.5734],
+        [1854,1,"出任里尔理学院院长","在里尔把发酵研究与当地工业问题结合。",3.0573,50.6292],
+        [1857,1,"返回巴黎建立实验室","在巴黎高等师范学校阁楼建立实验室，继续研究发酵和微生物。",2.344,48.8419],
+        [1865,1,"赴阿莱研究蚕病","受命调查危害法国养蚕业的疾病；研究持续多年。",4.081,44.124],
+        [1881,1,"普伊勒福尔炭疽疫苗试验","通过公开动物试验展示减毒疫苗效果；实验准备细节仍有讨论。",2.605,48.54],
+        [1885,1,"首次著名狂犬病接种","在巴黎为约瑟夫·迈斯特接种狂犬病疫苗；方法和伦理需按历史语境理解。",2.3522,48.8566],
+        [1888,1,"巴斯德研究所落成","由国际募款建立的研究所在巴黎启用。",2.3117,48.8408],
+        [1895,1,"卒于马尔讷拉科凯特","在维勒讷夫莱唐庄园去世。",2.177,48.83]
+      ]
+    }
+  ]
+}

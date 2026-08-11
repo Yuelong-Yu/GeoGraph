@@ -22,9 +22,18 @@ def stable_id(kind: str, key: str) -> uuid.UUID:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--database-url", default=os.getenv("DATABASE_URL", "postgres://geograph:geograph@localhost:5432/geograph"))
-    parser.add_argument("--input", type=Path, default=Path(__file__).parents[2] / "data/seed/people.json")
+    parser.add_argument("--input", type=Path, default=Path(__file__).parents[2] / "data/seed/people-manifest.json")
     args = parser.parse_args()
-    payload = json.loads(args.input.read_text(encoding="utf-8"))
+    manifest = json.loads(args.input.read_text(encoding="utf-8"))
+    payloads = (
+        [json.loads((args.input.parent / filename).read_text(encoding="utf-8")) for filename in manifest["files"]]
+        if "files" in manifest
+        else [manifest]
+    )
+    payload = {
+        "sources": [source for part in payloads for source in part["sources"]],
+        "people": [person for part in payloads for person in part["people"]],
+    }
     source_ids: dict[str, uuid.UUID] = {}
 
     with psycopg.connect(args.database_url) as connection:
@@ -39,7 +48,7 @@ def main() -> None:
                     ON CONFLICT (id) DO UPDATE SET title=excluded.title, author_or_institution=excluded.author_or_institution,
                       url=excluded.url, license=excluded.license, accessed_on=excluded.accessed_on, notes=excluded.notes
                     """,
-                    (source_id, source["title"], source["institution"], source["url"], source["license"], date(2026, 8, 10), source["notes"]),
+                    (source_id, source["title"], source["institution"], source["url"], source["license"], date(2026, 8, 11), source["notes"]),
                 )
 
             for person in payload["people"]:
@@ -61,7 +70,7 @@ def main() -> None:
                      person["inclusionReason"], f"/characters/{person['slug']}.png", source_id),
                 )
                 for event in person["events"]:
-                    year, order, title, kind, longitude, latitude = event
+                    year, order, title, description, longitude, latitude = event
                     event_id = stable_id("person-event", f"{person['slug']}:{year}:{order}")
                     cursor.execute(
                         """
@@ -72,7 +81,7 @@ def main() -> None:
                           kind=excluded.kind, title=excluded.title, description=excluded.description,
                           longitude=excluded.longitude, latitude=excluded.latitude, source_id=excluded.source_id
                         """,
-                        (event_id, person_id, year, order, kind, title, kind, longitude, latitude, source_id),
+                        (event_id, person_id, year, order, "biographical", title, description, longitude, latitude, source_id),
                     )
         connection.commit()
     print(f"Seeded {len(payload['people'])} people.")

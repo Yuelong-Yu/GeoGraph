@@ -27,26 +27,26 @@ const coronation: PersonEvent = {
   latitude: 48.857,
 };
 
-const darwin: Person = {
-  id: "charles-darwin",
-  slug: "charles-darwin",
-  name: "查尔斯·达尔文",
-  nameEn: "Charles Darwin",
-  birthYear: 1809,
-  deathYear: 1882,
+const shannon: Person = {
+  id: "claude-shannon",
+  slug: "claude-shannon",
+  name: "克劳德·香农",
+  nameEn: "Claude Shannon",
+  birthYear: 1916,
+  deathYear: 2001,
   primaryField: "科学",
   secondaryFields: [],
 };
 
-const originPublication: PersonEvent = {
-  id: "charles-darwin:1859:1",
-  personId: darwin.id,
-  year: 1859,
+const informationTheoryPublication: PersonEvent = {
+  id: "claude-shannon:1948:1",
+  personId: shannon.id,
+  year: 1948,
   order: 1,
-  title: "《物种起源》出版",
-  description: "出版地点锚点，不代表迁居",
-  longitude: -0.128,
-  latitude: 51.507,
+  title: "发表信息论奠基论文",
+  description: "在贝尔系统技术期刊发表《通信的数学理论》。",
+  longitude: -74.411,
+  latitude: 40.684,
 };
 
 function LanguageProbe() {
@@ -67,7 +67,7 @@ function LanguageProbe() {
 
 function AddedPersonProbe() {
   const { eventText, personField, personName, personSummary } = useI18n();
-  return <p>{personName(darwin)}|{personField(darwin)}|{personSummary(darwin)}|{eventText(darwin, originPublication).title}</p>;
+  return <p>{personName(shannon)}|{personField(shannon)}|{personSummary(shannon)}|{eventText(shannon, informationTheoryPublication).title}</p>;
 }
 
 describe("i18n", () => {
@@ -85,6 +85,6 @@ describe("i18n", () => {
   it("ships English copy for people in the expanded historical set", () => {
     render(<I18nProvider><AddedPersonProbe /></I18nProvider>);
 
-    expect(screen.getByText(/Charles Darwin\|Science\|A British naturalist/).textContent).toContain("On the Origin of Species was published");
+    expect(screen.getByText(/Claude Shannon\|Science\|An American mathematician and engineer/).textContent).toContain("Published the foundational information-theory paper");
   });
 });

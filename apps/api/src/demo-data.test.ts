@@ -24,15 +24,28 @@ const addedPeople = [
   "alan-turing",
 ] as const;
 
+const secondExpansion = [
+  "cyrus-the-great", "ashoka", "julius-caesar", "augustus", "constantine-i",
+  "suleiman-the-magnificent", "george-washington", "simon-bolivar", "abraham-lincoln",
+  "franklin-d-roosevelt", "vladimir-lenin", "adolf-hitler", "mao-zedong", "plato",
+  "ibn-khaldun", "niccolo-machiavelli", "john-locke", "jean-jacques-rousseau",
+  "mary-wollstonecraft", "john-maynard-keynes", "archimedes", "al-khwarizmi",
+  "ibn-al-haytham", "johannes-kepler", "michael-faraday", "james-clerk-maxwell",
+  "louis-pasteur", "gregor-mendel", "florence-nightingale", "alexander-fleming",
+  "claude-shannon", "cai-lun", "ada-lovelace", "thomas-edison", "tim-berners-lee",
+  "zheng-he", "william-shakespeare", "martin-luther-king-jr", "nelson-mandela",
+  "rachel-carson",
+] as const;
+
 describe("reviewed people seed", () => {
-  it("loads all 26 people and the 20-person expansion", async () => {
+  it("loads all 66 people and both reviewed expansions", async () => {
     const data = await loadDemoData();
     const slugs = data.people.map((person) => person.slug);
 
-    expect(data.people).toHaveLength(26);
-    expect(new Set(slugs).size).toBe(26);
-    expect(slugs).toEqual(expect.arrayContaining(addedPeople));
-    expect(data.personEvents).toHaveLength(242);
+    expect(data.people).toHaveLength(66);
+    expect(new Set(slugs).size).toBe(66);
+    expect(slugs).toEqual(expect.arrayContaining([...addedPeople, ...secondExpansion]));
+    expect(data.personEvents).toHaveLength(619);
   });
 
   it("gives every person a valid, ordered route beginning at the birth year", async () => {
