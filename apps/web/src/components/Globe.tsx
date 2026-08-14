@@ -119,7 +119,7 @@ export function Globe({
       timeline: false,
       terrainProvider: new EllipsoidTerrainProvider(),
     });
-    viewer.scene.globe.baseColor = Color.fromCssColorString("#17242b");
+    viewer.scene.globe.baseColor = Color.fromCssColorString("#082a43");
     if (viewer.scene.sun) viewer.scene.sun.show = false;
     if (viewer.scene.moon) viewer.scene.moon.show = false;
     viewer.scene.backgroundColor = Color.fromCssColorString("#03080d");
@@ -132,10 +132,10 @@ export function Globe({
     void TileMapServiceImageryProvider.fromUrl("/cesium/Assets/Textures/NaturalEarthII").then((provider) => {
       if (viewer.isDestroyed()) return;
       const layer = viewer.imageryLayers.addImageryProvider(provider);
-      layer.brightness = 0.58;
-      layer.contrast = 1.18;
-      layer.saturation = 0.32;
-      layer.gamma = 0.92;
+      layer.brightness = 0.78;
+      layer.contrast = 1.34;
+      layer.saturation = 0.72;
+      layer.gamma = 0.9;
     });
     viewerRef.current = viewer;
 
@@ -255,7 +255,7 @@ export function Globe({
     if (measurementContext) measurementContext.font = "600 12px system-ui";
 
     for (const territory of world.territories) {
-      const alpha = territory.controlType === "actual" ? 0.72 : territory.controlType === "claim" ? 0.28 : 0.46;
+      const alpha = territory.controlType === "actual" ? 0.62 : territory.controlType === "claim" ? 0.22 : 0.38;
       for (const ringSet of polygonsFromGeometry(territory.geometry)) {
         const outer = ringSet[0];
         if (!outer || outer.length < 3) continue;
