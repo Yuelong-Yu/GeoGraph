@@ -23,6 +23,12 @@ test("opens a shared historical person view and advances without closing details
   await page.getByRole("button", { name: "Hide territory names" }).click();
   await expect(page.getByRole("button", { name: "Show territory names" })).toHaveAttribute("aria-pressed", "false");
 
+  await expect(page.getByRole("button", { name: "Fixed axis" })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Fixed axis" }).click();
+  await expect(page.getByRole("button", { name: "Free rotation" })).toHaveAttribute("aria-pressed", "false");
+  await page.getByRole("button", { name: "Free rotation" }).click();
+  await expect(page.getByRole("button", { name: "Fixed axis" })).toHaveAttribute("aria-pressed", "true");
+
   const fieldFilter = page.getByRole("button", { name: "Filter people by field" });
   await fieldFilter.click();
   await expect(page.getByRole("heading", { name: "People fields" })).toBeVisible();

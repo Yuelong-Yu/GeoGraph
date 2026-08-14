@@ -25,6 +25,7 @@ import {
 } from "cesium";
 import { useEffect, useRef, useState } from "react";
 import { shouldAutoFollowCamera, type ManualCameraInputState } from "../camera-follow.js";
+import { fixedAxisCameraView } from "../fixed-axis-camera.js";
 import { filterPeopleByPrimaryFields } from "../person-fields.js";
 import { personPortraitUrl } from "../person-portrait.js";
 import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
@@ -67,6 +68,17 @@ function animatedPosition(
   }, false);
 }
 
+const FIXED_AXIS_DEFAULT_LONGITUDE = 35;
+const FIXED_AXIS_DEFAULT_HEIGHT = 16_800_000;
+
+function setFixedAxisCamera(viewer: Viewer, longitude: number, height: number) {
+  const view = fixedAxisCameraView(longitude, Math.max(400_000, height));
+  viewer.camera.setView({
+    destination: view.position,
+    orientation: { direction: view.direction, up: view.up },
+  });
+}
+
 export function Globe({
   world, selectedEntitySlug, selectedPerson, animateTransitions, frameDurationMs, onSelectEntity, onSelectPerson,
   followSelectedPerson, cameraTarget, selectedPersonFields,
@@ -81,7 +93,12 @@ export function Globe({
     lastInputAt: Number.NEGATIVE_INFINITY,
   });
   const [hover, setHover] = useState<{ x: number; y: number; label: string } | null>(null);
+  const [fixedAxisRotation, setFixedAxisRotation] = useState(true);
   const [showTerritoryNames, setShowTerritoryNames] = useState(true);
+  const fixedAxisRotationRef = useRef(fixedAxisRotation);
+  const fixedAxisLongitudeRef = useRef(FIXED_AXIS_DEFAULT_LONGITUDE);
+  const fixedAxisDragRef = useRef({ active: false, lastX: 0, moved: false });
+  fixedAxisRotationRef.current = fixedAxisRotation;
   const selectionHandlers = useRef({ onSelectEntity, onSelectPerson });
   selectionHandlers.current = { onSelectEntity, onSelectPerson };
 
@@ -124,6 +141,10 @@ export function Globe({
 
     const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
     handler.setInputAction((movement: { position: Cartesian2 }) => {
+      if (fixedAxisRotationRef.current && fixedAxisDragRef.current.moved) {
+        fixedAxisDragRef.current.moved = false;
+        return;
+      }
       const picked = viewer.scene.pick(movement.position) as { id?: Entity } | undefined;
       if (!defined(picked?.id)) return;
       const properties = picked.id.properties;
@@ -141,6 +162,20 @@ export function Globe({
       if (kind === "person") selectionHandlers.current.onSelectPerson(slug);
     }, ScreenSpaceEventType.LEFT_CLICK);
     handler.setInputAction((movement: { endPosition: Cartesian2 }) => {
+      const drag = fixedAxisDragRef.current;
+      if (fixedAxisRotationRef.current && drag.active) {
+        const deltaX = movement.endPosition.x - drag.lastX;
+        if (deltaX !== 0) {
+          drag.lastX = movement.endPosition.x;
+          drag.moved = true;
+          fixedAxisLongitudeRef.current -= deltaX * 0.32;
+          setFixedAxisCamera(
+            viewer,
+            fixedAxisLongitudeRef.current,
+            Cartographic.fromCartesian(viewer.camera.position).height,
+          );
+        }
+      }
       const picked = viewer.scene.pick(movement.endPosition) as { id?: Entity } | undefined;
       const properties = picked?.id?.properties;
       const label = properties?.label?.getValue() as string | undefined;
@@ -157,16 +192,21 @@ export function Globe({
       viewer.camera.cancelFlight();
       manualCameraInputRef.current = { active: false, lastInputAt: performance.now() };
     };
-    for (const eventType of [
-      ScreenSpaceEventType.LEFT_DOWN,
-      ScreenSpaceEventType.RIGHT_DOWN,
-      ScreenSpaceEventType.MIDDLE_DOWN,
-    ]) handler.setInputAction(beginManualCameraInput, eventType);
-    for (const eventType of [
-      ScreenSpaceEventType.LEFT_UP,
-      ScreenSpaceEventType.RIGHT_UP,
-      ScreenSpaceEventType.MIDDLE_UP,
-    ]) handler.setInputAction(endManualCameraInput, eventType);
+    handler.setInputAction((movement: { position: Cartesian2 }) => {
+      beginManualCameraInput();
+      if (!fixedAxisRotationRef.current) return;
+      fixedAxisDragRef.current = { active: true, lastX: movement.position.x, moved: false };
+    }, ScreenSpaceEventType.LEFT_DOWN);
+    for (const eventType of [ScreenSpaceEventType.RIGHT_DOWN, ScreenSpaceEventType.MIDDLE_DOWN]) {
+      handler.setInputAction(beginManualCameraInput, eventType);
+    }
+    handler.setInputAction(() => {
+      endManualCameraInput();
+      fixedAxisDragRef.current.active = false;
+    }, ScreenSpaceEventType.LEFT_UP);
+    for (const eventType of [ScreenSpaceEventType.RIGHT_UP, ScreenSpaceEventType.MIDDLE_UP]) {
+      handler.setInputAction(endManualCameraInput, eventType);
+    }
     handler.setInputAction(noteManualCameraInput, ScreenSpaceEventType.WHEEL);
     return () => {
       handler.destroy();
@@ -174,6 +214,20 @@ export function Globe({
       viewerRef.current = null;
     };
   }, []);
+
+  useEffect(() => {
+    const viewer = viewerRef.current;
+    if (!viewer) return;
+    const controller = viewer.scene.screenSpaceCameraController;
+    controller.enableRotate = !fixedAxisRotation;
+    controller.enableTilt = !fixedAxisRotation;
+    controller.enableLook = !fixedAxisRotation;
+    controller.enableTranslate = !fixedAxisRotation;
+    if (!fixedAxisRotation) return;
+    const position = Cartographic.fromCartesian(viewer.camera.position);
+    fixedAxisLongitudeRef.current = CesiumMath.toDegrees(position.longitude);
+    setFixedAxisCamera(viewer, fixedAxisLongitudeRef.current, position.height);
+  }, [fixedAxisRotation]);
 
   useEffect(() => {
     const viewer = viewerRef.current;
@@ -370,9 +424,26 @@ export function Globe({
       <button
         type="button"
         className="reset-view"
-        onClick={() => viewerRef.current?.camera.flyTo({ destination: Cartesian3.fromDegrees(35, 24, 16_800_000), duration: 0.8 })}
+        onClick={() => {
+          const viewer = viewerRef.current;
+          if (!viewer) return;
+          if (fixedAxisRotation) {
+            fixedAxisLongitudeRef.current = FIXED_AXIS_DEFAULT_LONGITUDE;
+            setFixedAxisCamera(viewer, FIXED_AXIS_DEFAULT_LONGITUDE, FIXED_AXIS_DEFAULT_HEIGHT);
+            return;
+          }
+          viewer.camera.flyTo({ destination: Cartesian3.fromDegrees(35, 24, FIXED_AXIS_DEFAULT_HEIGHT), duration: 0.8 });
+        }}
       >
         {t("globalView")}
+      </button>
+      <button
+        type="button"
+        className="fixed-axis-toggle"
+        aria-pressed={fixedAxisRotation}
+        onClick={() => setFixedAxisRotation((fixed) => !fixed)}
+      >
+        {fixedAxisRotation ? t("fixedAxisRotation") : t("freeRotation")}
       </button>
       <button
         type="button"
