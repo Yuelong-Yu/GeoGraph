@@ -80,7 +80,7 @@ export function Globe({
     lastInputAt: Number.NEGATIVE_INFINITY,
   });
   const [hover, setHover] = useState<{ x: number; y: number; label: string } | null>(null);
-  const [showTerritoryNames, setShowTerritoryNames] = useState(false);
+  const [showTerritoryNames, setShowTerritoryNames] = useState(true);
   const selectionHandlers = useRef({ onSelectEntity, onSelectPerson });
   selectionHandlers.current = { onSelectEntity, onSelectPerson };
 
