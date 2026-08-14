@@ -29,7 +29,7 @@ export default function App() {
   const [world, setWorld] = useState<WorldResponse | null>(null);
   const [loadedYear, setLoadedYear] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"entity" | "person">("entity");
+  const [activeTab, setActiveTab] = useState<"entity" | "person">("person");
   const [entity, setEntity] = useState<EntityDetails | null>(null);
   const [person, setPerson] = useState<PersonDetails | null>(null);
   const [copied, setCopied] = useState(false);
@@ -178,12 +178,14 @@ export default function App() {
           activeTab={activeTab}
           entity={entity}
           person={person}
+          activePeople={world?.people.map(({ person: activePerson }) => activePerson) ?? []}
           year={year}
           onTabChange={setActiveTab}
           onJumpToEvent={(eventYear, longitude, latitude) => {
             setYear(eventYear);
             setCameraTarget({ longitude, latitude, token: performance.now() });
           }}
+          onSelectPerson={selectPerson}
           followingPerson={followingPerson}
           onFollowingPersonChange={changeFollowingPerson}
         />

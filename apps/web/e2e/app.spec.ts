@@ -19,7 +19,6 @@ test("opens a shared historical person view and advances without closing details
   await expect(page.getByRole("heading", { name: "Napoleon Bonaparte" })).toBeVisible();
   await expect(page.getByRole("button", { name: "中" })).toBeVisible();
 
-  await page.getByRole("button", { name: "Show territory names" }).click();
   await expect(page.getByRole("button", { name: "Hide territory names" })).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Hide territory names" }).click();
   await expect(page.getByRole("button", { name: "Show territory names" })).toHaveAttribute("aria-pressed", "false");
@@ -60,6 +59,15 @@ test("opens a shared historical person view and advances without closing details
   await expect(page.getByRole("button", { name: "Stop following", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Pause", exact: true })).toBeVisible();
   await expect.poll(() => new URL(page.url()).searchParams.get("year")).not.toBe("1804");
+});
+
+test("defaults to People and selects a person from the current-year list", async ({ page }) => {
+  await page.goto("/?year=1804");
+
+  await expect(page.getByRole("tab", { name: "People" })).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByRole("heading", { name: "People active in this year" })).toBeVisible();
+  await page.getByRole("button", { name: /Napoleon Bonaparte/ }).click();
+  await expect(page.getByRole("heading", { name: "Napoleon Bonaparte" })).toBeVisible();
 });
 
 test("starts following outside a person's lifetime from their birth year", async ({ page }) => {

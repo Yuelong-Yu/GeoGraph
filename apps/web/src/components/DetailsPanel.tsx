@@ -1,3 +1,4 @@
+import type { Person } from "@geograph/domain";
 import type { EntityDetails, PersonDetails } from "../api.js";
 import { useI18n } from "../i18n.js";
 
@@ -5,23 +6,25 @@ interface DetailsPanelProps {
   activeTab: "entity" | "person";
   entity: EntityDetails | null;
   person: PersonDetails | null;
+  activePeople: Person[];
   year: number;
   onTabChange: (tab: "entity" | "person") => void;
   onJumpToEvent: (year: number, longitude: number, latitude: number) => void;
+  onSelectPerson: (slug: string) => void;
   followingPerson: boolean;
   onFollowingPersonChange: (following: boolean) => void;
 }
 
 export function DetailsPanel({
-  activeTab, entity, person, year, onTabChange, onJumpToEvent, followingPerson, onFollowingPersonChange,
+  activeTab, entity, person, activePeople, year, onTabChange, onJumpToEvent, onSelectPerson, followingPerson, onFollowingPersonChange,
 }: DetailsPanelProps) {
   const { entityName, eventText, formatYear, language, personField, personName, personSummary, t } = useI18n();
   const displayedEntityName = entity ? entityName(entity.entity) : "";
   return (
     <aside className="details-panel" aria-label={t("detailsPanel")}>
       <div className="detail-tabs" role="tablist">
-        <button type="button" role="tab" aria-selected={activeTab === "entity"} onClick={() => onTabChange("entity")}>{t("entityTab")}</button>
         <button type="button" role="tab" aria-selected={activeTab === "person"} onClick={() => onTabChange("person")}>{t("personTab")}</button>
+        <button type="button" role="tab" aria-selected={activeTab === "entity"} onClick={() => onTabChange("entity")}>{t("entityTab")}</button>
       </div>
 
       {activeTab === "entity" ? (
@@ -88,7 +91,22 @@ export function DetailsPanel({
               : <p>{t("demoSources")}</p>}
           </section>
         </div>
-      ) : <EmptyState text={t("personEmpty")} />}
+      ) : activePeople.length > 0 ? (
+        <div className="detail-content active-people">
+          <span className="eyebrow">{formatYear(year)}</span>
+          <h2>{t("activePeople")}</h2>
+          <ul className="active-people-list">
+            {activePeople.map((activePerson) => (
+              <li key={activePerson.id}>
+                <button type="button" onClick={() => onSelectPerson(activePerson.slug)}>
+                  <strong>{personName(activePerson)}</strong>
+                  <span>{personField(activePerson)} · {formatYear(activePerson.birthYear)}—{activePerson.deathYear ? formatYear(activePerson.deathYear) : t("present")}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : <EmptyState text={t("activePeopleEmpty")} />}
     </aside>
   );
 }

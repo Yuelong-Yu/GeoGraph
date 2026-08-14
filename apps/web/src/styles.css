@@ -97,6 +97,13 @@ button { color: inherit; }
 .future-controller-list span, .future-controller-list strong, .future-controller-list small { display: block; }
 .future-controller-list strong { font-size: 12px; }
 .future-controller-list small { margin-top: 2px; color: var(--muted); font-size: 10px; }
+.active-people-list { margin: 22px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.active-people-list li { border-bottom: 1px solid rgba(255,255,255,.06); }
+.active-people-list button { width: 100%; padding: 13px 3px; text-align: left; border: 0; border-radius: 6px; background: transparent; cursor: pointer; }
+.active-people-list button:hover { background: rgba(87,189,173,.09); }
+.active-people-list strong, .active-people-list span { display: block; }
+.active-people-list strong { color: #dce7e4; font-size: 13px; }
+.active-people-list span { margin-top: 4px; color: var(--muted); font-size: 10px; }
 .out-of-life { margin: 13px 0; padding: 9px 11px; color: #d8b878; font-size: 11px; border: 1px solid rgba(228,185,95,.22); border-radius: 7px; background: rgba(228,185,95,.07); }
 .follow-button { padding: 7px 12px; color: #d6e4e0; font-size: 11px; border: 1px solid rgba(87,189,173,.28); border-radius: 16px; background: rgba(87,189,173,.08); cursor: pointer; }
 .follow-button:hover { border-color: rgba(87,189,173,.6); }
