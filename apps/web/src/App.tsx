@@ -10,9 +10,9 @@ import { Timeline, type PlaybackMode } from "./components/Timeline.js";
 import { useI18n } from "./i18n.js";
 import { resolvePersonFollowStart } from "./person-follow.js";
 
-function initialYear() {
-  const value = Number(new URLSearchParams(window.location.search).get("year") ?? 2026);
-  return Number.isInteger(value) && value !== 0 && value >= -1046 && value <= 2026 ? value : 2026;
+export function initialYear(search = window.location.search) {
+  const value = Number(new URLSearchParams(search).get("year") ?? 1);
+  return Number.isInteger(value) && value !== 0 && value >= -1046 && value <= 2026 ? value : 1;
 }
 
 function initialSpeed() {
