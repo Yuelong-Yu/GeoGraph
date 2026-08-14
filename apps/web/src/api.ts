@@ -1,4 +1,5 @@
 import type { Person, PersonEvent, PersonState, ResolvedTerritory } from "@geograph/domain";
+import { withBasePath } from "./base-path.js";
 
 export interface WorldResponse {
   year: number;
@@ -25,7 +26,7 @@ export interface EntityDetails {
 }
 
 async function requestJson<T>(url: string, signal?: AbortSignal): Promise<T> {
-  const response = await fetch(url, signal ? { signal } : {});
+  const response = await fetch(withBasePath(import.meta.env.BASE_URL, url), signal ? { signal } : {});
   if (!response.ok) throw new Error(`Request failed with ${response.status}`);
   return response.json() as Promise<T>;
 }

@@ -1,3 +1,5 @@
+name: geograph
+
 services:
   db:
     image: postgis/postgis:16-3.5-alpine
@@ -13,8 +15,6 @@ services:
     volumes:
       - geograph-db:/var/lib/postgresql/data
       - ./db/migrations/001_initial.sql:/docker-entrypoint-initdb.d/001_initial.sql:ro
-    ports:
-      - "5432:5432"
 
   data:
     build:
@@ -43,10 +43,12 @@ services:
     build:
       context: .
       dockerfile: docker/web.Dockerfile
+      args:
+        GEOGRAPH_BASE_PATH: ${GEOGRAPH_BASE_PATH:-/}
     depends_on:
       - api
     ports:
-      - "8080:80"
+      - "127.0.0.1:8080:80"
 
   historical-data:
     build:

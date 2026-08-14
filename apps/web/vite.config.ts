@@ -1,9 +1,13 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import { normalizeBasePath, withBasePath } from "./src/base-path.ts";
+
+const basePath = normalizeBasePath(process.env.GEOGRAPH_BASE_PATH ?? "/");
 
 export default defineConfig({
-  define: { CESIUM_BASE_URL: JSON.stringify("/cesium") },
+  base: basePath,
+  define: { CESIUM_BASE_URL: JSON.stringify(withBasePath(basePath, "cesium")) },
   plugins: [
     react(),
     viteStaticCopy({

@@ -7,6 +7,8 @@ RUN npm ci
 COPY packages/domain/src ./packages/domain/src
 COPY apps/web/src ./apps/web/src
 COPY apps/web/public ./apps/web/public
+ARG GEOGRAPH_BASE_PATH=/
+ENV GEOGRAPH_BASE_PATH=$GEOGRAPH_BASE_PATH
 RUN npm run build -w @geograph/domain && npm run build -w @geograph/web
 
 FROM nginx:1.29-alpine
