@@ -24,6 +24,7 @@ import {
   Viewer,
 } from "cesium";
 import { useEffect, useRef, useState } from "react";
+import { afterNextSceneRender } from "../after-next-scene-render.js";
 import { shouldAutoFollowCamera, type ManualCameraInputState } from "../camera-follow.js";
 import { fixedAxisCameraView } from "../fixed-axis-camera.js";
 import { filterPeopleByPrimaryFields } from "../person-fields.js";
@@ -244,15 +245,6 @@ export function Globe({
     if (!viewer || !world) return;
     const previousWorld = previousWorldRef.current;
     viewer.entities.removeAll();
-    const labelCandidates = new Map<string, {
-      slug: string;
-      text: string;
-      longitude: number;
-      latitude: number;
-      availableWidth: number;
-    }>();
-    const measurementContext = showTerritoryNames ? document.createElement("canvas").getContext("2d") : null;
-    if (measurementContext) measurementContext.font = "600 12px system-ui";
 
     for (const territory of world.territories) {
       const alpha = territory.controlType === "actual" ? 0.62 : territory.controlType === "claim" ? 0.22 : 0.38;
@@ -274,38 +266,6 @@ export function Globe({
           },
           properties: new PropertyBag({ kind: "territory", slug: territory.entity.slug, label: territoryLabel(territory.entity) ?? "" }),
         });
-        const labelText = territoryLabel(territory.entity);
-        if (measurementContext && labelText) {
-          const projectedRings = ringSet.map((ring) => ring.flatMap(([longitude = 0, latitude = 0]) => {
-            const projected = viewer.scene.cartesianToCanvasCoordinates(Cartesian3.fromDegrees(longitude, latitude));
-            return projected && Number.isFinite(projected.x) && Number.isFinite(projected.y)
-              ? [[projected.x, projected.y]] : [];
-          }));
-          const allRingsProjected = projectedRings.every((ring, index) => ring.length === ringSet[index]?.length);
-          const placement = allRingsProjected
-            ? findInteriorLabelPlacement(projectedRings, measurementContext.measureText(labelText).width, 12)
-            : null;
-          const surfacePosition = placement
-            ? viewer.camera.pickEllipsoid(new Cartesian2(placement.x, placement.y), viewer.scene.globe.ellipsoid)
-            : undefined;
-          if (placement && surfacePosition) {
-            const location = Cartographic.fromCartesian(surfacePosition);
-            const longitude = CesiumMath.toDegrees(location.longitude);
-            const latitude = CesiumMath.toDegrees(location.latitude);
-            if (isPointInsideTerritory({ x: longitude, y: latitude }, ringSet)) {
-              const existing = labelCandidates.get(territory.entity.slug);
-              if (!existing || placement.availableWidth > existing.availableWidth) {
-                labelCandidates.set(territory.entity.slug, {
-                  slug: territory.entity.slug,
-                  text: labelText,
-                  longitude,
-                  latitude,
-                  availableWidth: placement.availableWidth,
-                });
-              }
-            }
-          }
-        }
         if (territory.entity.slug === selectedEntitySlug) {
           viewer.entities.add({
             polyline: {
@@ -319,22 +279,72 @@ export function Globe({
       }
     }
 
-    for (const candidate of labelCandidates.values()) {
-      viewer.entities.add({
-        position: Cartesian3.fromDegrees(candidate.longitude, candidate.latitude, 62_000),
-        label: {
-          text: candidate.text,
-          font: "600 12px system-ui",
-          fillColor: Color.WHITE.withAlpha(0.96),
-          outlineColor: Color.BLACK.withAlpha(0.92),
-          outlineWidth: 3,
-          style: LabelStyle.FILL_AND_OUTLINE,
-          horizontalOrigin: HorizontalOrigin.CENTER,
-          verticalOrigin: VerticalOrigin.CENTER,
-        },
-        properties: new PropertyBag({ kind: "territory", slug: candidate.slug, label: candidate.text }),
-      });
-    }
+    const cancelTerritoryLabelPlacement = showTerritoryNames
+      ? afterNextSceneRender(viewer.scene, () => {
+        if (viewer.isDestroyed()) return;
+        const measurementContext = document.createElement("canvas").getContext("2d");
+        if (!measurementContext) return;
+        measurementContext.font = "600 12px system-ui";
+        const labelCandidates = new Map<string, {
+          slug: string;
+          text: string;
+          longitude: number;
+          latitude: number;
+          availableWidth: number;
+        }>();
+
+        for (const territory of world.territories) {
+          const labelText = territoryLabel(territory.entity);
+          if (!labelText) continue;
+          for (const ringSet of polygonsFromGeometry(territory.geometry)) {
+            const projectedRings = ringSet.map((ring) => ring.flatMap(([longitude = 0, latitude = 0]) => {
+              const projected = viewer.scene.cartesianToCanvasCoordinates(Cartesian3.fromDegrees(longitude, latitude));
+              return projected && Number.isFinite(projected.x) && Number.isFinite(projected.y)
+                ? [[projected.x, projected.y]] : [];
+            }));
+            const allRingsProjected = projectedRings.every((ring, index) => ring.length === ringSet[index]?.length);
+            const placement = allRingsProjected
+              ? findInteriorLabelPlacement(projectedRings, measurementContext.measureText(labelText).width, 12)
+              : null;
+            const surfacePosition = placement
+              ? viewer.camera.pickEllipsoid(new Cartesian2(placement.x, placement.y), viewer.scene.globe.ellipsoid)
+              : undefined;
+            if (!placement || !surfacePosition) continue;
+            const location = Cartographic.fromCartesian(surfacePosition);
+            const longitude = CesiumMath.toDegrees(location.longitude);
+            const latitude = CesiumMath.toDegrees(location.latitude);
+            if (!isPointInsideTerritory({ x: longitude, y: latitude }, ringSet)) continue;
+            const existing = labelCandidates.get(territory.entity.slug);
+            if (!existing || placement.availableWidth > existing.availableWidth) {
+              labelCandidates.set(territory.entity.slug, {
+                slug: territory.entity.slug,
+                text: labelText,
+                longitude,
+                latitude,
+                availableWidth: placement.availableWidth,
+              });
+            }
+          }
+        }
+
+        for (const candidate of labelCandidates.values()) {
+          viewer.entities.add({
+            position: Cartesian3.fromDegrees(candidate.longitude, candidate.latitude, 62_000),
+            label: {
+              text: candidate.text,
+              font: "600 12px system-ui",
+              fillColor: Color.WHITE.withAlpha(0.96),
+              outlineColor: Color.BLACK.withAlpha(0.92),
+              outlineWidth: 3,
+              style: LabelStyle.FILL_AND_OUTLINE,
+              horizontalOrigin: HorizontalOrigin.CENTER,
+              verticalOrigin: VerticalOrigin.CENTER,
+            },
+            properties: new PropertyBag({ kind: "territory", slug: candidate.slug, label: candidate.text }),
+          });
+        }
+      })
+      : () => undefined;
 
     const visiblePeople = filterPeopleByPrimaryFields(world.people, selectedPersonFields);
     const selectedPersonVisible = selectedPerson !== null
@@ -416,6 +426,7 @@ export function Globe({
       }
     }
     previousWorldRef.current = world;
+    return cancelTerritoryLabelPlacement;
   }, [animateTransitions, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, selectedPersonFields, showTerritoryNames, t, territoryLabel, world]);
 
   return (
