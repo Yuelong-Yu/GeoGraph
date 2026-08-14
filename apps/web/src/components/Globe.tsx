@@ -26,6 +26,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { shouldAutoFollowCamera, type ManualCameraInputState } from "../camera-follow.js";
 import { filterPeopleByPrimaryFields } from "../person-fields.js";
+import { personPortraitUrl } from "../person-portrait.js";
 import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
 import { useI18n } from "../i18n.js";
 
@@ -310,7 +311,7 @@ export function Globe({
       viewer.entities.add({
         position,
         billboard: {
-          image: `/characters/${person.slug}.png`,
+          image: personPortraitUrl(import.meta.env.BASE_URL, person.slug),
           width: selected ? 62 : 48,
           height: selected ? 92 : 72,
           verticalOrigin: VerticalOrigin.BOTTOM,
