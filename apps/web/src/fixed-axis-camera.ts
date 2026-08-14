@@ -23,7 +23,7 @@ export function fixedAxisCameraView(longitude: number, height: number): FixedAxi
   const right = Cartesian3.normalize(Cartesian3.cross(direction, upright, new Cartesian3()), new Cartesian3());
   const tilt = CesiumMath.toRadians(EARTH_AXIAL_TILT_DEGREES);
   const up = Cartesian3.normalize(
-    Cartesian3.add(
+    Cartesian3.subtract(
       Cartesian3.multiplyByScalar(upright, Math.cos(tilt), new Cartesian3()),
       Cartesian3.multiplyByScalar(right, Math.sin(tilt), new Cartesian3()),
       new Cartesian3(),
