@@ -25,7 +25,6 @@ import {
 } from "cesium";
 import { useEffect, useRef, useState } from "react";
 import { shouldAutoFollowCamera, type ManualCameraInputState } from "../camera-follow.js";
-import { groupPeopleForGlobe } from "../person-clustering.js";
 import { filterPeopleByPrimaryFields } from "../person-fields.js";
 import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
 import { useI18n } from "../i18n.js";
@@ -81,7 +80,6 @@ export function Globe({
     lastInputAt: Number.NEGATIVE_INFINITY,
   });
   const [hover, setHover] = useState<{ x: number; y: number; label: string } | null>(null);
-  const [cameraHeight, setCameraHeight] = useState(16_800_000);
   const [showTerritoryNames, setShowTerritoryNames] = useState(false);
   const selectionHandlers = useRef({ onSelectEntity, onSelectPerson });
   selectionHandlers.current = { onSelectEntity, onSelectPerson };
@@ -129,14 +127,6 @@ export function Globe({
       if (!defined(picked?.id)) return;
       const properties = picked.id.properties;
       const kind = properties?.kind?.getValue() as string | undefined;
-      if (kind === "cluster") {
-        const longitude = properties?.longitude?.getValue() as number | undefined;
-        const latitude = properties?.latitude?.getValue() as number | undefined;
-        if (longitude !== undefined && latitude !== undefined) {
-          viewer.camera.flyTo({ destination: Cartesian3.fromDegrees(longitude, latitude, 2_500_000), duration: 0.8 });
-        }
-        return;
-      }
       const slug = properties?.slug?.getValue() as string | undefined;
       if (!slug) return;
       if (kind === "territory") {
@@ -177,11 +167,7 @@ export function Globe({
       ScreenSpaceEventType.MIDDLE_UP,
     ]) handler.setInputAction(endManualCameraInput, eventType);
     handler.setInputAction(noteManualCameraInput, ScreenSpaceEventType.WHEEL);
-    const updateCameraHeight = () => setCameraHeight(Cartographic.fromCartesian(viewer.camera.position).height);
-    viewer.camera.moveEnd.addEventListener(updateCameraHeight);
-
     return () => {
-      viewer.camera.moveEnd.removeEventListener(updateCameraHeight);
       handler.destroy();
       viewer.destroy();
       viewerRef.current = null;
@@ -298,40 +284,7 @@ export function Globe({
     const visiblePeople = filterPeopleByPrimaryFields(world.people, selectedPersonFields);
     const selectedPersonVisible = selectedPerson !== null
       && (selectedPersonFields === null || selectedPersonFields.has(selectedPerson.person.primaryField));
-    const groupedPeople = groupPeopleForGlobe(
-      visiblePeople,
-      selectedPersonVisible ? selectedPerson.person.slug : null,
-      cameraHeight,
-    );
-    for (const cluster of groupedPeople.clusters) {
-      viewer.entities.add({
-        position: Cartesian3.fromDegrees(cluster.longitude, cluster.latitude, 95_000),
-        point: {
-          pixelSize: 38,
-          color: Color.fromCssColorString("#18343a").withAlpha(0.94),
-          outlineColor: Color.fromCssColorString("#f4c96b"),
-          outlineWidth: 2,
-          scaleByDistance: new NearFarScalar(1_000_000, 1.15, 22_000_000, 0.8),
-        },
-        label: {
-          text: `${cluster.items.length} ${t("peopleCluster")}`,
-          font: "700 13px system-ui",
-          fillColor: Color.WHITE,
-          outlineColor: Color.BLACK.withAlpha(0.85),
-          outlineWidth: 3,
-          style: LabelStyle.FILL_AND_OUTLINE,
-          verticalOrigin: VerticalOrigin.CENTER,
-        },
-        properties: new PropertyBag({
-          kind: "cluster",
-          longitude: cluster.longitude,
-          latitude: cluster.latitude,
-          label: `${cluster.items.length} ${t("clusterHint")}`,
-        }),
-      });
-    }
-
-    for (const { person, state } of groupedPeople.individuals) {
+    for (const { person, state } of visiblePeople) {
       const selected = selectedPerson?.person.slug === person.slug;
       const previousState = previousWorld?.people.find((item) => item.person.id === person.id)?.state;
       const moved = previousState !== undefined
@@ -408,7 +361,7 @@ export function Globe({
       }
     }
     previousWorldRef.current = world;
-  }, [animateTransitions, cameraHeight, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, selectedPersonFields, showTerritoryNames, t, territoryLabel, world]);
+  }, [animateTransitions, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, selectedPersonFields, showTerritoryNames, t, territoryLabel, world]);
 
   return (
     <>
