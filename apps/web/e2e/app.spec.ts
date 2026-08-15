@@ -156,3 +156,20 @@ test("shows a translated historical polity name in Chinese mode", async ({ page 
   await expect(page.getByRole("heading", { name: "原始阿尔泰语系牧民" })).toBeVisible();
   await expect(page.getByText("Prot-Altaic pastoralists", { exact: true })).toBeVisible();
 });
+
+test("keeps a trackpad pinch inside the globe instead of zooming the page", async ({ page }) => {
+  await page.goto("/?year=273");
+  const canvas = page.getByLabel("Interactive historical globe").locator("canvas");
+  await expect(canvas).toBeVisible();
+
+  await expect.poll(() => canvas.evaluate((element) => {
+    const pinch = new WheelEvent("wheel", {
+      bubbles: true,
+      cancelable: true,
+      ctrlKey: true,
+      deltaY: -120,
+    });
+    element.dispatchEvent(pinch);
+    return pinch.defaultPrevented;
+  })).toBe(true);
+});

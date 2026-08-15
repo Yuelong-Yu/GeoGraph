@@ -197,6 +197,15 @@ export function Globe({
       viewer.camera.cancelFlight();
       manualCameraInputRef.current = { active: false, lastInputAt: performance.now() };
     };
+    // Chromium and Safari expose a trackpad pinch as Ctrl + wheel. Let Cesium
+    // receive the wheel event for camera zoom while preventing the browser from
+    // interpreting the same gesture as a page-level zoom.
+    const preventBrowserPinchZoom = (event: WheelEvent) => {
+      if (!event.ctrlKey) return;
+      event.preventDefault();
+      noteManualCameraInput();
+    };
+    viewer.scene.canvas.addEventListener("wheel", preventBrowserPinchZoom, { passive: false });
     handler.setInputAction((movement: { position: Cartesian2 }) => {
       beginManualCameraInput();
       if (!fixedAxisRotationRef.current) return;
@@ -214,6 +223,7 @@ export function Globe({
     }
     handler.setInputAction(noteManualCameraInput, ScreenSpaceEventType.WHEEL);
     return () => {
+      viewer.scene.canvas.removeEventListener("wheel", preventBrowserPinchZoom);
       handler.destroy();
       viewer.destroy();
       viewerRef.current = null;
