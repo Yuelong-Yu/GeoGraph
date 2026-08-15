@@ -1,5 +1,11 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { chineseTerritoryName } from "./territory-names.js";
+
+const historicalGeojsonDirectory = fileURLToPath(
+  new URL("../../../data/historical-cache/geojson/", import.meta.url),
+);
 
 describe("Chinese territory names", () => {
   it("localizes modern country names used by the latest historical snapshot", () => {
@@ -30,6 +36,13 @@ describe("Chinese territory names", () => {
     expect(chineseTerritoryName("Western Gokturk Khaganate")).toBe("西突厥汗国");
     expect(chineseTerritoryName("Ouighurs")).toBe("回鹘人");
     expect(chineseTerritoryName("Siberians")).toBe("西伯利亚人");
+    expect(chineseTerritoryName("Jin")).toBe("晋朝");
+    expect(chineseTerritoryName("Balhae")).toBe("渤海国");
+    expect(chineseTerritoryName("South Russia")).toBe("南俄罗斯");
+    expect(chineseTerritoryName("Abyssinia")).toBe("埃塞俄比亚");
+    expect(chineseTerritoryName("Dominion of Newfoundland")).toBe("纽芬兰自治领");
+    expect(chineseTerritoryName("Muscat and Oman")).toBe("马斯喀特和阿曼");
+    expect(chineseTerritoryName("Sultinate of Zanzibar")).toBe("桑给巴尔苏丹国");
     expect(chineseTerritoryName("Great Khanate")).toBe("大汗国（元朝）");
     expect(chineseTerritoryName("Turan")).toBe("突兰");
     expect(chineseTerritoryName("Rattanakosin Kingdom")).toBe("拉达那哥欣王国");
@@ -69,5 +82,19 @@ describe("Chinese territory names", () => {
     expect(chineseTerritoryName("Himyarite Kingdom")).toBe("希木叶尔王国");
     expect(chineseTerritoryName("Odrysian Kingdom")).toBe("奥德里西亚王国");
     expect(chineseTerritoryName("Teotihuacán")).toBe("特奥蒂瓦坎");
+  });
+
+  it("localizes every named territory with a source encyclopedia entry", () => {
+    const names = new Set<string>();
+    for (const file of readdirSync(historicalGeojsonDirectory)) {
+      if (!file.endsWith(".geojson")) continue;
+      const collection = JSON.parse(readFileSync(`${historicalGeojsonDirectory}/${file}`, "utf8"));
+      for (const feature of collection.features) {
+        const { NAME: name, wikipedia } = feature.properties ?? {};
+        if (typeof name === "string" && typeof wikipedia === "string" && wikipedia) names.add(name);
+      }
+    }
+
+    expect([...names].map(chineseTerritoryName)).not.toContain(null);
   });
 });
