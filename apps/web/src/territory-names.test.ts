@@ -28,6 +28,8 @@ describe("Chinese territory names", () => {
     expect(chineseTerritoryName("Kimek-Kipchak khaganate")).toBe("基马克—钦察汗国");
     expect(chineseTerritoryName("Rus' Khaganate")).toBe("罗斯汗国");
     expect(chineseTerritoryName("Western Gokturk Khaganate")).toBe("西突厥汗国");
+    expect(chineseTerritoryName("Ouighurs")).toBe("回鹘人");
+    expect(chineseTerritoryName("Siberians")).toBe("西伯利亚人");
     expect(chineseTerritoryName("Great Khanate")).toBe("大汗国（元朝）");
     expect(chineseTerritoryName("Turan")).toBe("突兰");
     expect(chineseTerritoryName("Rattanakosin Kingdom")).toBe("拉达那哥欣王国");
