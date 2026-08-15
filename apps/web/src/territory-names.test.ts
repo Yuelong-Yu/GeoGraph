@@ -22,6 +22,12 @@ describe("Chinese territory names", () => {
     expect(chineseTerritoryName("Roman Empire")).toBe("罗马帝国");
     expect(chineseTerritoryName("Ottoman Empire")).toBe("奥斯曼帝国");
     expect(chineseTerritoryName("Qing Empire")).toBe("清朝");
+    expect(chineseTerritoryName("Chinese Warlords")).toBe("中国军阀");
+    expect(chineseTerritoryName("Chinese   Warlords")).toBe("中国军阀");
+    expect(chineseTerritoryName("Emirate of Bin Shal’an")).toBe("伊本·沙兰埃米尔国");
+    expect(chineseTerritoryName("Kimek-Kipchak khaganate")).toBe("基马克—钦察汗国");
+    expect(chineseTerritoryName("Rus' Khaganate")).toBe("罗斯汗国");
+    expect(chineseTerritoryName("Western Gokturk Khaganate")).toBe("西突厥汗国");
     expect(chineseTerritoryName("Great Khanate")).toBe("大汗国（元朝）");
     expect(chineseTerritoryName("Turan")).toBe("突兰");
     expect(chineseTerritoryName("Rattanakosin Kingdom")).toBe("拉达那哥欣王国");

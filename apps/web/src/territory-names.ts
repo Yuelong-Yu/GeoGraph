@@ -36,6 +36,7 @@ const chineseOverrides: Record<string, string> = {
   "Achaemenid Empire": "阿契美尼德帝国",
   "Almohad Caliphate": "穆瓦希德王朝",
   "Angevin Empire": "安茹帝国",
+  "Ato trading confederacy": "阿托贸易联盟",
   "Assyria": "亚述",
   "Austrian Empire": "奥地利帝国",
   "Austria Hungary": "奥匈帝国",
@@ -55,6 +56,7 @@ const chineseOverrides: Record<string, string> = {
   "Chalukya Empire": "遮娄其帝国",
   Champa: "占婆",
   "Chinese warlords": "中国军阀",
+  "Chimariko (territory)": "奇马里科领地",
   "Chola state": "朱罗王朝",
   Cholas: "朱罗王朝",
   "Crimean Khanate": "克里米亚汗国",
@@ -63,6 +65,7 @@ const chineseOverrides: Record<string, string> = {
   "Dutch East Indies": "荷属东印度",
   "Dutch Formosa": "荷属台湾",
   "Eastern Roman Empire": "东罗马帝国",
+  "English territory": "英格兰领地",
   Elam: "埃兰",
   "Emirate of Córdoba": "科尔多瓦酋长国",
   "Empire of Japan": "大日本帝国",
@@ -73,6 +76,7 @@ const chineseOverrides: Record<string, string> = {
   "French Indochina": "法属印度支那",
   "Ghaznavid Emirate": "加兹尼王朝",
   "Golden Horde": "金帐汗国",
+  "Greek colonies": "希腊殖民地",
   "Goryeo": "高丽",
   "Grand Duchy of Moscow": "莫斯科大公国",
   "Greek city-states": "希腊城邦",
@@ -88,6 +92,7 @@ const chineseOverrides: Record<string, string> = {
   "Japan (Warring States)": "日本战国诸侯",
   "Kara Khitai Khaganate": "西辽",
   "Kazan Khanate": "喀山汗国",
+  "Kimek-Kipchak khaganate": "基马克—钦察汗国",
   "Khanate of Sibir": "西伯利亚汗国",
   "Khanate of the Golden Horde": "金帐汗国",
   "Khmer Empire": "高棉帝国",
@@ -111,12 +116,14 @@ const chineseOverrides: Record<string, string> = {
   "Nan-Zhao": "南诏",
   "Nan-Yue": "南越",
   "Northern Liang": "北凉",
+  "Northern Territory (UK)": "英属北领地",
   "Ottoman Empire": "奥斯曼帝国",
   "Papal States": "教皇国",
   Parthia: "安息",
   "Parthian Empire": "安息帝国",
   Persia: "波斯",
   "Polish–Lithuanian Commonwealth": "波兰立陶宛联邦",
+  "Post-Ming Warlords": "明末军阀",
   Prussia: "普鲁士",
   "Ptolemaic Kingdom": "托勒密王国",
   "Prot-Altaic pastoralists": "原始阿尔泰语系牧民",
@@ -124,6 +131,7 @@ const chineseOverrides: Record<string, string> = {
   "Qing Empire": "清朝",
   "Roman Empire": "罗马帝国",
   Rome: "罗马帝国",
+  "Rus' Khaganate": "罗斯汗国",
   "Russian Empire": "俄罗斯帝国",
   "Safavid Empire": "萨法维王朝",
   "Sasanian Empire": "萨珊帝国",
@@ -153,7 +161,9 @@ const chineseOverrides: Record<string, string> = {
   "Vice Royalty of New Spain": "新西班牙总督辖区",
   "Viceroyalty of the Río de la Plata": "拉普拉塔总督辖区",
   "Visigothic Kingdom": "西哥特王国",
+  "Wabanaki (Dawnland Confederacy)": "瓦巴纳基（曙光之地）联盟",
   "Western Roman Empire": "西罗马帝国",
+  "Western Gokturk Khaganate": "西突厥汗国",
   Xinjiang: "新疆",
   Xiongnu: "匈奴",
   Xixia: "西夏",
@@ -643,16 +653,45 @@ function buildRegionNames() {
 const regionNames = buildRegionNames();
 const containsChinese = /[\u3400-\u9fff]/u;
 
+function normalizedTerritoryKey(name: string) {
+  return name
+    .normalize("NFKD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[‘’`´]/gu, "'")
+    .replace(/[-–—]/gu, "-")
+    .replace(/\s+/gu, " ")
+    .toLowerCase();
+}
+
+function buildNormalizedNames(entries: Iterable<[string, string]>) {
+  const names = new Map<string, string>();
+  for (const [name, chineseName] of entries) {
+    const key = normalizedTerritoryKey(name);
+    if (!names.has(key)) names.set(key, chineseName);
+  }
+  return names;
+}
+
+const normalizedChineseOverrides = buildNormalizedNames(Object.entries(chineseOverrides));
+const normalizedRegionNames = buildNormalizedNames(regionNames.entries());
+
+function knownChineseTerritoryName(name: string) {
+  return chineseOverrides[name]
+    ?? regionNames.get(name)
+    ?? normalizedChineseOverrides.get(normalizedTerritoryKey(name))
+    ?? normalizedRegionNames.get(normalizedTerritoryKey(name));
+}
+
 export function chineseTerritoryName(name: string) {
   const trimmed = name.trim();
   if (!trimmed || trimmed === "?") return null;
   if (containsChinese.test(trimmed)) return trimmed;
-  const direct = chineseOverrides[trimmed] ?? regionNames.get(trimmed);
+  const direct = knownChineseTerritoryName(trimmed);
   if (direct) return direct;
 
   const colonial = /^(.*?) \((.*?)\)$/.exec(trimmed);
   if (colonial) {
-    const base = chineseOverrides[colonial[1]!] ?? regionNames.get(colonial[1]!);
+    const base = knownChineseTerritoryName(colonial[1]!);
     const owner = colonialOwners[colonial[2]!];
     if (base && owner) return `${owner}${base}`;
   }
