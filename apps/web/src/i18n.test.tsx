@@ -78,7 +78,7 @@ describe("i18n", () => {
     expect(english).toBeDefined();
     await userEvent.click(english);
 
-    expect(screen.getByRole("button", { name: "zh|拿破仑·波拿巴|公元 1804 年|在巴黎加冕称帝|中国,俄罗斯,沙特阿拉伯,原始阿尔泰语系牧民,中文译名待考" })).toBeDefined();
+    expect(screen.getByRole("button", { name: "zh|拿破仑·波拿巴|公元 1804 年|在巴黎加冕称帝|中国,俄罗斯,沙特阿拉伯,原始阿尔泰语系牧民,An untranslated polity" })).toBeDefined();
     expect(document.documentElement.lang).toBe("zh-CN");
   });
 

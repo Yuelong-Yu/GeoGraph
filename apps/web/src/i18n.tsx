@@ -38,7 +38,6 @@ const messages = {
     entityTab: "Polities",
     personTab: "People",
     politicalEntity: "Political entity",
-    untranslatedEntityName: "Chinese name under review",
     identityColor: "Identity colour · remains consistent during playback",
     entitySummaryFallback: "This polity's historical profile is being prepared.",
     historicalBoundarySummary: "Boundary from the nearest available historical snapshot.",
@@ -105,7 +104,6 @@ const messages = {
     entityTab: "政权",
     personTab: "人物",
     politicalEntity: "政治实体",
-    untranslatedEntityName: "中文译名待考",
     identityColor: "身份主色 · 播放中保持一致",
     entitySummaryFallback: "该政治实体的资料正在整理。",
     historicalBoundarySummary: "该疆域来自最接近当前年份的可用历史快照。",
@@ -311,7 +309,10 @@ function createI18nValue(language: Language, toggleLanguage: () => void): I18nVa
       const translated = language === "en" ? englishPeople[person.slug]?.events[`${event.year}:${event.order}`] : undefined;
       return translated ?? { title: event.title, ...(event.description ? { description: event.description } : {}) };
     },
-    entityName: (entity) => localizedTerritoryName(entity, language) ?? messages[language].untranslatedEntityName,
+    // Most entries have an established Chinese name. For the many small historical
+    // communities without one, preserve the source endonym instead of displaying a
+    // misleading "translation pending" placeholder.
+    entityName: (entity) => localizedTerritoryName(entity, language) ?? entity.nameEn ?? entity.name,
     territoryLabel: (entity) => localizedTerritoryName(entity, language),
   };
 }

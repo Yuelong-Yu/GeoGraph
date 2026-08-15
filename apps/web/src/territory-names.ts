@@ -189,6 +189,7 @@ const chineseOverrides: Record<string, string> = {
   "Fourche Maline Culture": "富什马林文化",
   "Glades Culture": "格莱兹文化",
   "Goodall Focus": "古道尔文化群",
+  "Great Khanate": "大汗国（元朝）",
   Guanches: "关切人",
   Hadramaut: "哈德拉毛王国",
   Hainan: "海南",
