@@ -30,6 +30,9 @@ describe("Chinese territory names", () => {
     expect(chineseTerritoryName("Malaya")).toBe("马来亚");
     expect(chineseTerritoryName("Nejd")).toBe("内志");
     expect(chineseTerritoryName("Bunyoro")).toBe("布尼奥罗");
+    expect(chineseTerritoryName("French Equatorial Africa")).toBe("法属赤道非洲");
+    expect(chineseTerritoryName("French West Africa")).toBe("法属西非");
+    expect(chineseTerritoryName("Libya (IT)")).toBe("意属利比亚");
     expect(chineseTerritoryName("Algeria (France)")).toBe("法属阿尔及利亚");
     expect(chineseTerritoryName("An untranslated polity")).toBeNull();
   });
