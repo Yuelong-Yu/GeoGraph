@@ -731,6 +731,28 @@ const chineseOverrides: Record<string, string> = {
   Wetzlar: "韦茨拉尔",
   "White Russia": "白俄罗斯",
   Zululand: "祖鲁兰",
+
+  // Territorial entities must not be rendered as languages.
+  Bantu: "班图人",
+  Choctaw: "乔克托人",
+  Croatan: "克罗坦人",
+  Cycladic: "基克拉迪人",
+  Kali: "卡利人",
+  Khoisan: "科伊桑人",
+  Malagasy: "马达加斯加人",
+  Malay: "马来人",
+  Maratha: "马拉塔人",
+  "Mon-Khmer": "孟高棉人",
+  Nayarit: "纳亚里特人",
+  Navajo: "纳瓦霍人",
+  Picts: "皮克特人",
+  Quechua: "克丘亚人",
+  Shona: "绍纳人",
+  Thai: "泰人",
+  "Tibeto-Burmanese": "藏缅人",
+  Welsh: "威尔士人",
+  Xhosa: "科萨人",
+  Yolngu: "雍古人",
 };
 
 const colonialOwners: Record<string, string> = {

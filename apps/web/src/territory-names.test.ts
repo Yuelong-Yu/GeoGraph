@@ -116,5 +116,6 @@ describe("Chinese territory names", () => {
 
     const localized = [...names].map(chineseTerritoryName);
     expect(localized).not.toContain(null);
+    expect(localized.filter((name) => name?.endsWith("语"))).toEqual([]);
   });
 });
