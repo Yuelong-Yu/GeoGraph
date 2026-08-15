@@ -40,6 +40,7 @@ describe("Chinese territory names", () => {
     expect(chineseTerritoryName("Uyghurs")).toBe("回鹘人");
     expect(chineseTerritoryName("Mongols")).toBe("蒙古人");
     expect(chineseTerritoryName("Tibetans")).toBe("藏族");
+    expect(chineseTerritoryName("Burmese")).toBe("缅族");
     expect(chineseTerritoryName("Jin")).toBe("晋朝");
     expect(chineseTerritoryName("Balhae")).toBe("渤海国");
     expect(chineseTerritoryName("South Russia")).toBe("南俄罗斯");

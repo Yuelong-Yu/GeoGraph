@@ -491,6 +491,7 @@ const chineseOverrides: Record<string, string> = {
   "Borgu States": "博尔古诸国",
   "Bulgar Khanate": "保加尔汗国",
   "Burmese kingdoms": "缅甸诸王国",
+  Burmese: "缅族",
   "Buyid Emirate": "白益王朝",
   "Buwayhid Emirates": "白益诸埃米尔国",
   "Caliphate of Córdoba": "科尔多瓦哈里发国",
