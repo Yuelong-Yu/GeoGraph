@@ -19,9 +19,10 @@ import {
   PropertyBag,
   ScreenSpaceEventHandler,
   ScreenSpaceEventType,
-  TileMapServiceImageryProvider,
   VerticalOrigin,
   Viewer,
+  WebMapTileServiceImageryProvider,
+  WebMercatorTilingScheme,
 } from "cesium";
 import { useEffect, useRef, useState } from "react";
 import { afterNextSceneRender } from "../after-next-scene-render.js";
@@ -131,14 +132,16 @@ export function Globe({
     viewer.camera.setView({
       destination: Cartesian3.fromDegrees(35, 24, 16_800_000),
     });
-    void TileMapServiceImageryProvider.fromUrl("/cesium/Assets/Textures/NaturalEarthII").then((provider) => {
-      if (viewer.isDestroyed()) return;
-      const layer = viewer.imageryLayers.addImageryProvider(provider);
-      layer.brightness = 0.78;
-      layer.contrast = 1.34;
-      layer.saturation = 0.72;
-      layer.gamma = 0.9;
-    });
+    viewer.imageryLayers.addImageryProvider(new WebMapTileServiceImageryProvider({
+      url: "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_NextGeneration/default/GoogleMapsCompatible_Level8/{TileMatrix}/{TileRow}/{TileCol}.jpeg",
+      layer: "BlueMarble_NextGeneration",
+      style: "default",
+      format: "image/jpeg",
+      tileMatrixSetID: "GoogleMapsCompatible_Level8",
+      tilingScheme: new WebMercatorTilingScheme(),
+      maximumLevel: 8,
+      credit: "NASA GIBS / Blue Marble Next Generation",
+    }));
     viewerRef.current = viewer;
 
     const handler = new ScreenSpaceEventHandler(viewer.scene.canvas);
