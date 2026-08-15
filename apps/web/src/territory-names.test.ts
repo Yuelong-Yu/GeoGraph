@@ -28,6 +28,8 @@ describe("Chinese territory names", () => {
     expect(chineseTerritoryName("Srivijaya Empire")).toBe("三佛齐（室利佛逝）");
     expect(chineseTerritoryName("Annam")).toBe("安南");
     expect(chineseTerritoryName("Malaya")).toBe("马来亚");
+    expect(chineseTerritoryName("Nejd")).toBe("内志");
+    expect(chineseTerritoryName("Bunyoro")).toBe("布尼奥罗");
     expect(chineseTerritoryName("Algeria (France)")).toBe("法属阿尔及利亚");
     expect(chineseTerritoryName("An untranslated polity")).toBeNull();
   });
