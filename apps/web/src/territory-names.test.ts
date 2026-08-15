@@ -101,4 +101,19 @@ describe("Chinese territory names", () => {
 
     expect([...names].map(chineseTerritoryName)).not.toContain(null);
   });
+
+  it("localizes every named territory in every historical snapshot", () => {
+    const names = new Set<string>();
+    for (const file of readdirSync(historicalGeojsonDirectory)) {
+      if (!file.endsWith(".geojson")) continue;
+      const collection = JSON.parse(readFileSync(`${historicalGeojsonDirectory}/${file}`, "utf8"));
+      for (const feature of collection.features) {
+        const name = feature.properties?.NAME;
+        if (typeof name === "string" && name.trim() && name !== "?") names.add(name);
+      }
+    }
+
+    const localized = [...names].map(chineseTerritoryName);
+    expect(localized).not.toContain(null);
+  });
 });

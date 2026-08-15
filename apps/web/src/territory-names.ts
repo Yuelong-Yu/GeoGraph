@@ -1,4 +1,5 @@
 import type { PoliticalEntity } from "@geograph/domain";
+import { generatedChineseTerritoryNames } from "./generated-territory-names.js";
 
 const chineseOverrides: Record<string, string> = {
   "Antigua and Barbuda": "安提瓜和巴布达",
@@ -630,6 +631,7 @@ const chineseOverrides: Record<string, string> = {
   "Wattasid Caliphate": "瓦塔斯王朝",
   "Zapotec Empire": "萨波特克帝国",
   "Zayyanid Caliphate": "扎扬王朝",
+  Zacateco: "萨卡特科",
   "Zhow states": "周代诸侯国",
 
   // Remaining state, colony, and administration labels from the later historical snapshots.
@@ -672,6 +674,7 @@ const chineseOverrides: Record<string, string> = {
   Kamerun: "喀麦隆",
   Kanara: "卡纳拉",
   "Kanem-Bornu": "加涅姆-博尔努",
+  Kashtik: "卡什提克",
   Kazembe: "卡赞贝",
   "Kingfom of Italy": "意大利王国",
   Kong: "孔格",
@@ -791,7 +794,8 @@ function knownChineseTerritoryName(name: string) {
   return chineseOverrides[name]
     ?? regionNames.get(name)
     ?? normalizedChineseOverrides.get(normalizedTerritoryKey(name))
-    ?? normalizedRegionNames.get(normalizedTerritoryKey(name));
+    ?? normalizedRegionNames.get(normalizedTerritoryKey(name))
+    ?? generatedChineseTerritoryNames[name];
 }
 
 export function chineseTerritoryName(name: string) {
