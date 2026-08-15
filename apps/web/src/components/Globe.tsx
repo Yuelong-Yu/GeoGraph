@@ -31,6 +31,7 @@ import { fixedAxisCameraView } from "../fixed-axis-camera.js";
 import { filterPeopleByPrimaryFields } from "../person-fields.js";
 import { personPortraitUrl } from "../person-portrait.js";
 import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
+import { zoomForTrackpadPinch } from "../trackpad-pinch.js";
 import { useI18n } from "../i18n.js";
 
 interface GlobeProps {
@@ -106,8 +107,9 @@ export function Globe({
   selectionHandlers.current = { onSelectEntity, onSelectPerson };
 
   useEffect(() => {
-    if (!containerRef.current) return;
-    const viewer = new Viewer(containerRef.current, {
+    const container = containerRef.current;
+    if (!container) return;
+    const viewer = new Viewer(container, {
       animation: false,
       baseLayer: false,
       baseLayerPicker: false,
@@ -197,12 +199,12 @@ export function Globe({
       viewer.camera.cancelFlight();
       manualCameraInputRef.current = { active: false, lastInputAt: performance.now() };
     };
-    // Chromium and Safari expose a trackpad pinch as Ctrl + wheel. Let Cesium
-    // receive the wheel event for camera zoom while preventing the browser from
-    // interpreting the same gesture as a page-level zoom.
-    const preventBrowserPinchZoom = (event: WheelEvent) => {
+    const zoomChromiumPinch = (event: WheelEvent) => {
       if (!event.ctrlKey) return;
       event.preventDefault();
+      event.stopPropagation();
+      const height = Cartographic.fromCartesian(viewer.camera.position).height;
+      zoomForTrackpadPinch(viewer.camera, height, 1, Math.exp(-event.deltaY * 0.0025));
       noteManualCameraInput();
     };
     let previousWebkitPinchScale = 1;
@@ -216,19 +218,15 @@ export function Globe({
       event.preventDefault();
       const scale = (event as Event & { scale?: number }).scale;
       if (typeof scale !== "number" || scale <= 0 || scale === previousWebkitPinchScale) return;
-      const ratio = scale / previousWebkitPinchScale;
       const height = Cartographic.fromCartesian(viewer.camera.position).height;
-      const distance = Math.min(2_000_000, Math.max(30_000, height * Math.abs(Math.log(ratio)) * 0.75));
-      if (ratio > 1) viewer.camera.zoomIn(distance);
-      else viewer.camera.zoomOut(distance);
-      previousWebkitPinchScale = scale;
+      previousWebkitPinchScale = zoomForTrackpadPinch(viewer.camera, height, previousWebkitPinchScale, scale);
       noteManualCameraInput();
     };
     const endWebkitPinch = () => { previousWebkitPinchScale = 1; };
-    viewer.scene.canvas.addEventListener("wheel", preventBrowserPinchZoom, { passive: false });
-    viewer.scene.canvas.addEventListener("gesturestart", beginWebkitPinch, { passive: false });
-    viewer.scene.canvas.addEventListener("gesturechange", zoomWebkitPinch, { passive: false });
-    viewer.scene.canvas.addEventListener("gestureend", endWebkitPinch);
+    container.addEventListener("wheel", zoomChromiumPinch, { passive: false, capture: true });
+    container.addEventListener("gesturestart", beginWebkitPinch, { passive: false, capture: true });
+    container.addEventListener("gesturechange", zoomWebkitPinch, { passive: false, capture: true });
+    container.addEventListener("gestureend", endWebkitPinch, { capture: true });
     handler.setInputAction((movement: { position: Cartesian2 }) => {
       beginManualCameraInput();
       if (!fixedAxisRotationRef.current) return;
@@ -246,10 +244,10 @@ export function Globe({
     }
     handler.setInputAction(noteManualCameraInput, ScreenSpaceEventType.WHEEL);
     return () => {
-      viewer.scene.canvas.removeEventListener("wheel", preventBrowserPinchZoom);
-      viewer.scene.canvas.removeEventListener("gesturestart", beginWebkitPinch);
-      viewer.scene.canvas.removeEventListener("gesturechange", zoomWebkitPinch);
-      viewer.scene.canvas.removeEventListener("gestureend", endWebkitPinch);
+      container.removeEventListener("wheel", zoomChromiumPinch, { capture: true });
+      container.removeEventListener("gesturestart", beginWebkitPinch, { capture: true });
+      container.removeEventListener("gesturechange", zoomWebkitPinch, { capture: true });
+      container.removeEventListener("gestureend", endWebkitPinch, { capture: true });
       handler.destroy();
       viewer.destroy();
       viewerRef.current = null;
