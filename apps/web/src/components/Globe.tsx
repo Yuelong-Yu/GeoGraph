@@ -96,6 +96,7 @@ export function Globe({
   const [hover, setHover] = useState<{ x: number; y: number; label: string } | null>(null);
   const [fixedAxisRotation, setFixedAxisRotation] = useState(true);
   const [showTerritoryNames, setShowTerritoryNames] = useState(true);
+  const territoryLabelEntitiesRef = useRef<Entity[]>([]);
   const fixedAxisRotationRef = useRef(fixedAxisRotation);
   const fixedAxisLongitudeRef = useRef(FIXED_AXIS_DEFAULT_LONGITUDE);
   const fixedAxisDragRef = useRef({ active: false, lastX: 0, moved: false });
@@ -245,6 +246,7 @@ export function Globe({
     if (!viewer || !world) return;
     const previousWorld = previousWorldRef.current;
     viewer.entities.removeAll();
+    territoryLabelEntitiesRef.current = [];
 
     for (const territory of world.territories) {
       const alpha = territory.controlType === "actual" ? 0.62 : territory.controlType === "claim" ? 0.22 : 0.38;
@@ -279,72 +281,96 @@ export function Globe({
       }
     }
 
-    const cancelTerritoryLabelPlacement = showTerritoryNames
-      ? afterNextSceneRender(viewer.scene, () => {
-        if (viewer.isDestroyed()) return;
-        const measurementContext = document.createElement("canvas").getContext("2d");
-        if (!measurementContext) return;
-        measurementContext.font = "600 12px system-ui";
-        const labelCandidates = new Map<string, {
-          slug: string;
-          text: string;
-          longitude: number;
-          latitude: number;
-          availableWidth: number;
-        }>();
+    const clearTerritoryLabels = () => {
+      for (const entity of territoryLabelEntitiesRef.current) viewer.entities.remove(entity);
+      territoryLabelEntitiesRef.current = [];
+    };
+    let cancelPendingTerritoryLabelPlacement: () => void = () => {};
+    let territoryLabelPlacementPending = false;
+    let territoryLabelRefreshTimer: ReturnType<typeof setTimeout> | undefined;
+    const placeTerritoryLabels = () => {
+      clearTerritoryLabels();
+      if (!showTerritoryNames || viewer.isDestroyed()) return;
+      const measurementContext = document.createElement("canvas").getContext("2d");
+      if (!measurementContext) return;
+      measurementContext.font = "600 12px system-ui";
+      const labelCandidates = new Map<string, {
+        slug: string;
+        text: string;
+        longitude: number;
+        latitude: number;
+        availableWidth: number;
+      }>();
 
-        for (const territory of world.territories) {
-          const labelText = territoryLabel(territory.entity);
-          if (!labelText) continue;
-          for (const ringSet of polygonsFromGeometry(territory.geometry)) {
-            const projectedRings = ringSet.map((ring) => ring.flatMap(([longitude = 0, latitude = 0]) => {
-              const projected = viewer.scene.cartesianToCanvasCoordinates(Cartesian3.fromDegrees(longitude, latitude));
-              return projected && Number.isFinite(projected.x) && Number.isFinite(projected.y)
-                ? [[projected.x, projected.y]] : [];
-            }));
-            const allRingsProjected = projectedRings.every((ring, index) => ring.length === ringSet[index]?.length);
-            const placement = allRingsProjected
-              ? findInteriorLabelPlacement(projectedRings, measurementContext.measureText(labelText).width, 12)
-              : null;
-            const surfacePosition = placement
-              ? viewer.camera.pickEllipsoid(new Cartesian2(placement.x, placement.y), viewer.scene.globe.ellipsoid)
-              : undefined;
-            if (!placement || !surfacePosition) continue;
-            const location = Cartographic.fromCartesian(surfacePosition);
-            const longitude = CesiumMath.toDegrees(location.longitude);
-            const latitude = CesiumMath.toDegrees(location.latitude);
-            if (!isPointInsideTerritory({ x: longitude, y: latitude }, ringSet)) continue;
-            const existing = labelCandidates.get(territory.entity.slug);
-            if (!existing || placement.availableWidth > existing.availableWidth) {
-              labelCandidates.set(territory.entity.slug, {
-                slug: territory.entity.slug,
-                text: labelText,
-                longitude,
-                latitude,
-                availableWidth: placement.availableWidth,
-              });
-            }
+      for (const territory of world.territories) {
+        const labelText = territoryLabel(territory.entity);
+        if (!labelText) continue;
+        for (const ringSet of polygonsFromGeometry(territory.geometry)) {
+          const projectedRings = ringSet.map((ring) => ring.flatMap(([longitude = 0, latitude = 0]) => {
+            const projected = viewer.scene.cartesianToCanvasCoordinates(Cartesian3.fromDegrees(longitude, latitude));
+            return projected && Number.isFinite(projected.x) && Number.isFinite(projected.y)
+              ? [[projected.x, projected.y]] : [];
+          }));
+          const allRingsProjected = projectedRings.every((ring, index) => ring.length === ringSet[index]?.length);
+          const placement = allRingsProjected
+            ? findInteriorLabelPlacement(projectedRings, measurementContext.measureText(labelText).width, 12)
+            : null;
+          const surfacePosition = placement
+            ? viewer.camera.pickEllipsoid(new Cartesian2(placement.x, placement.y), viewer.scene.globe.ellipsoid)
+            : undefined;
+          if (!placement || !surfacePosition) continue;
+          const location = Cartographic.fromCartesian(surfacePosition);
+          const longitude = CesiumMath.toDegrees(location.longitude);
+          const latitude = CesiumMath.toDegrees(location.latitude);
+          if (!isPointInsideTerritory({ x: longitude, y: latitude }, ringSet)) continue;
+          const existing = labelCandidates.get(territory.entity.slug);
+          if (!existing || placement.availableWidth > existing.availableWidth) {
+            labelCandidates.set(territory.entity.slug, {
+              slug: territory.entity.slug,
+              text: labelText,
+              longitude,
+              latitude,
+              availableWidth: placement.availableWidth,
+            });
           }
         }
+      }
 
-        for (const candidate of labelCandidates.values()) {
-          viewer.entities.add({
-            position: Cartesian3.fromDegrees(candidate.longitude, candidate.latitude, 62_000),
-            label: {
-              text: candidate.text,
-              font: "600 12px system-ui",
-              fillColor: Color.WHITE.withAlpha(0.96),
-              outlineColor: Color.BLACK.withAlpha(0.92),
-              outlineWidth: 3,
-              style: LabelStyle.FILL_AND_OUTLINE,
-              horizontalOrigin: HorizontalOrigin.CENTER,
-              verticalOrigin: VerticalOrigin.CENTER,
-            },
-            properties: new PropertyBag({ kind: "territory", slug: candidate.slug, label: candidate.text }),
-          });
-        }
-      })
-      : () => undefined;
+      for (const candidate of labelCandidates.values()) {
+        territoryLabelEntitiesRef.current.push(viewer.entities.add({
+          position: Cartesian3.fromDegrees(candidate.longitude, candidate.latitude, 62_000),
+          label: {
+            text: candidate.text,
+            font: "600 12px system-ui",
+            fillColor: Color.WHITE.withAlpha(0.96),
+            outlineColor: Color.BLACK.withAlpha(0.92),
+            outlineWidth: 3,
+            style: LabelStyle.FILL_AND_OUTLINE,
+            horizontalOrigin: HorizontalOrigin.CENTER,
+            verticalOrigin: VerticalOrigin.CENTER,
+          },
+          properties: new PropertyBag({ kind: "territory", slug: candidate.slug, label: candidate.text }),
+        }));
+      }
+    };
+    const scheduleTerritoryLabelPlacement = () => {
+      if (viewer.isDestroyed()) return;
+      if (territoryLabelRefreshTimer !== undefined) clearTimeout(territoryLabelRefreshTimer);
+      territoryLabelRefreshTimer = setTimeout(() => {
+        territoryLabelRefreshTimer = undefined;
+        if (territoryLabelPlacementPending || viewer.isDestroyed()) return;
+        territoryLabelPlacementPending = true;
+        cancelPendingTerritoryLabelPlacement = afterNextSceneRender(viewer.scene, () => {
+          territoryLabelPlacementPending = false;
+          placeTerritoryLabels();
+        });
+      }, 120);
+    };
+    const refreshTerritoryLabelsAfterCameraMove = () => scheduleTerritoryLabelPlacement();
+    if (showTerritoryNames) {
+      viewer.camera.changed.addEventListener(refreshTerritoryLabelsAfterCameraMove);
+      scheduleTerritoryLabelPlacement();
+    }
 
     const visiblePeople = filterPeopleByPrimaryFields(world.people, selectedPersonFields);
     const selectedPersonVisible = selectedPerson !== null
@@ -426,7 +452,12 @@ export function Globe({
       }
     }
     previousWorldRef.current = world;
-    return cancelTerritoryLabelPlacement;
+    return () => {
+      if (territoryLabelRefreshTimer !== undefined) clearTimeout(territoryLabelRefreshTimer);
+      cancelPendingTerritoryLabelPlacement();
+      viewer.camera.changed.removeEventListener(refreshTerritoryLabelsAfterCameraMove);
+      clearTerritoryLabels();
+    };
   }, [animateTransitions, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, selectedPersonFields, showTerritoryNames, t, territoryLabel, world]);
 
   return (
