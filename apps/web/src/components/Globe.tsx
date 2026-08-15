@@ -205,7 +205,30 @@ export function Globe({
       event.preventDefault();
       noteManualCameraInput();
     };
+    let previousWebkitPinchScale = 1;
+    const beginWebkitPinch = (event: Event) => {
+      event.preventDefault();
+      const scale = (event as Event & { scale?: number }).scale;
+      previousWebkitPinchScale = typeof scale === "number" && scale > 0 ? scale : 1;
+      noteManualCameraInput();
+    };
+    const zoomWebkitPinch = (event: Event) => {
+      event.preventDefault();
+      const scale = (event as Event & { scale?: number }).scale;
+      if (typeof scale !== "number" || scale <= 0 || scale === previousWebkitPinchScale) return;
+      const ratio = scale / previousWebkitPinchScale;
+      const height = Cartographic.fromCartesian(viewer.camera.position).height;
+      const distance = Math.min(2_000_000, Math.max(30_000, height * Math.abs(Math.log(ratio)) * 0.75));
+      if (ratio > 1) viewer.camera.zoomIn(distance);
+      else viewer.camera.zoomOut(distance);
+      previousWebkitPinchScale = scale;
+      noteManualCameraInput();
+    };
+    const endWebkitPinch = () => { previousWebkitPinchScale = 1; };
     viewer.scene.canvas.addEventListener("wheel", preventBrowserPinchZoom, { passive: false });
+    viewer.scene.canvas.addEventListener("gesturestart", beginWebkitPinch, { passive: false });
+    viewer.scene.canvas.addEventListener("gesturechange", zoomWebkitPinch, { passive: false });
+    viewer.scene.canvas.addEventListener("gestureend", endWebkitPinch);
     handler.setInputAction((movement: { position: Cartesian2 }) => {
       beginManualCameraInput();
       if (!fixedAxisRotationRef.current) return;
@@ -224,6 +247,9 @@ export function Globe({
     handler.setInputAction(noteManualCameraInput, ScreenSpaceEventType.WHEEL);
     return () => {
       viewer.scene.canvas.removeEventListener("wheel", preventBrowserPinchZoom);
+      viewer.scene.canvas.removeEventListener("gesturestart", beginWebkitPinch);
+      viewer.scene.canvas.removeEventListener("gesturechange", zoomWebkitPinch);
+      viewer.scene.canvas.removeEventListener("gestureend", endWebkitPinch);
       handler.destroy();
       viewer.destroy();
       viewerRef.current = null;

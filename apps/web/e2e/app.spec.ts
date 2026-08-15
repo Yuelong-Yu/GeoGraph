@@ -157,19 +157,27 @@ test("shows a translated historical polity name in Chinese mode", async ({ page 
   await expect(page.getByText("Prot-Altaic pastoralists", { exact: true })).toBeVisible();
 });
 
-test("keeps a trackpad pinch inside the globe instead of zooming the page", async ({ page }) => {
+test("handles both browser forms of a trackpad pinch on the globe", async ({ page }) => {
   await page.goto("/?year=273");
   const canvas = page.getByLabel("Interactive historical globe").locator("canvas");
   await expect(canvas).toBeVisible();
 
   await expect.poll(() => canvas.evaluate((element) => {
-    const pinch = new WheelEvent("wheel", {
+    const chromiumPinch = new WheelEvent("wheel", {
       bubbles: true,
       cancelable: true,
       ctrlKey: true,
       deltaY: -120,
     });
-    element.dispatchEvent(pinch);
-    return pinch.defaultPrevented;
-  })).toBe(true);
+    element.dispatchEvent(chromiumPinch);
+    const webkitPinch = new Event("gesturestart", { bubbles: true, cancelable: true });
+    element.dispatchEvent(webkitPinch);
+    const webkitChange = new Event("gesturechange", { bubbles: true, cancelable: true });
+    Object.defineProperty(webkitChange, "scale", { value: 1.1 });
+    element.dispatchEvent(webkitChange);
+    return {
+      chromium: chromiumPinch.defaultPrevented,
+      webkit: webkitPinch.defaultPrevented && webkitChange.defaultPrevented,
+    };
+  })).toEqual({ chromium: true, webkit: true });
 });
