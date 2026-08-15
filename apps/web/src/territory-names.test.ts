@@ -25,4 +25,28 @@ describe("Chinese territory names", () => {
     expect(chineseTerritoryName("Algeria (France)")).toBe("法属阿尔及利亚");
     expect(chineseTerritoryName("An untranslated polity")).toBeNull();
   });
+
+  it("localizes every named territory in the default 1 CE snapshot", () => {
+    const names = [
+      "Ainu", "Amazon hunter-gatherers", "Andean hunter-gatherers", "Arakan", "Arctic marine mammal hunters",
+      "Australian aboriginal hunter-gatherers", "Axum", "Bell-shaped burials culture", "Blemmyes", "Boihaenum",
+      "Bosporian Kingdom", "Brushed Pottery culture", "Caribbean hunter-gatherers", "Copena", "Couture Complex",
+      "Curonians", "Desert hunter-gatherers", "Dumonii", "Eastern Masurian culture", "Finno-Ugric taiga hunter-gatherers",
+      "Fourche Maline Culture", "Glades Culture", "Goodall Focus", "Guanches", "Hadramaut", "Hainan",
+      "Himyarite Kingdom", "Hindu kingdoms", "Hopewell Culture", "Judea", "Kalinga", "Khoiasan", "Laurel complex",
+      "Marksville Culture", "Mascat", "Maya chiefdoms and states", "Meroe", "Mill Creek Culture", "Miller", "Milograd culture",
+      "Moche", "Monte Albán", "Nabatean Kingdom", "Nazca", "North American Pacifi foraging, hunting and fishing peoples",
+      "Odrysian Kingdom", "Paleo-Inuit", "Paleo-Siberian hunter-gatherers", "Pampas cultures", "Patagonian shellfish and marine mammal hunters",
+      "Plain bison hunters", "Plain-Pottery culture", "Plateau fichers and hunter gatherers", "Point Peninsula", "Pomeranian culture", "Porter",
+      "Saami", "Saka Kingdom", "Sambian-Nothangian culture", "Satavahanihara", "Saugeen Complex", "Savanna hunter-gatherers",
+      "Shellfish gatherers", "Simhala", "Subarctic forest hunter-gatherers", "Suren Kingdom", "Swift Creek Culture",
+      "Tasmanian hunter-gatherers", "Teotihuacán", "West African cereal farmers", "Western Masurian culture",
+    ];
+
+    expect(names.map(chineseTerritoryName)).not.toContain(null);
+    expect(chineseTerritoryName("Axum")).toBe("阿克苏姆王国");
+    expect(chineseTerritoryName("Himyarite Kingdom")).toBe("希木叶尔王国");
+    expect(chineseTerritoryName("Odrysian Kingdom")).toBe("奥德里西亚王国");
+    expect(chineseTerritoryName("Teotihuacán")).toBe("特奥蒂瓦坎");
+  });
 });
