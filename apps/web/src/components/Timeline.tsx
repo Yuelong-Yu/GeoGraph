@@ -80,7 +80,7 @@ function displayRangeToIndexRange(startPosition: number, endPosition: number): [
 }
 
 export function Timeline(props: TimelineProps) {
-  const { formatTick, formatYear, t } = useI18n();
+  const { formatTick, formatYear, language, t } = useI18n();
   const {
     year, playing, speed, mode, canAdvance, onYearChange, onPlayingChange,
     onSpeedChange, onModeChange, requestNextEvent,
@@ -181,7 +181,7 @@ export function Timeline(props: TimelineProps) {
   };
 
   return (
-    <section className="timeline-shell" aria-label={t("timeline")}>
+    <section className={`timeline-shell timeline-${language}`} aria-label={t("timeline")}>
       <div className="timeline-status">
         <div>
           <span className="eyebrow">{t("currentEra")}</span>
