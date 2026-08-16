@@ -122,7 +122,8 @@ button { color: inherit; }
 .timeline-controls button { height: 35px; border: 1px solid var(--line); border-radius: 18px; cursor: pointer; background: rgba(255,255,255,.035); }
 .timeline-controls button:hover:not(:disabled) { border-color: rgba(87,189,173,.55); }
 .timeline-controls button:disabled { opacity: .25; cursor: default; }
-.icon-button { min-width: 48px; color: #aebfbd; font-size: 11px; }
+.icon-button { min-width: 48px; display: grid; place-items: center; color: #aebfbd; }
+.frame-icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
 .play-button { min-width: 94px; color: #071015 !important; font-weight: 700; border-color: transparent !important; background: linear-gradient(120deg, #e0b359, #f1d183) !important; }
 .playback-options { display: flex; justify-content: flex-end; gap: 11px; }
 .playback-options label { color: var(--muted); font-size: 10px; }

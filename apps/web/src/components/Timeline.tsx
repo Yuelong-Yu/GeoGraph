@@ -79,6 +79,20 @@ function displayRangeToIndexRange(startPosition: number, endPosition: number): [
   return [Math.max(0, start), Math.min(MAX_INDEX, end)];
 }
 
+export function moveHistoricYears(year: number, years: number, direction: "previous" | "next") {
+  let nextYear = year;
+  for (let index = 0; index < years; index += 1) {
+    if (direction === "previous") {
+      if (nextYear === MIN_YEAR) break;
+      nextYear = previousHistoricYear(nextYear);
+    } else {
+      if (nextYear === MAX_YEAR) break;
+      nextYear = nextHistoricYear(nextYear);
+    }
+  }
+  return nextYear;
+}
+
 export function Timeline(props: TimelineProps) {
   const { formatTick, formatYear, language, t } = useI18n();
   const {
@@ -191,11 +205,12 @@ export function Timeline(props: TimelineProps) {
           <button
             type="button"
             className="icon-button"
-            aria-label={t("previousYear")}
+            aria-label={t("previousFrame")}
+            title={t("previousFrame")}
             disabled={year === MIN_YEAR}
-            onClick={() => onYearChange(previousHistoricYear(year))}
+            onClick={() => onYearChange(moveHistoricYears(year, speed, "previous"))}
           >
-            −1
+            <svg className="frame-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M18 5l-9 7 9 7" /></svg>
           </button>
           <button type="button" className="play-button" onClick={togglePlayback}>
             {replayFromStart ? t("replay") : playing ? t("pause") : t("play")}
@@ -203,11 +218,12 @@ export function Timeline(props: TimelineProps) {
           <button
             type="button"
             className="icon-button"
-            aria-label={t("nextYear")}
+            aria-label={t("nextFrame")}
+            title={t("nextFrame")}
             disabled={year === MAX_YEAR}
-            onClick={() => onYearChange(nextHistoricYear(year))}
+            onClick={() => onYearChange(moveHistoricYears(year, speed, "next"))}
           >
-            +1
+            <svg className="frame-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M6 5l9 7-9 7" /></svg>
           </button>
         </div>
         <div className="playback-options">
