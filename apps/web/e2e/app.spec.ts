@@ -77,6 +77,29 @@ test("defaults to People and selects a person from the current-year list", async
   await expect(page.getByRole("heading", { name: "Napoleon Bonaparte" })).toBeVisible();
 });
 
+test("keeps the globe, people details and timeline usable on a mobile viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/?year=1804&person=napoleon-bonaparte");
+
+  const globe = page.getByLabel("Interactive historical globe");
+  const details = page.getByLabel("Details panel");
+  const timeline = page.getByLabel("Historical timeline");
+  await expect(globe).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Napoleon Bonaparte" })).toBeVisible();
+  await expect(timeline).toBeVisible();
+  await expect(page.getByLabel("Search people")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Hide territory names" })).toBeVisible();
+
+  const [globeBox, detailsBox, timelineBox] = await Promise.all([
+    globe.boundingBox(), details.boundingBox(), timeline.boundingBox(),
+  ]);
+  expect(globeBox).not.toBeNull();
+  expect(detailsBox).not.toBeNull();
+  expect(timelineBox).not.toBeNull();
+  expect(detailsBox!.y).toBeGreaterThan(globeBox!.y + 100);
+  expect(timelineBox!.y).toBeGreaterThan(detailsBox!.y);
+});
+
 test("starts following outside a person's lifetime from their birth year", async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("geograph-speed", "1"));
   await page.goto("/?year=1900&person=napoleon-bonaparte");
