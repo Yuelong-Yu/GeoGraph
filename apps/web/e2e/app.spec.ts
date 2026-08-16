@@ -89,6 +89,8 @@ test("keeps the globe, people details and timeline usable on a mobile viewport",
   await expect(timeline).toBeVisible();
   await expect(page.getByLabel("Search people")).toBeVisible();
   await expect(page.getByRole("button", { name: "Hide territory names" })).toBeVisible();
+  const panelResizer = page.getByRole("separator", { name: "Resize details panel" });
+  await expect(panelResizer).toBeVisible();
 
   const [globeBox, detailsBox, timelineBox] = await Promise.all([
     globe.boundingBox(), details.boundingBox(), timeline.boundingBox(),
@@ -98,6 +100,15 @@ test("keeps the globe, people details and timeline usable on a mobile viewport",
   expect(timelineBox).not.toBeNull();
   expect(detailsBox!.y).toBeGreaterThan(globeBox!.y + 100);
   expect(timelineBox!.y).toBeGreaterThan(detailsBox!.y);
+
+  const resizerBox = await panelResizer.boundingBox();
+  expect(resizerBox).not.toBeNull();
+  await page.mouse.move(resizerBox!.x + resizerBox!.width / 2, resizerBox!.y + resizerBox!.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(resizerBox!.x + resizerBox!.width / 2, resizerBox!.y + resizerBox!.height / 2 + 70, { steps: 4 });
+  await page.mouse.up();
+  const resizedDetailsBox = await details.boundingBox();
+  expect(resizedDetailsBox!.height).toBeLessThan(detailsBox!.height);
 });
 
 test("starts following outside a person's lifetime from their birth year", async ({ page }) => {

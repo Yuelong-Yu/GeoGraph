@@ -1,6 +1,6 @@
 import type { EntityDetails, PersonDetails, WorldResponse } from "./api.js";
 import { MAX_YEAR, nextHistoricYear } from "@geograph/domain";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
 import { fetchEntity, fetchPerson, fetchPersonFields, fetchWorld, prefetchWorld } from "./api.js";
 import { DetailsPanel } from "./components/DetailsPanel.js";
 import { Globe, type GlobeHandle } from "./components/Globe.js";
@@ -9,6 +9,7 @@ import { PersonFieldFilter } from "./components/PersonFieldFilter.js";
 import { Timeline } from "./components/Timeline.js";
 import { useI18n } from "./i18n.js";
 import { resolvePersonFollowStart } from "./person-follow.js";
+import { mobileDetailsHeightForPointer } from "./mobile-panel-resize.js";
 import { nextTerritoryDisplayMode, territoryDisplaySettings, type TerritoryDisplayMode } from "./territory-display-mode.js";
 
 export function initialYear(search = window.location.search) {
@@ -38,7 +39,9 @@ export default function App() {
   const [selectedPersonFields, setSelectedPersonFields] = useState<Set<string> | null>(null);
   const [fixedAxisRotation, setFixedAxisRotation] = useState(true);
   const [territoryDisplayMode, setTerritoryDisplayMode] = useState<TerritoryDisplayMode>("names");
+  const [mobileDetailsHeight, setMobileDetailsHeight] = useState<number | null>(null);
   const globeRef = useRef<GlobeHandle>(null);
+  const workspaceRef = useRef<HTMLDivElement>(null);
   const initialParamsRef = useRef(new URLSearchParams(window.location.search));
   const initialSelectionHandledRef = useRef(false);
   const yearRef = useRef(year);
@@ -124,6 +127,37 @@ export default function App() {
   }, [person]);
 
   const territoryDisplayNextAction = territoryDisplaySettings(territoryDisplayMode).nextAction;
+  const resizeMobileDetailsPanel = useCallback((pointerY: number) => {
+    const workspace = workspaceRef.current;
+    if (!workspace) return;
+    const bounds = workspace.getBoundingClientRect();
+    setMobileDetailsHeight(mobileDetailsHeightForPointer(bounds.bottom, bounds.height, pointerY));
+  }, []);
+  const beginMobileDetailsResize = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    if (!window.matchMedia("(max-width: 680px)").matches) return;
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    resizeMobileDetailsPanel(event.clientY);
+  }, [resizeMobileDetailsPanel]);
+  const continueMobileDetailsResize = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) resizeMobileDetailsPanel(event.clientY);
+  }, [resizeMobileDetailsPanel]);
+  const endMobileDetailsResize = useCallback((event: PointerEvent<HTMLDivElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  }, []);
+  const resizeMobileDetailsWithKeyboard = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
+    const workspace = workspaceRef.current;
+    if (!workspace) return;
+    const detailsHeight = mobileDetailsHeight ?? workspace.querySelector(".details-panel")?.getBoundingClientRect().height ?? 0;
+    const movement = event.key === "ArrowDown" ? -24 : event.key === "ArrowUp" ? 24 : 0;
+    if (movement === 0) return;
+    event.preventDefault();
+    const bounds = workspace.getBoundingClientRect();
+    setMobileDetailsHeight(mobileDetailsHeightForPointer(bounds.bottom, bounds.height, bounds.bottom - detailsHeight - movement));
+  }, [mobileDetailsHeight]);
+  const workspaceStyle = mobileDetailsHeight === null
+    ? undefined
+    : { "--mobile-details-height": `${mobileDetailsHeight}px` } as CSSProperties;
 
   return (
     <main className="app-shell">
@@ -156,7 +190,7 @@ export default function App() {
         </div>
       </header>
 
-      <div className="workspace">
+      <div ref={workspaceRef} className="workspace" style={workspaceStyle}>
         <section className="globe-stage">
           <Globe
             ref={globeRef}
@@ -180,6 +214,18 @@ export default function App() {
           />
           <div className="interaction-hint">{t("interactionHint")}</div>
         </section>
+        <div
+          className="mobile-details-resizer"
+          role="separator"
+          aria-label={t("resizeDetailsPanel")}
+          aria-orientation="horizontal"
+          tabIndex={0}
+          onPointerDown={beginMobileDetailsResize}
+          onPointerMove={continueMobileDetailsResize}
+          onPointerUp={endMobileDetailsResize}
+          onPointerCancel={endMobileDetailsResize}
+          onKeyDown={resizeMobileDetailsWithKeyboard}
+        ><i /></div>
         <DetailsPanel
           activeTab={activeTab}
           entity={entity}

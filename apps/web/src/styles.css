@@ -38,6 +38,7 @@ button { color: inherit; }
 .language-toggle:hover { color: var(--ink); border-color: rgba(87,189,173,.48); }
 
 .workspace { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 352px; }
+.mobile-details-resizer { display: none; }
 .globe-stage { position: relative; min-width: 0; overflow: hidden; }
 .globe-canvas { position: absolute; inset: 0; }
 .cesium-viewer, .cesium-viewer-cesiumWidgetContainer, .cesium-widget, .cesium-widget canvas { width: 100%; height: 100%; }
@@ -180,8 +181,12 @@ button { color: inherit; }
   .header-globe-control:nth-child(3)::before { content: "▧"; }
   .language-toggle { width: 32px; height: 32px; min-width: 32px; padding: 0; }
 
-  .workspace { grid-template-columns: 1fr; grid-template-rows: minmax(180px, .75fr) minmax(220px, 1.25fr); }
+  .workspace { grid-template-columns: 1fr; grid-template-rows: minmax(180px, 1fr) 16px minmax(160px, var(--mobile-details-height, 44%)); }
   .globe-stage { min-height: 0; border-bottom: 1px solid var(--line); }
+  .mobile-details-resizer { position: relative; z-index: 7; display: grid; place-items: center; margin-top: -1px; color: rgba(166, 199, 195, .42); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(4, 11, 16, .96); cursor: ns-resize; touch-action: none; }
+  .mobile-details-resizer::before { width: 38px; height: 3px; content: ""; border-radius: 3px; background: currentColor; }
+  .mobile-details-resizer:focus-visible { outline: 1px solid var(--gold); outline-offset: -2px; }
+  .mobile-details-resizer:active { color: var(--gold); }
   .interaction-hint { display: none; }
   .person-field-filter { top: 15px; right: 12px; }
   .person-field-filter-toggle { width: 36px; height: 36px; }
