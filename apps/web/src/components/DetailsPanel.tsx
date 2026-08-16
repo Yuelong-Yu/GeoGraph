@@ -53,37 +53,39 @@ export function DetailsPanel({
           </div>
         ) : <EmptyState text={t("entityEmpty")} />
       ) : person ? (
-        <div className="detail-content person-detail">
-          <span className="eyebrow">{personField(person.person)}</span>
-          <h2>{personName(person.person)}</h2>
-          {language === "zh" && person.person.nameEn && <p className="latin-name">{person.person.nameEn}</p>}
-          <p>{formatYear(person.person.birthYear)}—{person.person.deathYear ? formatYear(person.person.deathYear) : t("present")}</p>
-          <div className="person-actions">
+        <>
+          <div className="person-tab-actions">
             <button type="button" className="follow-button" onClick={() => onFollowingPersonChange(!followingPerson)}>
               {followingPerson ? t("stopFollowing") : t("followPerson")}
             </button>
             <button type="button" className="follow-button" onClick={onShowActivePeople}>{t("showActivePeople")}</button>
           </div>
-          {(year < person.person.birthYear || (person.person.deathYear !== null && year > person.person.deathYear)) && (
-            <div className="out-of-life">{t("outsideLifetime")}</div>
-          )}
-          <p>{personSummary(person.person)}</p>
-          <h3>{t("keyEvents")}</h3>
-          <ol className="event-list">
-            {person.events.map((event) => {
-              const text = eventText(person.person, event);
-              return (
-                <li key={event.id}>
-                  <button type="button" onClick={() => onJumpToEvent(event.year, event.longitude, event.latitude)}>
-                    <time>{formatYear(event.year)}</time>
-                    <strong>{text.title}</strong>
-                    {text.description && <span>{text.description}</span>}
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
+          <div className="detail-content person-detail">
+            <h2>{personName(person.person)}</h2>
+            <span className="eyebrow person-field">{personField(person.person)}</span>
+            {language === "zh" && person.person.nameEn && <p className="latin-name">{person.person.nameEn}</p>}
+            <p>{formatYear(person.person.birthYear)}—{person.person.deathYear ? formatYear(person.person.deathYear) : t("present")}</p>
+            {(year < person.person.birthYear || (person.person.deathYear !== null && year > person.person.deathYear)) && (
+              <div className="out-of-life">{t("outsideLifetime")}</div>
+            )}
+            <p>{personSummary(person.person)}</p>
+            <h3>{t("keyEvents")}</h3>
+            <ol className="event-list">
+              {person.events.map((event) => {
+                const text = eventText(person.person, event);
+                return (
+                  <li key={event.id}>
+                    <button type="button" onClick={() => onJumpToEvent(event.year, event.longitude, event.latitude)}>
+                      <time>{formatYear(event.year)}</time>
+                      <strong>{text.title}</strong>
+                      {text.description && <span>{text.description}</span>}
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </>
       ) : activePeople.length > 0 ? (
         <div className="detail-content active-people">
           <span className="eyebrow">{formatYear(year)}</span>
