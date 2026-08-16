@@ -1,14 +1,15 @@
 import type { EntityDetails, PersonDetails, WorldResponse } from "./api.js";
 import { MAX_YEAR, nextHistoricYear } from "@geograph/domain";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchEntity, fetchPerson, fetchPersonFields, fetchWorld, prefetchWorld } from "./api.js";
 import { DetailsPanel } from "./components/DetailsPanel.js";
-import { Globe } from "./components/Globe.js";
+import { Globe, type GlobeHandle } from "./components/Globe.js";
 import { PersonSearch } from "./components/PersonSearch.js";
 import { PersonFieldFilter } from "./components/PersonFieldFilter.js";
 import { Timeline } from "./components/Timeline.js";
 import { useI18n } from "./i18n.js";
 import { resolvePersonFollowStart } from "./person-follow.js";
+import { nextTerritoryDisplayMode, territoryDisplaySettings, type TerritoryDisplayMode } from "./territory-display-mode.js";
 
 export function initialYear(search = window.location.search) {
   const value = Number(new URLSearchParams(search).get("year") ?? 1);
@@ -35,6 +36,9 @@ export default function App() {
   const [cameraTarget, setCameraTarget] = useState<{ longitude: number; latitude: number; token: number } | null>(null);
   const [personFields, setPersonFields] = useState<string[]>([]);
   const [selectedPersonFields, setSelectedPersonFields] = useState<Set<string> | null>(null);
+  const [fixedAxisRotation, setFixedAxisRotation] = useState(true);
+  const [territoryDisplayMode, setTerritoryDisplayMode] = useState<TerritoryDisplayMode>("names");
+  const globeRef = useRef<GlobeHandle>(null);
   const initialParamsRef = useRef(new URLSearchParams(window.location.search));
   const initialSelectionHandledRef = useRef(false);
   const yearRef = useRef(year);
@@ -119,13 +123,7 @@ export default function App() {
     setPlaying(true);
   }, [person]);
 
-  const status = useMemo(() => {
-    if (error) return t("disconnected");
-    if (loadedYear !== year) return t("syncing");
-    const coverageKey = world?.coverage === "较完整" ? "coverageComplete"
-      : world?.coverage === "部分" ? "coveragePartial" : "coverageBasic";
-    return `${t("coverage")}: ${t(coverageKey)}`;
-  }, [error, loadedYear, t, world?.coverage, year]);
+  const territoryDisplayNextAction = territoryDisplaySettings(territoryDisplayMode).nextAction;
 
   return (
     <main className="app-shell">
@@ -133,16 +131,35 @@ export default function App() {
         <div className="brand"><span className="brand-mark" /><div><strong>GeoGraph</strong><small>{t("brandTagline")}</small></div></div>
         <PersonSearch onSelect={selectPerson} />
         <div className="top-actions">
+          <button type="button" className="header-globe-control" onClick={() => globeRef.current?.resetView()}>
+            {t("globalView")}
+          </button>
+          <button
+            type="button"
+            className="header-globe-control"
+            aria-pressed={fixedAxisRotation}
+            onClick={() => setFixedAxisRotation((fixed) => !fixed)}
+          >
+            {fixedAxisRotation ? t("fixedAxisRotation") : t("freeRotation")}
+          </button>
+          <button
+            type="button"
+            className="header-globe-control"
+            aria-label={t(territoryDisplayNextAction)}
+            onClick={() => setTerritoryDisplayMode(nextTerritoryDisplayMode)}
+          >
+            {t(territoryDisplayNextAction)}
+          </button>
           <button type="button" className="language-toggle" onClick={toggleLanguage}>
             {language === "en" ? "中" : "En"}
           </button>
-          <div className={`sync-status ${error ? "error" : ""}`}><i />{status}</div>
         </div>
       </header>
 
       <div className="workspace">
         <section className="globe-stage">
           <Globe
+            ref={globeRef}
             world={world}
             selectedEntitySlug={selectedEntitySlug}
             selectedPerson={person}
@@ -151,6 +168,8 @@ export default function App() {
             followSelectedPerson={followingPerson}
             cameraTarget={cameraTarget}
             selectedPersonFields={selectedPersonFields}
+            fixedAxisRotation={fixedAxisRotation}
+            territoryDisplayMode={territoryDisplayMode}
             onSelectEntity={selectEntity}
             onSelectPerson={selectPerson}
           />

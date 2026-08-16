@@ -24,14 +24,14 @@ import {
   WebMapTileServiceImageryProvider,
   WebMercatorTilingScheme,
 } from "cesium";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { afterNextSceneRender } from "../after-next-scene-render.js";
 import { shouldAutoFollowCamera, type ManualCameraInputState } from "../camera-follow.js";
 import { fixedAxisCameraView } from "../fixed-axis-camera.js";
 import { filterPeopleByPrimaryFields } from "../person-fields.js";
 import { personPortraitUrl } from "../person-portrait.js";
 import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
-import { nextTerritoryDisplayMode, territoryDisplaySettings } from "../territory-display-mode.js";
+import { territoryDisplaySettings, type TerritoryDisplayMode } from "../territory-display-mode.js";
 import { zoomForTrackpadPinch } from "../trackpad-pinch.js";
 import { useI18n } from "../i18n.js";
 
@@ -44,8 +44,14 @@ interface GlobeProps {
   followSelectedPerson: boolean;
   cameraTarget: { longitude: number; latitude: number; token: number } | null;
   selectedPersonFields: ReadonlySet<string> | null;
+  fixedAxisRotation: boolean;
+  territoryDisplayMode: TerritoryDisplayMode;
   onSelectEntity: (slug: string, point?: { longitude: number; latitude: number }) => void;
   onSelectPerson: (slug: string) => void;
+}
+
+export interface GlobeHandle {
+  resetView: () => void;
 }
 
 function polygonsFromGeometry(geometry: WorldResponse["territories"][number]["geometry"]): number[][][][] {
@@ -83,10 +89,10 @@ function setFixedAxisCamera(viewer: Viewer, longitude: number, height: number) {
   });
 }
 
-export function Globe({
+export const Globe = forwardRef<GlobeHandle, GlobeProps>(function Globe({
   world, selectedEntitySlug, selectedPerson, animateTransitions, frameDurationMs, onSelectEntity, onSelectPerson,
-  followSelectedPerson, cameraTarget, selectedPersonFields,
-}: GlobeProps) {
+  followSelectedPerson, cameraTarget, selectedPersonFields, fixedAxisRotation, territoryDisplayMode,
+}: GlobeProps, ref) {
   const { personName, t, territoryLabel } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
@@ -97,8 +103,6 @@ export function Globe({
     lastInputAt: Number.NEGATIVE_INFINITY,
   });
   const [hover, setHover] = useState<{ x: number; y: number; label: string } | null>(null);
-  const [fixedAxisRotation, setFixedAxisRotation] = useState(true);
-  const [territoryDisplayMode, setTerritoryDisplayMode] = useState<"names" | "names-hidden" | "layer-hidden" | "layer-restored">("names");
   const territoryLabelEntitiesRef = useRef<Entity[]>([]);
   const fixedAxisRotationRef = useRef(fixedAxisRotation);
   const fixedAxisLongitudeRef = useRef(FIXED_AXIS_DEFAULT_LONGITUDE);
@@ -106,7 +110,20 @@ export function Globe({
   fixedAxisRotationRef.current = fixedAxisRotation;
   const selectionHandlers = useRef({ onSelectEntity, onSelectPerson });
   selectionHandlers.current = { onSelectEntity, onSelectPerson };
-  const { layerVisible: showTerritoryLayer, namesVisible: showTerritoryNames, nextAction: territoryDisplayNextAction } = territoryDisplaySettings(territoryDisplayMode);
+  const { layerVisible: showTerritoryLayer, namesVisible: showTerritoryNames } = territoryDisplaySettings(territoryDisplayMode);
+
+  useImperativeHandle(ref, () => ({
+    resetView: () => {
+      const viewer = viewerRef.current;
+      if (!viewer) return;
+      if (fixedAxisRotation) {
+        fixedAxisLongitudeRef.current = FIXED_AXIS_DEFAULT_LONGITUDE;
+        setFixedAxisCamera(viewer, FIXED_AXIS_DEFAULT_LONGITUDE, FIXED_AXIS_DEFAULT_HEIGHT);
+        return;
+      }
+      viewer.camera.flyTo({ destination: Cartesian3.fromDegrees(35, 24, FIXED_AXIS_DEFAULT_HEIGHT), duration: 0.8 });
+    },
+  }), [fixedAxisRotation]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -502,39 +519,7 @@ export function Globe({
   return (
     <>
       <div ref={containerRef} className="globe-canvas" aria-label={t("interactiveGlobe")} />
-      <button
-        type="button"
-        className="reset-view"
-        onClick={() => {
-          const viewer = viewerRef.current;
-          if (!viewer) return;
-          if (fixedAxisRotation) {
-            fixedAxisLongitudeRef.current = FIXED_AXIS_DEFAULT_LONGITUDE;
-            setFixedAxisCamera(viewer, FIXED_AXIS_DEFAULT_LONGITUDE, FIXED_AXIS_DEFAULT_HEIGHT);
-            return;
-          }
-          viewer.camera.flyTo({ destination: Cartesian3.fromDegrees(35, 24, FIXED_AXIS_DEFAULT_HEIGHT), duration: 0.8 });
-        }}
-      >
-        {t("globalView")}
-      </button>
-      <button
-        type="button"
-        className="fixed-axis-toggle"
-        aria-pressed={fixedAxisRotation}
-        onClick={() => setFixedAxisRotation((fixed) => !fixed)}
-      >
-        {fixedAxisRotation ? t("fixedAxisRotation") : t("freeRotation")}
-      </button>
-      <button
-        type="button"
-        className="territory-name-toggle"
-        aria-label={t(territoryDisplayNextAction)}
-        onClick={() => setTerritoryDisplayMode(nextTerritoryDisplayMode)}
-      >
-        {t(territoryDisplayNextAction)}
-      </button>
       {hover && <div className="globe-tooltip" style={{ left: hover.x + 12, top: hover.y + 12 }}>{hover.label}</div>}
     </>
   );
-}
+});
