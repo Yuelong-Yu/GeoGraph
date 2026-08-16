@@ -204,7 +204,7 @@ export function Timeline(props: TimelineProps) {
             <button
               type="button"
               key={period.key}
-              className={`civilization-period ${period.placement}${period.active ? " active" : ""}`}
+              className={`civilization-period ${period.placement} period-${period.key}${period.active ? " active" : ""}`}
               style={{ left: `${period.left}%`, width: `${period.width}%` }}
               onClick={() => onYearChange(period.start)}
               aria-label={`${t(period.key)} · ${formatYear(period.start)}–${formatYear(period.end)}`}
