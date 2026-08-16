@@ -82,10 +82,9 @@ const messages = {
     firstIndustrialRevolution: "First Industrial Revolution",
     secondIndustrialRevolution: "Second Industrial Revolution",
     coldWarDecolonization: "Cold War & decolonization",
-    globalizationNetworkSociety: "Globalization & network society",
     firstWorldWar: "World War I",
     secondWorldWar: "World War II",
-    aiBiotechEra: "AI & biotechnology era",
+    aiEra: "AI era",
   },
   zh: {
     brandTagline: "时间中的世界",
@@ -163,10 +162,9 @@ const messages = {
     firstIndustrialRevolution: "第一次工业革命",
     secondIndustrialRevolution: "第二次工业革命",
     coldWarDecolonization: "冷战与去殖民化",
-    globalizationNetworkSociety: "全球化与网络社会",
     firstWorldWar: "一战",
     secondWorldWar: "二战",
-    aiBiotechEra: "人工智能与生物科技时代",
+    aiEra: "人工智能时代",
   },
 } as const;
 

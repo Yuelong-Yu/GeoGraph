@@ -27,7 +27,7 @@ type CivilizationPeriod = {
   key: MessageKey;
   start: number;
   end: number;
-  placement: "track" | "above" | "below";
+  placement: "track" | "above" | "above-war-one" | "above-war-two" | "below";
 };
 
 // The central labels are the main wayfinding periods. Supporting periods sit
@@ -36,16 +36,15 @@ const CIVILIZATION_PERIODS: CivilizationPeriod[] = [
   { key: "classicalAge", start: -500, end: 500, placement: "track" },
   { key: "medievalWorld", start: 500, end: 1450, placement: "track" },
   { key: "ageOfExploration", start: 1450, end: 1800, placement: "track" },
-  { key: "firstIndustrialRevolution", start: 1760, end: 1840, placement: "track" },
-  { key: "secondIndustrialRevolution", start: 1870, end: 1914, placement: "track" },
-  { key: "firstWorldWar", start: 1914, end: 1918, placement: "below" },
-  { key: "secondWorldWar", start: 1939, end: 1945, placement: "below" },
-  { key: "informationAge", start: 1970, end: MAX_YEAR, placement: "track" },
-  { key: "aiBiotechEra", start: 2010, end: MAX_YEAR, placement: "track" },
+  { key: "industrialAge", start: 1760, end: 1945, placement: "track" },
+  { key: "informationAge", start: 1970, end: 2021, placement: "track" },
+  { key: "aiEra", start: 2012, end: MAX_YEAR, placement: "track" },
   { key: "renaissanceReformation", start: 1350, end: 1650, placement: "above" },
-  { key: "industrialAge", start: 1760, end: 1945, placement: "above" },
-  { key: "globalizationNetworkSociety", start: 1991, end: MAX_YEAR, placement: "above" },
-  { key: "enlightenmentRevolutions", start: 1650, end: 1800, placement: "below" },
+  { key: "enlightenmentRevolutions", start: 1650, end: 1800, placement: "above" },
+  { key: "firstIndustrialRevolution", start: 1760, end: 1840, placement: "above" },
+  { key: "secondIndustrialRevolution", start: 1870, end: 1914, placement: "above" },
+  { key: "firstWorldWar", start: 1914, end: 1918, placement: "above-war-one" },
+  { key: "secondWorldWar", start: 1939, end: 1945, placement: "above-war-two" },
   { key: "coldWarDecolonization", start: 1945, end: 1991, placement: "below" },
 ];
 
