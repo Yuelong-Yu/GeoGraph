@@ -27,7 +27,7 @@ type CivilizationPeriod = {
   key: MessageKey;
   start: number;
   end: number;
-  placement: "track" | "above" | "above-war-one" | "above-war-two" | "below";
+  placement: "track" | "above" | "below";
 };
 
 // The central labels are the main wayfinding periods. Supporting periods sit
@@ -43,9 +43,9 @@ const CIVILIZATION_PERIODS: CivilizationPeriod[] = [
   { key: "enlightenmentRevolutions", start: 1650, end: 1800, placement: "above" },
   { key: "firstIndustrialRevolution", start: 1760, end: 1840, placement: "above" },
   { key: "secondIndustrialRevolution", start: 1870, end: 1914, placement: "above" },
-  { key: "firstWorldWar", start: 1914, end: 1918, placement: "above-war-one" },
-  { key: "secondWorldWar", start: 1939, end: 1945, placement: "above-war-two" },
-  { key: "coldWarDecolonization", start: 1945, end: 1991, placement: "below" },
+  { key: "firstWorldWar", start: 1914, end: 1918, placement: "above" },
+  { key: "secondWorldWar", start: 1939, end: 1945, placement: "above" },
+  { key: "coldWarDecolonization", start: 1945, end: 1991, placement: "above" },
 ];
 
 function yearToIndex(year: number) {

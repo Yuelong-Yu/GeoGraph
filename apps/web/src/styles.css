@@ -16,7 +16,7 @@ html, body, #root { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 button, input, select { font: inherit; }
 button { color: inherit; }
 
-.app-shell { height: 100%; display: grid; grid-template-rows: 68px minmax(0, 1fr) 225px; background: radial-gradient(circle at 42% 42%, #10232e 0, #050b10 52%, #020508 100%); }
+.app-shell { height: 100%; display: grid; grid-template-rows: 68px minmax(0, 1fr) 205px; background: radial-gradient(circle at 42% 42%, #10232e 0, #050b10 52%, #020508 100%); }
 .topbar { z-index: 5; display: grid; grid-template-columns: 250px minmax(260px, 520px) 1fr; align-items: center; gap: 24px; padding: 0 24px; border-bottom: 1px solid var(--line); background: rgba(3, 9, 14, 0.88); backdrop-filter: blur(18px); }
 .brand { display: flex; align-items: center; gap: 11px; }
 .brand-mark { width: 34px; aspect-ratio: 1; border: 1px solid #8ecdc2; border-radius: 50%; background: radial-gradient(circle at 65% 34%, #c5e6c9 0 5%, transparent 6%), radial-gradient(circle at 40% 57%, #45938a 0 18%, transparent 19%), linear-gradient(140deg, #123746, #07131d); box-shadow: 0 0 24px rgba(66, 174, 157, .25); }
@@ -133,7 +133,7 @@ button { color: inherit; }
 .playback-options { display: flex; justify-content: flex-end; gap: 11px; }
 .playback-options label { color: var(--muted); font-size: 10px; }
 .playback-options select { display: block; margin-top: 3px; min-width: 114px; padding: 4px 7px; color: #dce6e3; font-size: 11px; border: 1px solid var(--line); border-radius: 6px; background: #0b171e; }
-.timeline-track { position: relative; height: 91px; margin-top: 29px; }
+.timeline-track { position: relative; height: 91px; margin-top: 9px; }
 .timeline-track input { position: absolute; z-index: 3; top: 32px; left: 0; width: 100%; height: 16px; margin: 0; appearance: none; background: transparent; cursor: ew-resize; }
 .timeline-track input::-webkit-slider-runnable-track { height: 2px; background: linear-gradient(90deg, #477f79, rgba(144,172,169,.25)); }
 .timeline-track input::-webkit-slider-thumb { width: 12px; height: 12px; margin-top: -5px; appearance: none; border: 2px solid #071015; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 3px rgba(228,185,95,.22); }
@@ -150,17 +150,16 @@ button { color: inherit; }
 .civilization-period.below span { top: 20px; }
 .civilization-period.above::before { top: -20px; height: 12px; }
 .civilization-period.below::before { top: 21px; height: 12px; }
-.civilization-period.above-war-one span { bottom: 39px; }
-.civilization-period.above-war-one::before { top: -37px; height: 12px; }
-.civilization-period.above-war-two span { bottom: 56px; }
-.civilization-period.above-war-two::before { top: -54px; height: 12px; }
+.civilization-period.period-firstWorldWar span { left: 0; transform: translateX(-100%); }
+.civilization-period.period-secondWorldWar span { left: 0; transform: none; }
+.civilization-period.period-coldWarDecolonization span { left: 100%; transform: none; }
 .civilization-period:hover span, .civilization-period:focus-visible span { z-index: 2; color: #fff3d0; outline: 1px solid var(--gold); outline-offset: 1px; }
 .civilization-period.active::before { background: linear-gradient(90deg, rgba(228,185,95,.72), rgba(228,185,95,.22)); }
 .civilization-period.active span { color: #fff3d0; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 @media (max-width: 960px) {
-  .app-shell { grid-template-rows: 62px minmax(0,1fr) 225px; }
+  .app-shell { grid-template-rows: 62px minmax(0,1fr) 205px; }
   .topbar { grid-template-columns: 190px 1fr; padding: 0 14px; }
   .sync-status { display: none; }
   .workspace { grid-template-columns: 1fr 300px; }
