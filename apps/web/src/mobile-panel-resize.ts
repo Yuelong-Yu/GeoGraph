@@ -1,6 +1,6 @@
 export const MOBILE_DETAILS_MIN_HEIGHT = 160;
 export const MOBILE_GLOBE_MIN_HEIGHT = 180;
-export const MOBILE_PANEL_RESIZER_HEIGHT = 16;
+export const MOBILE_PANEL_RESIZER_HEIGHT = 28;
 
 export function mobileDetailsHeightForPointer(
   workspaceBottom: number,

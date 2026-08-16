@@ -10,7 +10,7 @@ describe("mobileDetailsHeightForPointer", () => {
   });
 
   it("keeps the details panel within its available range", () => {
-    expect(mobileDetailsHeightForPointer(600, 500, 0)).toBe(304);
+    expect(mobileDetailsHeightForPointer(600, 500, 0)).toBe(292);
     expect(mobileDetailsHeightForPointer(600, 500, 590)).toBe(MOBILE_DETAILS_MIN_HEIGHT);
   });
 });
