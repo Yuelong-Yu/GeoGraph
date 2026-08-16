@@ -150,9 +150,10 @@ button { color: inherit; }
 .civilization-period.below span { top: 20px; }
 .civilization-period.above::before { top: -20px; height: 12px; }
 .civilization-period.below::before { top: 21px; height: 12px; }
-.timeline-en .civilization-period.period-firstWorldWar span { left: -45px; transform: translateX(-100%); }
-.timeline-en .civilization-period.period-secondWorldWar span { left: 100%; transform: none; }
-.timeline-en .civilization-period.period-coldWarDecolonization span { left: 85%; transform: none; }
+.timeline-en .civilization-period.period-firstWorldWar span,
+.timeline-en .civilization-period.period-secondWorldWar span,
+.timeline-en .civilization-period.period-enlightenmentRevolutions span { left: 0; transform: none; }
+.timeline-en .civilization-period.period-coldWarDecolonization span { left: 50%; transform: translateX(-50%); }
 .timeline-zh .civilization-period.period-firstWorldWar span,
 .timeline-zh .civilization-period.period-secondWorldWar span { left: 50%; transform: translateX(-50%); }
 .timeline-zh .civilization-period.period-coldWarDecolonization span { left: 100%; transform: translateX(-88%); }
