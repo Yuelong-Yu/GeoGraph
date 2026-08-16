@@ -150,9 +150,10 @@ button { color: inherit; }
 .civilization-period.below span { top: 20px; }
 .civilization-period.above::before { top: -20px; height: 12px; }
 .civilization-period.below::before { top: 21px; height: 12px; }
-.civilization-period.period-firstWorldWar span { left: 0; transform: translateX(-100%); }
-.civilization-period.period-secondWorldWar span { left: 0; transform: none; }
-.civilization-period.period-coldWarDecolonization span { left: 100%; transform: none; }
+.civilization-period.period-firstWorldWar span { left: 100%; transform: none; }
+.civilization-period.period-secondWorldWar span { left: 0; transform: translateX(-100%); }
+.civilization-period.period-coldWarDecolonization span { left: 100%; transform: translateX(-100%); }
+.civilization-period.period-informationAge span { left: 0; transform: none; }
 .civilization-period:hover span, .civilization-period:focus-visible span { z-index: 2; color: #fff3d0; outline: 1px solid var(--gold); outline-offset: 1px; }
 .civilization-period.active::before { background: linear-gradient(90deg, rgba(228,185,95,.72), rgba(228,185,95,.22)); }
 .civilization-period.active span { color: #fff3d0; }
