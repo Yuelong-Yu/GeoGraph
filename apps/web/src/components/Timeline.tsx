@@ -24,28 +24,26 @@ type CivilizationPeriod = {
   key: MessageKey;
   start: number;
   end: number;
-  lane: number;
+  placement: "track" | "above" | "below";
 };
 
-// Periods overlap deliberately: broad eras provide context while the lower lanes
-// show the more specific transformations and conflicts within them.
+// The central labels are the main wayfinding periods. Supporting periods sit
+// above or below the track so that they remain legible without obscuring it.
 const CIVILIZATION_PERIODS: CivilizationPeriod[] = [
-  { key: "classicalAge", start: -500, end: 500, lane: 0 },
-  { key: "medievalWorld", start: 500, end: 1450, lane: 0 },
-  { key: "earlyModernWorld", start: 1450, end: 1800, lane: 0 },
-  { key: "industrialAge", start: 1760, end: 1945, lane: 0 },
-  { key: "informationAge", start: 1970, end: MAX_YEAR, lane: 0 },
-  { key: "renaissanceReformation", start: 1350, end: 1650, lane: 1 },
-  { key: "ageOfExploration", start: 1450, end: 1800, lane: 1 },
-  { key: "enlightenmentRevolutions", start: 1650, end: 1800, lane: 1 },
-  { key: "firstIndustrialRevolution", start: 1760, end: 1840, lane: 1 },
-  { key: "secondIndustrialRevolution", start: 1870, end: 1914, lane: 1 },
-  { key: "coldWarDecolonization", start: 1945, end: 1991, lane: 1 },
-  { key: "globalizationNetworkSociety", start: 1991, end: MAX_YEAR, lane: 1 },
-  { key: "firstWorldWar", start: 1914, end: 1918, lane: 2 },
-  { key: "interwarPeriod", start: 1919, end: 1939, lane: 2 },
-  { key: "secondWorldWar", start: 1939, end: 1945, lane: 2 },
-  { key: "aiBiotechEra", start: 2010, end: MAX_YEAR, lane: 2 },
+  { key: "classicalAge", start: -500, end: 500, placement: "track" },
+  { key: "medievalWorld", start: 500, end: 1450, placement: "track" },
+  { key: "ageOfExploration", start: 1450, end: 1800, placement: "track" },
+  { key: "firstIndustrialRevolution", start: 1760, end: 1840, placement: "track" },
+  { key: "secondIndustrialRevolution", start: 1870, end: 1914, placement: "track" },
+  { key: "firstWorldWar", start: 1914, end: 1918, placement: "track" },
+  { key: "secondWorldWar", start: 1939, end: 1945, placement: "track" },
+  { key: "informationAge", start: 1970, end: MAX_YEAR, placement: "track" },
+  { key: "aiBiotechEra", start: 2010, end: MAX_YEAR, placement: "track" },
+  { key: "renaissanceReformation", start: 1350, end: 1650, placement: "above" },
+  { key: "industrialAge", start: 1760, end: 1945, placement: "above" },
+  { key: "globalizationNetworkSociety", start: 1991, end: MAX_YEAR, placement: "above" },
+  { key: "enlightenmentRevolutions", start: 1650, end: 1800, placement: "below" },
+  { key: "coldWarDecolonization", start: 1945, end: 1991, placement: "below" },
 ];
 
 function yearToIndex(year: number) {
@@ -201,24 +199,24 @@ export function Timeline(props: TimelineProps) {
           value={yearToIndex(year)}
           onChange={(event) => onYearChange(indexToYear(Number(event.target.value)))}
         />
+        <div className="civilization-periods" aria-label={t("civilizationPeriods")}>
+          {visiblePeriods.map((period) => (
+            <button
+              type="button"
+              key={period.key}
+              className={`civilization-period ${period.placement}${period.active ? " active" : ""}`}
+              style={{ left: `${period.left}%`, width: `${period.width}%` }}
+              onClick={() => onYearChange(period.start)}
+              aria-label={`${t(period.key)} · ${formatYear(period.start)}–${formatYear(period.end)}`}
+              title={`${t(period.key)} · ${formatYear(period.start)}–${formatYear(period.end)}`}
+            >
+              <span>{t(period.key)}</span>
+            </button>
+          ))}
+        </div>
         <div className="timeline-ticks" aria-hidden="true">
           {ticks.map((tick, index) => <span key={`${tick}-${index}`}>{tick}</span>)}
         </div>
-      </div>
-      <div className="civilization-periods" aria-label={t("civilizationPeriods")}>
-        {visiblePeriods.map((period) => (
-          <button
-            type="button"
-            key={period.key}
-            className={`civilization-period lane-${period.lane}${period.active ? " active" : ""}`}
-            style={{ left: `${period.left}%`, width: `${period.width}%` }}
-            onClick={() => onYearChange(period.start)}
-            aria-label={`${t(period.key)} · ${formatYear(period.start)}–${formatYear(period.end)}`}
-            title={`${t(period.key)} · ${formatYear(period.start)}–${formatYear(period.end)}`}
-          >
-            <span>{t(period.key)}</span>
-          </button>
-        ))}
       </div>
     </section>
   );
