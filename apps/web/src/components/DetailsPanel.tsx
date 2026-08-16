@@ -79,12 +79,6 @@ export function DetailsPanel({
               );
             })}
           </ol>
-          <section className="detail-note">
-            <h3>{t("sources")}</h3>
-            {person.sources.length > 0
-              ? person.sources.map((source) => <p key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a><br />{source.institution} · {source.license}</p>)
-              : <p>{t("demoSources")}</p>}
-          </section>
         </div>
       ) : activePeople.length > 0 ? (
         <div className="detail-content active-people">
