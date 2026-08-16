@@ -31,6 +31,7 @@ import { fixedAxisCameraView } from "../fixed-axis-camera.js";
 import { filterPeopleByPrimaryFields } from "../person-fields.js";
 import { personPortraitUrl } from "../person-portrait.js";
 import { findInteriorLabelPlacement, isPointInsideTerritory } from "../territory-labels.js";
+import { nextTerritoryDisplayMode, territoryDisplaySettings } from "../territory-display-mode.js";
 import { zoomForTrackpadPinch } from "../trackpad-pinch.js";
 import { useI18n } from "../i18n.js";
 
@@ -97,7 +98,7 @@ export function Globe({
   });
   const [hover, setHover] = useState<{ x: number; y: number; label: string } | null>(null);
   const [fixedAxisRotation, setFixedAxisRotation] = useState(true);
-  const [showTerritoryNames, setShowTerritoryNames] = useState(true);
+  const [territoryDisplayMode, setTerritoryDisplayMode] = useState<"names" | "names-hidden" | "layer-hidden" | "layer-restored">("names");
   const territoryLabelEntitiesRef = useRef<Entity[]>([]);
   const fixedAxisRotationRef = useRef(fixedAxisRotation);
   const fixedAxisLongitudeRef = useRef(FIXED_AXIS_DEFAULT_LONGITUDE);
@@ -105,6 +106,7 @@ export function Globe({
   fixedAxisRotationRef.current = fixedAxisRotation;
   const selectionHandlers = useRef({ onSelectEntity, onSelectPerson });
   selectionHandlers.current = { onSelectEntity, onSelectPerson };
+  const { layerVisible: showTerritoryLayer, namesVisible: showTerritoryNames, nextAction: territoryDisplayNextAction } = territoryDisplaySettings(territoryDisplayMode);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -285,7 +287,7 @@ export function Globe({
     viewer.entities.removeAll();
     territoryLabelEntitiesRef.current = [];
 
-    for (const territory of world.territories) {
+    if (showTerritoryLayer) for (const territory of world.territories) {
       const alpha = territory.controlType === "actual" ? 0.62 : territory.controlType === "claim" ? 0.22 : 0.38;
       for (const ringSet of polygonsFromGeometry(territory.geometry)) {
         const outer = ringSet[0];
@@ -495,7 +497,7 @@ export function Globe({
       viewer.camera.changed.removeEventListener(refreshTerritoryLabelsAfterCameraMove);
       clearTerritoryLabels();
     };
-  }, [animateTransitions, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, selectedPersonFields, showTerritoryNames, t, territoryLabel, world]);
+  }, [animateTransitions, followSelectedPerson, frameDurationMs, personName, selectedEntitySlug, selectedPerson, selectedPersonFields, showTerritoryLayer, showTerritoryNames, t, territoryLabel, world]);
 
   return (
     <>
@@ -527,10 +529,10 @@ export function Globe({
       <button
         type="button"
         className="territory-name-toggle"
-        aria-pressed={showTerritoryNames}
-        onClick={() => setShowTerritoryNames((visible) => !visible)}
+        aria-label={t(territoryDisplayNextAction)}
+        onClick={() => setTerritoryDisplayMode(nextTerritoryDisplayMode)}
       >
-        {showTerritoryNames ? t("hideTerritoryNames") : t("showTerritoryNames")}
+        {t(territoryDisplayNextAction)}
       </button>
       {hover && <div className="globe-tooltip" style={{ left: hover.x + 12, top: hover.y + 12 }}>{hover.label}</div>}
     </>
