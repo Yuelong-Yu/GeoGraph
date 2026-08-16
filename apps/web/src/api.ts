@@ -77,8 +77,3 @@ export function fetchEntity(
   }).toString()}` : "";
   return requestJson<EntityDetails>(`/api/entities/${encodeURIComponent(slug)}${query}`, signal);
 }
-
-export async function fetchNextEvent(year: number) {
-  const response = await requestJson<{ year: number | null }>(`/api/timeline/next-event?after=${year}`);
-  return response.year;
-}

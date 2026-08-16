@@ -19,12 +19,10 @@ describe("timeline controls", () => {
         year={-2}
         playing={false}
         speed={5}
-        mode="continuous"
         canAdvance
         onYearChange={nextFrameChange}
         onPlayingChange={vi.fn()}
         onSpeedChange={vi.fn()}
-        onModeChange={vi.fn()}
       />,
     );
 
@@ -38,12 +36,10 @@ describe("timeline controls", () => {
         year={3}
         playing={false}
         speed={5}
-        mode="continuous"
         canAdvance
         onYearChange={previousFrameChange}
         onPlayingChange={vi.fn()}
         onSpeedChange={vi.fn()}
-        onModeChange={vi.fn()}
       />,
     );
 
@@ -60,12 +56,10 @@ describe("timeline controls", () => {
         year={2026}
         playing={false}
         speed={5}
-        mode="continuous"
         canAdvance
         onYearChange={onYearChange}
         onPlayingChange={onPlayingChange}
         onSpeedChange={vi.fn()}
-        onModeChange={vi.fn()}
       />,
     );
 
@@ -81,12 +75,10 @@ describe("timeline controls", () => {
         year={1}
         playing={false}
         speed={5}
-        mode="continuous"
         canAdvance
         onYearChange={onYearChange}
         onPlayingChange={vi.fn()}
         onSpeedChange={vi.fn()}
-        onModeChange={vi.fn()}
       />,
     );
 

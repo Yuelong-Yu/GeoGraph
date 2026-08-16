@@ -2,19 +2,14 @@ import { MAX_YEAR, MIN_YEAR, nextHistoricYear, previousHistoricYear } from "@geo
 import { useEffect, useMemo, useState, type WheelEvent } from "react";
 import { useI18n, type MessageKey } from "../i18n.js";
 
-export type PlaybackMode = "continuous" | "events";
-
 interface TimelineProps {
   year: number;
   playing: boolean;
   speed: number;
-  mode: PlaybackMode;
   canAdvance: boolean;
   onYearChange: (year: number) => void;
   onPlayingChange: (playing: boolean) => void;
   onSpeedChange: (speed: number) => void;
-  onModeChange: (mode: PlaybackMode) => void;
-  requestNextEvent?: (year: number) => Promise<number | null>;
 }
 
 const LAST_BCE_INDEX = Math.abs(MIN_YEAR) - 1;
@@ -96,8 +91,7 @@ export function moveHistoricYears(year: number, years: number, direction: "previ
 export function Timeline(props: TimelineProps) {
   const { formatTick, formatYear, language, t } = useI18n();
   const {
-    year, playing, speed, mode, canAdvance, onYearChange, onPlayingChange,
-    onSpeedChange, onModeChange, requestNextEvent,
+    year, playing, speed, canAdvance, onYearChange, onPlayingChange, onSpeedChange,
   } = props;
   const [viewRange, setViewRange] = useState<[number, number]>([0, MAX_INDEX]);
   const currentIndex = yearToIndex(year);
@@ -166,23 +160,15 @@ export function Timeline(props: TimelineProps) {
     }
 
     let cancelled = false;
-    const duration = mode === "events" ? 1_000 : 1_000 / speed;
+    const duration = 1_000 / speed;
     const timer = window.setTimeout(() => {
-      if (mode === "events" && requestNextEvent) {
-        void requestNextEvent(year).then((next) => {
-          if (cancelled) return;
-          if (next === null) onPlayingChange(false);
-          else onYearChange(next);
-        });
-      } else {
-        onYearChange(nextHistoricYear(year));
-      }
+      if (!cancelled) onYearChange(nextHistoricYear(year));
     }, duration);
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [canAdvance, mode, onPlayingChange, onYearChange, playing, requestNextEvent, speed, year]);
+  }, [canAdvance, onPlayingChange, onYearChange, playing, speed, year]);
 
   const replayFromStart = year === MAX_YEAR && !playing;
   const togglePlayback = () => {
@@ -228,15 +214,8 @@ export function Timeline(props: TimelineProps) {
         </div>
         <div className="playback-options">
           <label>
-            {t("mode")}
-            <select value={mode} onChange={(event) => onModeChange(event.target.value as PlaybackMode)}>
-              <option value="continuous">{t("continuousYears")}</option>
-              <option value="events">{t("historicalEvents")}</option>
-            </select>
-          </label>
-          <label>
             {t("speed")}
-            <select value={speed} disabled={mode === "events"} onChange={(event) => onSpeedChange(Number(event.target.value))}>
+            <select value={speed} onChange={(event) => onSpeedChange(Number(event.target.value))}>
               {[1, 5, 10, 50].map((value) => <option key={value} value={value}>{value} {t("yearsPerSecond")}</option>)}
             </select>
           </label>

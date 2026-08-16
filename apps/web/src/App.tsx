@@ -1,12 +1,12 @@
 import type { EntityDetails, PersonDetails, WorldResponse } from "./api.js";
 import { MAX_YEAR, nextHistoricYear } from "@geograph/domain";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { fetchEntity, fetchNextEvent, fetchPerson, fetchPersonFields, fetchWorld, prefetchWorld } from "./api.js";
+import { fetchEntity, fetchPerson, fetchPersonFields, fetchWorld, prefetchWorld } from "./api.js";
 import { DetailsPanel } from "./components/DetailsPanel.js";
 import { Globe } from "./components/Globe.js";
 import { PersonSearch } from "./components/PersonSearch.js";
 import { PersonFieldFilter } from "./components/PersonFieldFilter.js";
-import { Timeline, type PlaybackMode } from "./components/Timeline.js";
+import { Timeline } from "./components/Timeline.js";
 import { useI18n } from "./i18n.js";
 import { resolvePersonFollowStart } from "./person-follow.js";
 
@@ -25,14 +25,12 @@ export default function App() {
   const [year, setYear] = useState(initialYear);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(initialSpeed);
-  const [mode, setMode] = useState<PlaybackMode>("continuous");
   const [world, setWorld] = useState<WorldResponse | null>(null);
   const [loadedYear, setLoadedYear] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"entity" | "person">("person");
   const [entity, setEntity] = useState<EntityDetails | null>(null);
   const [person, setPerson] = useState<PersonDetails | null>(null);
-  const [copied, setCopied] = useState(false);
   const [followingPerson, setFollowingPerson] = useState(false);
   const [cameraTarget, setCameraTarget] = useState<{ longitude: number; latitude: number; token: number } | null>(null);
   const [personFields, setPersonFields] = useState<string[]>([]);
@@ -68,13 +66,13 @@ export default function App() {
   }, [year]);
 
   useEffect(() => {
-    if (loadedYear !== year || year === MAX_YEAR || mode !== "continuous" || speed > 10) return;
+    if (loadedYear !== year || year === MAX_YEAR || speed > 10) return;
     let nextYear = year;
     for (let index = 0; index < 3 && nextYear < MAX_YEAR; index += 1) {
       nextYear = nextHistoricYear(nextYear);
       prefetchWorld(nextYear);
     }
-  }, [loadedYear, mode, speed, year]);
+  }, [loadedYear, speed, year]);
 
   const selectEntity = useCallback((slug: string, point?: { longitude: number; latitude: number }) => {
     setActiveTab("entity");
@@ -138,12 +136,6 @@ export default function App() {
           <button type="button" className="language-toggle" onClick={toggleLanguage}>
             {language === "en" ? "中" : "En"}
           </button>
-          <button type="button" className="share-button" onClick={() => {
-            void navigator.clipboard.writeText(window.location.href).then(() => {
-              setCopied(true);
-              window.setTimeout(() => setCopied(false), 1_500);
-            });
-          }}>{copied ? t("copied") : t("copyView")}</button>
           <div className={`sync-status ${error ? "error" : ""}`}><i />{status}</div>
         </div>
       </header>
@@ -155,7 +147,7 @@ export default function App() {
             selectedEntitySlug={selectedEntitySlug}
             selectedPerson={person}
             animateTransitions={playing}
-            frameDurationMs={mode === "events" ? 1_000 : 1_000 / speed}
+            frameDurationMs={1_000 / speed}
             followSelectedPerson={followingPerson}
             cameraTarget={cameraTarget}
             selectedPersonFields={selectedPersonFields}
@@ -194,13 +186,10 @@ export default function App() {
         year={year}
         playing={playing}
         speed={speed}
-        mode={mode}
         canAdvance={loadedYear === year && !error}
         onYearChange={setYear}
         onPlayingChange={setPlaying}
         onSpeedChange={setSpeed}
-        onModeChange={setMode}
-        requestNextEvent={fetchNextEvent}
       />
     </main>
   );
