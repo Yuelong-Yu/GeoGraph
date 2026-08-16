@@ -2,10 +2,15 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { Timeline } from "./Timeline.js";
+import { indexToTimelinePosition, Timeline, timelinePositionToIndex } from "./Timeline.js";
 
 describe("timeline controls", () => {
   afterEach(cleanup);
+
+  it("compresses early history and expands later history on the display scale", () => {
+    expect(indexToTimelinePosition(1_535)).toBeLessThan(0.5);
+    expect(timelinePositionToIndex(indexToTimelinePosition(1_535))).toBeCloseTo(1_535, 6);
+  });
 
   it("offers to replay from 1046 BCE when the view is at 2026", async () => {
     const onYearChange = vi.fn();

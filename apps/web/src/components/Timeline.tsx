@@ -19,6 +19,9 @@ interface TimelineProps {
 
 const LAST_BCE_INDEX = Math.abs(MIN_YEAR) - 1;
 const MAX_INDEX = LAST_BCE_INDEX + MAX_YEAR;
+const DISPLAY_CURVE = 3;
+const DISPLAY_CURVE_RANGE = Math.expm1(DISPLAY_CURVE);
+const SLIDER_SCALE = 100_000;
 
 type CivilizationPeriod = {
   key: MessageKey;
@@ -54,6 +57,29 @@ function indexToYear(index: number) {
   return index <= LAST_BCE_INDEX ? MIN_YEAR + index : index - LAST_BCE_INDEX;
 }
 
+// A forward-weighted logarithmic display: early history is compressed and the
+// visual distance between later years increases. The inverse keeps the range
+// input accurate down to individual historical years.
+export function indexToTimelinePosition(index: number) {
+  return Math.expm1(DISPLAY_CURVE * index / MAX_INDEX) / DISPLAY_CURVE_RANGE;
+}
+
+export function timelinePositionToIndex(position: number) {
+  return MAX_INDEX * Math.log1p(Math.max(0, Math.min(1, position)) * DISPLAY_CURVE_RANGE) / DISPLAY_CURVE;
+}
+
+function positionWithinView(index: number, start: number, end: number) {
+  const startPosition = indexToTimelinePosition(start);
+  const span = indexToTimelinePosition(end) - startPosition;
+  return (indexToTimelinePosition(index) - startPosition) / span;
+}
+
+function displayRangeToIndexRange(startPosition: number, endPosition: number): [number, number] {
+  const start = Math.round(timelinePositionToIndex(startPosition));
+  const end = Math.max(start + 1, Math.round(timelinePositionToIndex(endPosition)));
+  return [Math.max(0, start), Math.min(MAX_INDEX, end)];
+}
+
 export function Timeline(props: TimelineProps) {
   const { formatTick, formatYear, t } = useI18n();
   const {
@@ -62,6 +88,11 @@ export function Timeline(props: TimelineProps) {
   } = props;
   const [viewRange, setViewRange] = useState<[number, number]>([0, MAX_INDEX]);
   const currentIndex = yearToIndex(year);
+  const viewStartPosition = indexToTimelinePosition(viewRange[0]);
+  const viewEndPosition = indexToTimelinePosition(viewRange[1]);
+  const sliderMin = Math.round(viewStartPosition * SLIDER_SCALE);
+  const sliderMax = Math.round(viewEndPosition * SLIDER_SCALE);
+  const sliderValue = Math.round(indexToTimelinePosition(currentIndex) * SLIDER_SCALE);
 
   useEffect(() => {
     const [start, end] = viewRange;
@@ -71,10 +102,18 @@ export function Timeline(props: TimelineProps) {
     setViewRange([nextStart, nextStart + span]);
   }, [currentIndex, viewRange]);
 
-  const ticks = useMemo(() => Array.from({ length: 8 }, (_, index) => {
-    const position = Math.round(viewRange[0] + (viewRange[1] - viewRange[0]) * index / 7);
-    return formatTick(indexToYear(position));
-  }), [formatTick, viewRange]);
+  const ticks = useMemo(() => {
+    const candidates = Array.from({ length: 8 }, (_, index) => {
+      const yearIndex = Math.round(viewRange[0] + (viewRange[1] - viewRange[0]) * index / 7);
+      return {
+        label: formatTick(indexToYear(yearIndex)),
+        left: positionWithinView(yearIndex, viewRange[0], viewRange[1]) * 100,
+      };
+    });
+    return candidates.filter((tick, index) => index === 0
+      || index === candidates.length - 1
+      || tick.left - candidates[index - 1]!.left >= 3);
+  }, [formatTick, viewRange]);
 
   const visiblePeriods = useMemo(() => CIVILIZATION_PERIODS.flatMap((period) => {
     const start = Math.max(period.start, indexToYear(viewRange[0]));
@@ -82,29 +121,28 @@ export function Timeline(props: TimelineProps) {
     if (start > end) return [];
     const startIndex = yearToIndex(start);
     const endIndex = yearToIndex(end);
-    const span = viewRange[1] - viewRange[0];
     return [{
       ...period,
-      left: ((startIndex - viewRange[0]) / span) * 100,
-      width: Math.max(((endIndex - startIndex) / span) * 100, 0.7),
+      left: positionWithinView(startIndex, viewRange[0], viewRange[1]) * 100,
+      width: Math.max((positionWithinView(endIndex, viewRange[0], viewRange[1])
+        - positionWithinView(startIndex, viewRange[0], viewRange[1])) * 100, 0.7),
       active: year >= period.start && year <= period.end,
     }];
   }), [viewRange, year]);
 
   const zoomTimeline = (event: WheelEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const [start, end] = viewRange;
-    const span = end - start;
+    const displaySpan = viewEndPosition - viewStartPosition;
     if (event.shiftKey) {
-      const shift = Math.round(span * 0.12) * Math.sign(event.deltaY);
-      const nextStart = Math.max(0, Math.min(MAX_INDEX - span, start + shift));
-      setViewRange([nextStart, nextStart + span]);
+      const shift = displaySpan * 0.12 * Math.sign(event.deltaY);
+      const nextStart = Math.max(0, Math.min(1 - displaySpan, viewStartPosition + shift));
+      setViewRange(displayRangeToIndexRange(nextStart, nextStart + displaySpan));
       return;
     }
-    const nextSpan = Math.max(25, Math.min(MAX_INDEX, Math.round(span * (event.deltaY > 0 ? 1.25 : 0.8))));
-    const ratio = span === 0 ? 0.5 : (currentIndex - start) / span;
-    const nextStart = Math.max(0, Math.min(MAX_INDEX - nextSpan, Math.round(currentIndex - nextSpan * ratio)));
-    setViewRange([nextStart, nextStart + nextSpan]);
+    const nextSpan = Math.max(indexToTimelinePosition(25), Math.min(1, displaySpan * (event.deltaY > 0 ? 1.25 : 0.8)));
+    const ratio = displaySpan === 0 ? 0.5 : (indexToTimelinePosition(currentIndex) - viewStartPosition) / displaySpan;
+    const nextStart = Math.max(0, Math.min(1 - nextSpan, indexToTimelinePosition(currentIndex) - nextSpan * ratio));
+    setViewRange(displayRangeToIndexRange(nextStart, nextStart + nextSpan));
   };
 
   useEffect(() => {
@@ -194,10 +232,10 @@ export function Timeline(props: TimelineProps) {
         <input
           aria-label={t("selectYear")}
           type="range"
-          min={viewRange[0]}
-          max={viewRange[1]}
-          value={yearToIndex(year)}
-          onChange={(event) => onYearChange(indexToYear(Number(event.target.value)))}
+          min={sliderMin}
+          max={sliderMax}
+          value={sliderValue}
+          onChange={(event) => onYearChange(indexToYear(Math.round(timelinePositionToIndex(Number(event.target.value) / SLIDER_SCALE))))}
         />
         <div className="civilization-periods" aria-label={t("civilizationPeriods")}>
           {visiblePeriods.map((period) => (
@@ -215,7 +253,15 @@ export function Timeline(props: TimelineProps) {
           ))}
         </div>
         <div className="timeline-ticks" aria-hidden="true">
-          {ticks.map((tick, index) => <span key={`${tick}-${index}`}>{tick}</span>)}
+          {ticks.map((tick, index) => (
+            <span
+              key={`${tick.label}-${index}`}
+              className={index === 0 ? "start" : index === ticks.length - 1 ? "end" : undefined}
+              style={{ left: `${tick.left}%` }}
+            >
+              {tick.label}
+            </span>
+          ))}
         </div>
       </div>
     </section>
