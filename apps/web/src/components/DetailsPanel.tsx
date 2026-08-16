@@ -11,12 +11,13 @@ interface DetailsPanelProps {
   onTabChange: (tab: "entity" | "person") => void;
   onJumpToEvent: (year: number, longitude: number, latitude: number) => void;
   onSelectPerson: (slug: string) => void;
+  onShowActivePeople: () => void;
   followingPerson: boolean;
   onFollowingPersonChange: (following: boolean) => void;
 }
 
 export function DetailsPanel({
-  activeTab, entity, person, activePeople, year, onTabChange, onJumpToEvent, onSelectPerson, followingPerson, onFollowingPersonChange,
+  activeTab, entity, person, activePeople, year, onTabChange, onJumpToEvent, onSelectPerson, onShowActivePeople, followingPerson, onFollowingPersonChange,
 }: DetailsPanelProps) {
   const { entityName, eventText, formatYear, language, personField, personName, personSummary, t } = useI18n();
   const displayedEntityName = entity ? entityName(entity.entity) : "";
@@ -57,9 +58,12 @@ export function DetailsPanel({
           <h2>{personName(person.person)}</h2>
           {language === "zh" && person.person.nameEn && <p className="latin-name">{person.person.nameEn}</p>}
           <p>{formatYear(person.person.birthYear)}—{person.person.deathYear ? formatYear(person.person.deathYear) : t("present")}</p>
-          <button type="button" className="follow-button" onClick={() => onFollowingPersonChange(!followingPerson)}>
-            {followingPerson ? t("stopFollowing") : t("followPerson")}
-          </button>
+          <div className="person-actions">
+            <button type="button" className="follow-button" onClick={() => onFollowingPersonChange(!followingPerson)}>
+              {followingPerson ? t("stopFollowing") : t("followPerson")}
+            </button>
+            <button type="button" className="follow-button" onClick={onShowActivePeople}>{t("showActivePeople")}</button>
+          </div>
           {(year < person.person.birthYear || (person.person.deathYear !== null && year > person.person.deathYear)) && (
             <div className="out-of-life">{t("outsideLifetime")}</div>
           )}

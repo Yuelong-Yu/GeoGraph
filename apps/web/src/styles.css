@@ -102,6 +102,7 @@ button { color: inherit; }
 .out-of-life { margin: 13px 0; padding: 9px 11px; color: #d8b878; font-size: 11px; border: 1px solid rgba(228,185,95,.22); border-radius: 7px; background: rgba(228,185,95,.07); }
 .follow-button { padding: 7px 12px; color: #d6e4e0; font-size: 11px; border: 1px solid rgba(87,189,173,.28); border-radius: 16px; background: rgba(87,189,173,.08); cursor: pointer; }
 .follow-button:hover { border-color: rgba(87,189,173,.6); }
+.person-actions { display: flex; flex-wrap: wrap; gap: 7px; }
 .event-list { position: relative; margin: 0; padding: 0 0 0 16px; list-style: none; border-left: 1px solid rgba(228,185,95,.24); }
 .event-list li { position: relative; margin: 0 0 7px; }
 .event-list li::before { content: ""; position: absolute; left: -20px; top: 15px; width: 7px; height: 7px; border: 1px solid var(--gold); border-radius: 50%; background: #0b171d; }

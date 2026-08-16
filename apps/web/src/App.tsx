@@ -181,6 +181,10 @@ export default function App() {
             setCameraTarget({ longitude, latitude, token: performance.now() });
           }}
           onSelectPerson={selectPerson}
+          onShowActivePeople={() => {
+            setFollowingPerson(false);
+            setPerson(null);
+          }}
           followingPerson={followingPerson}
           onFollowingPersonChange={changeFollowingPerson}
         />

@@ -29,7 +29,7 @@ const activePeople: Person[] = [
   },
 ];
 
-function renderPanel(onSelectPerson = vi.fn()) {
+function renderPanel(onSelectPerson = vi.fn(), onShowActivePeople = vi.fn()) {
   render(
     <I18nProvider>
       <DetailsPanel
@@ -41,6 +41,7 @@ function renderPanel(onSelectPerson = vi.fn()) {
         onTabChange={vi.fn()}
         onJumpToEvent={vi.fn()}
         onSelectPerson={onSelectPerson}
+        onShowActivePeople={onShowActivePeople}
         followingPerson={false}
         onFollowingPersonChange={vi.fn()}
       />
@@ -59,5 +60,29 @@ describe("DetailsPanel", () => {
     expect(screen.getByRole("button", { name: /Isaac Newton/ })).toBeDefined();
     await userEvent.click(screen.getByRole("button", { name: /Napoleon Bonaparte/ }));
     expect(onSelectPerson).toHaveBeenCalledWith("napoleon-bonaparte");
+  });
+
+  it("offers a way back to the people active in the current year from a person detail", async () => {
+    const onShowActivePeople = vi.fn();
+    render(
+      <I18nProvider>
+        <DetailsPanel
+          activeTab="person"
+          entity={null}
+          person={{ person: activePeople[0]!, events: [], sources: [] }}
+          activePeople={activePeople}
+          year={1804}
+          onTabChange={vi.fn()}
+          onJumpToEvent={vi.fn()}
+          onSelectPerson={vi.fn()}
+          onShowActivePeople={onShowActivePeople}
+          followingPerson={false}
+          onFollowingPersonChange={vi.fn()}
+        />
+      </I18nProvider>,
+    );
+
+    await userEvent.click(screen.getByRole("button", { name: "Show people active in this year" }));
+    expect(onShowActivePeople).toHaveBeenCalledOnce();
   });
 });
