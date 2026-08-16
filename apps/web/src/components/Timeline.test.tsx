@@ -1,10 +1,12 @@
 // @vitest-environment jsdom
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { Timeline } from "./Timeline.js";
 
 describe("timeline controls", () => {
+  afterEach(cleanup);
+
   it("offers to replay from 1046 BCE when the view is at 2026", async () => {
     const onYearChange = vi.fn();
     const onPlayingChange = vi.fn();
@@ -25,5 +27,26 @@ describe("timeline controls", () => {
     await userEvent.click(screen.getByRole("button", { name: "Replay from start" }));
     expect(onYearChange).toHaveBeenCalledWith(-1046);
     expect(onPlayingChange).toHaveBeenCalledWith(true);
+  });
+
+  it("shows civilization periods and jumps to a selected period", async () => {
+    const onYearChange = vi.fn();
+    render(
+      <Timeline
+        year={1}
+        playing={false}
+        speed={5}
+        mode="continuous"
+        canAdvance
+        onYearChange={onYearChange}
+        onPlayingChange={vi.fn()}
+        onSpeedChange={vi.fn()}
+        onModeChange={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByLabelText("Human civilization periods")).toBeDefined();
+    await userEvent.click(screen.getByRole("button", { name: /Age of Exploration/ }));
+    expect(onYearChange).toHaveBeenCalledWith(1450);
   });
 });

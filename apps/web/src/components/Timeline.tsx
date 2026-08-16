@@ -1,6 +1,6 @@
 import { MAX_YEAR, MIN_YEAR, nextHistoricYear, previousHistoricYear } from "@geograph/domain";
 import { useEffect, useMemo, useState, type WheelEvent } from "react";
-import { useI18n } from "../i18n.js";
+import { useI18n, type MessageKey } from "../i18n.js";
 
 export type PlaybackMode = "continuous" | "events";
 
@@ -19,6 +19,34 @@ interface TimelineProps {
 
 const LAST_BCE_INDEX = Math.abs(MIN_YEAR) - 1;
 const MAX_INDEX = LAST_BCE_INDEX + MAX_YEAR;
+
+type CivilizationPeriod = {
+  key: MessageKey;
+  start: number;
+  end: number;
+  lane: number;
+};
+
+// Periods overlap deliberately: broad eras provide context while the lower lanes
+// show the more specific transformations and conflicts within them.
+const CIVILIZATION_PERIODS: CivilizationPeriod[] = [
+  { key: "classicalAge", start: -500, end: 500, lane: 0 },
+  { key: "medievalWorld", start: 500, end: 1450, lane: 0 },
+  { key: "earlyModernWorld", start: 1450, end: 1800, lane: 0 },
+  { key: "industrialAge", start: 1760, end: 1945, lane: 0 },
+  { key: "informationAge", start: 1970, end: MAX_YEAR, lane: 0 },
+  { key: "renaissanceReformation", start: 1350, end: 1650, lane: 1 },
+  { key: "ageOfExploration", start: 1450, end: 1800, lane: 1 },
+  { key: "enlightenmentRevolutions", start: 1650, end: 1800, lane: 1 },
+  { key: "firstIndustrialRevolution", start: 1760, end: 1840, lane: 1 },
+  { key: "secondIndustrialRevolution", start: 1870, end: 1914, lane: 1 },
+  { key: "coldWarDecolonization", start: 1945, end: 1991, lane: 1 },
+  { key: "globalizationNetworkSociety", start: 1991, end: MAX_YEAR, lane: 1 },
+  { key: "firstWorldWar", start: 1914, end: 1918, lane: 2 },
+  { key: "interwarPeriod", start: 1919, end: 1939, lane: 2 },
+  { key: "secondWorldWar", start: 1939, end: 1945, lane: 2 },
+  { key: "aiBiotechEra", start: 2010, end: MAX_YEAR, lane: 2 },
+];
 
 function yearToIndex(year: number) {
   return year < 0 ? year - MIN_YEAR : LAST_BCE_INDEX + year;
@@ -49,6 +77,21 @@ export function Timeline(props: TimelineProps) {
     const position = Math.round(viewRange[0] + (viewRange[1] - viewRange[0]) * index / 7);
     return formatTick(indexToYear(position));
   }), [formatTick, viewRange]);
+
+  const visiblePeriods = useMemo(() => CIVILIZATION_PERIODS.flatMap((period) => {
+    const start = Math.max(period.start, indexToYear(viewRange[0]));
+    const end = Math.min(period.end, indexToYear(viewRange[1]));
+    if (start > end) return [];
+    const startIndex = yearToIndex(start);
+    const endIndex = yearToIndex(end);
+    const span = viewRange[1] - viewRange[0];
+    return [{
+      ...period,
+      left: ((startIndex - viewRange[0]) / span) * 100,
+      width: Math.max(((endIndex - startIndex) / span) * 100, 0.7),
+      active: year >= period.start && year <= period.end,
+    }];
+  }), [viewRange, year]);
 
   const zoomTimeline = (event: WheelEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -161,6 +204,21 @@ export function Timeline(props: TimelineProps) {
         <div className="timeline-ticks" aria-hidden="true">
           {ticks.map((tick, index) => <span key={`${tick}-${index}`}>{tick}</span>)}
         </div>
+      </div>
+      <div className="civilization-periods" aria-label={t("civilizationPeriods")}>
+        {visiblePeriods.map((period) => (
+          <button
+            type="button"
+            key={period.key}
+            className={`civilization-period lane-${period.lane}${period.active ? " active" : ""}`}
+            style={{ left: `${period.left}%`, width: `${period.width}%` }}
+            onClick={() => onYearChange(period.start)}
+            aria-label={`${t(period.key)} · ${formatYear(period.start)}–${formatYear(period.end)}`}
+            title={`${t(period.key)} · ${formatYear(period.start)}–${formatYear(period.end)}`}
+          >
+            <span>{t(period.key)}</span>
+          </button>
+        ))}
       </div>
     </section>
   );
