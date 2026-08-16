@@ -167,11 +167,6 @@ export default function App() {
             selectedFields={selectedPersonFields}
             onSelectedFieldsChange={setSelectedPersonFields}
           />
-          <div className="map-legend">
-            <span><i className="actual" />{t("actualControl")}</span>
-            <span><i className="claim" />{t("legalClaim")}</span>
-            <span><i className="uncertain" />{t("uncertainFrontier")}</span>
-          </div>
           <div className="interaction-hint">{t("interactionHint")}</div>
         </section>
         <DetailsPanel

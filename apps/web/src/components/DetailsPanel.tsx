@@ -33,7 +33,6 @@ export function DetailsPanel({
             <span className="eyebrow">{t("politicalEntity")}</span>
             <h2>{displayedEntityName}</h2>
             {language === "zh" && entity.entity.nameEn && entity.entity.nameEn !== displayedEntityName && <p className="latin-name">{entity.entity.nameEn}</p>}
-            <div className="identity-color"><i style={{ background: entity.entity.primaryColor }} />{t("identityColor")}</div>
             <p>{language === "en" ? t("historicalBoundarySummary") : entity.entity.summary || t("entitySummaryFallback")}</p>
             <section className="detail-note">
               <h3>{t("successors")}</h3>
@@ -49,10 +48,6 @@ export function DetailsPanel({
                   ))}
                 </ol>
               ) : <p>{t("noFutureControllers")}</p>}
-            </section>
-            <section className="detail-note">
-              <h3>{t("sources")}</h3>
-              {entity.sources.map((source) => <p key={source.url}><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a><br />{source.institution} · {source.license}</p>)}
             </section>
           </div>
         ) : <EmptyState text={t("entityEmpty")} />
